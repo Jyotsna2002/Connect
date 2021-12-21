@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Connect</string>
+    <string name="forgot_your_login_details_get_help_logging_in">Forgot your login details? <font color="#EE336F"><b>Get help logging in</b></font> </string>
+    <string name="don_t_have_an_account_sign_up">Don’t have an account?<font color="#EE336F"><b> Sign up</b></font> </string>
 </resources>

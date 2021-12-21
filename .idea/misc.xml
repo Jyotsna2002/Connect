@@ -3,7 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/border_curve.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/button_curve.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/custom_email.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_google_pixel_2___8__1_.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_image.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__19_.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__20_.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__21_.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/activity_main.xml" value="0.16979166666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/create_password_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/forget_password_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/login_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/otp_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/signup_fragment.xml" value="0.18385416666666668" />
       </map>
     </option>
   </component>
