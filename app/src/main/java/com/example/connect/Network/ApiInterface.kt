@@ -9,4 +9,6 @@ import retrofit2.http.POST
 interface ApiInterface {
     @POST("api/user/signup/sendotp/")
     fun signup(@Body data: AuthDataClass): Call<ResponseBody>
+    @POST("api/user/login/")
+    fun login(@Body data: AuthDataClass): Call<ResponseBody>
 }

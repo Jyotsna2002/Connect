@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_navigation"
+    app:startDestination="@id/login_Fragment">
+
+    <fragment
+        android:id="@+id/login_Fragment"
+        android:name="com.example.connect.Auth.Login_Fragment"
+        android:label="Login_Fragment" >
+        <action
+            android:id="@+id/action_login_Fragment_to_signUp_Fragment"
+            app:destination="@id/signUp_Fragment" />
+        <action
+            android:id="@+id/action_login_Fragment_to_forgetPassword_Fragment"
+            app:destination="@id/forgetPassword_Fragment" />
+        <action
+            android:id="@+id/action_login_Fragment_to_dashboard"
+            app:destination="@id/dashboard" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUp_Fragment"
+        android:name="com.example.connect.Auth.SignUp_Fragment"
+        android:label="SignUp_Fragment" >
+        <action
+            android:id="@+id/action_signUp_Fragment_to_login_Fragment"
+            app:destination="@id/login_Fragment" />
+        <action
+            android:id="@+id/action_signUp_Fragment_to_otp_Fragment"
+            app:destination="@id/otp_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPassword_Fragment"
+        android:name="com.example.connect.Auth.CreatePassword_Fragment"
+        android:label="CreatePassword_Fragment" >
+        <action
+            android:id="@+id/action_createPassword_Fragment_to_dashboard"
+            app:destination="@id/dashboard" />
+    </fragment>
+    <fragment
+        android:id="@+id/otp_Fragment"
+        android:name="com.example.connect.Auth.Otp_Fragment"
+        android:label="Otp_Fragment" >
+        <action
+            android:id="@+id/action_otp_Fragment_to_createPassword_Fragment"
+            app:destination="@id/createPassword_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPassword_Fragment"
+        android:name="com.example.connect.Auth.ForgetPassword_Fragment"
+        android:label="ForgetPassword_Fragment" >
+        <action
+            android:id="@+id/action_forgetPassword_Fragment_to_otp_Fragment"
+            app:destination="@id/otp_Fragment" />
+    </fragment>
+    <activity
+        android:id="@+id/dashboard"
+        android:name="com.example.connect.Dashboard"
+        android:label="activity_dashboard"
+        tools:layout="@layout/activity_dashboard" />
+</navigation>
