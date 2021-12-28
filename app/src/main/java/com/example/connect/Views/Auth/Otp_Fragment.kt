@@ -120,6 +120,7 @@ class Otp_Fragment: Fragment() {
 
                                 Toast.makeText(context, "correct otp", Toast.LENGTH_SHORT).show()
                                 progressBar.visibility = View.GONE
+                                timerCountDown.cancel()
                                 Navigation.findNavController(view)
                                     .navigate(R.id.action_otp_Fragment_to_createPassword_Fragment)
                             }
