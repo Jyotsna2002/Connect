@@ -23,10 +23,6 @@ class SignUp_Fragment:Fragment() {
         private val binding get() = _binding!!
         private lateinit var signUpRepo: SignUpRepo
         lateinit var datastore: Datastore
-
-    private fun isValidString(str: String): Boolean {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()
-        }
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -35,10 +31,13 @@ class SignUp_Fragment:Fragment() {
             val view = binding.root
             datastore = Datastore(requireContext())
             val signUpButton= binding.signUpBtn
+            val progressBar=binding.signupProgressBar
             signUpButton.setOnClickListener {
                 val signUpEmail = binding.signUpEmailEdit.text.toString().trim()
                 val signUpName = binding.signUpNameEdit.text.toString().trim()
                 if (isValid(signUpName, signUpEmail)) {
+                    signUpButton.isClickable=false
+                    progressBar.visibility=View.VISIBLE
                     signUpRepo = SignUpRepo()
                     signUpRepo.signUpApi(signUpEmail, signUpName)
                     signUpRepo.signUPResponse.observe(viewLifecycleOwner, {
@@ -49,6 +48,7 @@ class SignUp_Fragment:Fragment() {
                                     .show()
                                 Email = signUpEmail
                                 Name = signUpName
+                                progressBar.visibility=View.GONE
                                 Navigation.findNavController(view)
                                     .navigate(R.id.action_signUp_Fragment_to_otp_Fragment)
                             }
@@ -59,8 +59,14 @@ class SignUp_Fragment:Fragment() {
                                     it.errorMessage.toString(),
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                signUpButton.isClickable=true
+                                progressBar.visibility=View.GONE
+
                             }
 
+                            else -> {
+                                signUpButton.isClickable=true
+                            }
                         }
                     })
                 }

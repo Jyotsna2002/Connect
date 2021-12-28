@@ -17,8 +17,8 @@ class Login_Fragment: Fragment() {
     private var _binding: LoginFragmentBinding?=null
     private val binding get() = _binding!!
     private lateinit var loginRepo: LoginRepo
-    private fun isValidString(str: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()
+    companion object{
+        lateinit var forget:String
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,11 +29,14 @@ class Login_Fragment: Fragment() {
 
 
         val loginButton= binding.loginBtn
-
+        val progressBar=binding.loginProgressBar
+        forget="false"
         loginButton.setOnClickListener {
             val loginEmail = binding.loginEmailEdit.text.toString().trim()
             val loginPassword = binding.loginPasswordEdit.text.toString().trim()
             if (isValid(loginEmail,loginPassword)) {
+                progressBar.visibility=View.VISIBLE
+                loginButton.isClickable=false
                 loginRepo = LoginRepo()
                 loginRepo.loginApi(loginEmail, loginPassword)
                 loginRepo.loginResponse.observe(viewLifecycleOwner, {
@@ -41,6 +44,7 @@ class Login_Fragment: Fragment() {
                         is Response.Success -> {
 
                             Toast.makeText(context, "LogedIn", Toast.LENGTH_SHORT).show()
+                            progressBar.visibility=View.GONE
                             Navigation.findNavController(view)
                                 .navigate(R.id.action_login_Fragment_to_dashboard)
                         }
@@ -48,13 +52,19 @@ class Login_Fragment: Fragment() {
                         is Response.Error -> {
                             Toast.makeText(context, it.errorMessage.toString(), Toast.LENGTH_SHORT)
                                 .show()
+                            progressBar.visibility=View.GONE
+                            loginButton.isClickable=true
                         }
 
+                        else -> {
+                            loginButton.isClickable=true
+                        }
                     }
                 })
             }
         }
         binding.signup.setOnClickListener {  Navigation.findNavController(view).navigate(R.id.action_login_Fragment_to_signUp_Fragment) }
+        binding.forgetPassword.setOnClickListener {Navigation.findNavController(view).navigate(R.id.action_login_Fragment_to_forgetPassword_Fragment)  }
         return view
     }
     fun isValid(email:String,password:String):Boolean{

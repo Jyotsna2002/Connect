@@ -35,7 +35,12 @@ class LoginRepo {
                } else if (response.code() == 401) {
 
                   loginLiveData.postValue(Response.Error("User not registered"))
-               } else {
+               }
+                else if(response.code()==400)
+               {
+                  loginLiveData.postValue(Response.Error("Wrong Password"))
+               }
+               else {
                   loginLiveData.postValue(Response.Error(response.message()))
                }
             }

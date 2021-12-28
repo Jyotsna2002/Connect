@@ -12,7 +12,7 @@ class SignUpRepo {
     val signUPResponse: LiveData<Response<ResponseBody>>
         get()=signUpLiveData
 
-    fun signUpApi(email:String,name:String) {
+    fun signUpApi(email:String, name: String?) {
 
         val request = ServiceBuilder1.buildService()
         val call = request.signup(

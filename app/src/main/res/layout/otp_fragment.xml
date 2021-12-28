@@ -50,7 +50,7 @@
                     android:textSize="14sp"
                     android:textColor="#999999"
                     android:gravity="center_horizontal"
-                    android:text="Enter the OTP sent to your mail."
+                    android:text="Otp will expire after 5 minutes."
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/otp" />
@@ -68,6 +68,8 @@
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
+                    app:helperText=""
+                    app:helperTextTextColor="#FD0320"
                     app:boxStrokeColor="#EE336F"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -94,14 +96,39 @@
                     android:text="Confirm"
                     android:foreground="?attr/selectableItemBackground"
                     android:textAllCaps="false"
+                    android:clickable="true"
+                    android:enabled="true"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/otp_email"
                     app:layout_constraintStart_toStartOf="@+id/otp_email"
-                    app:layout_constraintTop_toBottomOf="@+id/otp_email" />
+                    app:layout_constraintTop_toBottomOf="@+id/otp_email"
+                    android:focusable="true" />
 
 
+                <ProgressBar
+                    android:id="@+id/otp_progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.73" />
+
+                <TextView
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="54dp"
+                    android:textColor="@color/black"
+                    android:text="@string/didn_t_recieve_the_otp_resend_now"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/OtpBtn" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

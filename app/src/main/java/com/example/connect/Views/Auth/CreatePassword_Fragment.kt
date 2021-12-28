@@ -13,6 +13,8 @@ import com.example.connect.Views.Auth.SignUp_Fragment.Companion.Name
 import com.example.connect.R
 import com.example.connect.Repository.CreatePasswordRepo
 import com.example.connect.Repository.Response
+import com.example.connect.Views.Auth.ForgetPassword_Fragment.Companion.email
+import com.example.connect.Views.Auth.Login_Fragment.Companion.forget
 import com.example.connect.databinding.CreatePasswordFragmentBinding
 
 class CreatePassword_Fragment:Fragment() {
@@ -26,14 +28,60 @@ class CreatePassword_Fragment:Fragment() {
     ): View? {
         _binding = CreatePasswordFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-
-
         val passwordButton = binding.passwordBtn
-
-        passwordButton.setOnClickListener {
+        val progressBar= binding.createPasswordProgressBar
+        if(forget=="true") {
+            binding.psswrd.setText("Reset Password")
+            binding.changePassword.setText("Your new password must be different from previous used password")
+            binding.createPasswordEdit.hint="New Password"
+            binding.confirmPasswordEdit.hint="Old Password"
+        }
+        else{
+            binding.createPasswordEdit.hint="Password"
+            binding.confirmPasswordEdit.hint="Confirm Password"
+        }
+            passwordButton.setOnClickListener {
             val password = binding.createPasswordEdit.text.toString().trim()
             val confirm= binding.confirmPasswordEdit.text.toString().trim()
+            if(forget=="true")
+            {
+                if(isValidated(password,confirm)) {
+                    passwordButton.isClickable = false
+                    progressBar.visibility = View.VISIBLE
+                    createPasswordRepo = CreatePasswordRepo()
+                    createPasswordRepo.ForgetPassword(email, password)
+                    createPasswordRepo.passwordResponse.observe(viewLifecycleOwner, {
+                        when (it) {
+                            is Response.Success -> {
+
+                                Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
+                                progressBar.visibility = View.GONE
+                                Navigation.findNavController(view)
+                                    .navigate(R.id.action_createPassword_Fragment_to_dashboard)
+                            }
+
+                            is Response.Error -> {
+                                Toast.makeText(
+                                    context,
+                                    it.errorMessage.toString(),
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                passwordButton.isClickable = true
+                                progressBar.visibility = View.GONE
+                            }
+
+                            else -> {
+                                passwordButton.isClickable = true
+                            }
+                        }
+                    })
+                }
+            }
+            if(forget=="false")
             if(isValid(password,confirm)) {
+                passwordButton.isClickable=false
+                progressBar.visibility=View.VISIBLE
                 createPasswordRepo = CreatePasswordRepo()
                 createPasswordRepo.passwordApi(Email, Name, password)
                 createPasswordRepo.passwordResponse.observe(viewLifecycleOwner, {
@@ -41,6 +89,7 @@ class CreatePassword_Fragment:Fragment() {
                         is Response.Success -> {
 
                             Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
+                            progressBar.visibility=View.GONE
                             Navigation.findNavController(view)
                                 .navigate(R.id.action_createPassword_Fragment_to_dashboard)
                         }
@@ -48,8 +97,13 @@ class CreatePassword_Fragment:Fragment() {
                         is Response.Error -> {
                             Toast.makeText(context, it.errorMessage.toString(), Toast.LENGTH_SHORT)
                                 .show()
+                            passwordButton.isClickable=true
+                            progressBar.visibility=View.GONE
                         }
 
+                        else -> {
+                            passwordButton.isClickable=true
+                        }
                     }
                 })
             }
@@ -64,11 +118,11 @@ class CreatePassword_Fragment:Fragment() {
                 false
             }
            pass.isBlank()->{
-               binding.createPassword.helperText="Confirm Your Password"
+               binding.confirmPassword.helperText="Confirm Your Password"
                false
            }
            pass!=confirmPass->{
-               binding.createPassword.helperText="Confirm Password does not match"
+               binding.confirmPassword.helperText="Confirm Password does not match"
                false
            }
            validPass(pass)!=null->{
@@ -79,5 +133,29 @@ class CreatePassword_Fragment:Fragment() {
                true
            }
        }
+    }
+    fun isValidated(pass: String, confirmPass: String): Boolean
+    {
+        return when{
+            pass.isBlank()->{
+                binding.createPassword.helperText="Enter New Password"
+                false
+            }
+            pass.isBlank()->{
+                binding.confirmPassword.helperText="Enter Old Password"
+                false
+            }
+            pass==confirmPass->{
+                binding.confirmPassword.helperText="New Password and old password must be different"
+                false
+            }
+            validPass(pass)!=null->{
+                binding.createPassword.helperText= validPass(pass)
+                false
+            }
+            else -> {
+                true
+            }
+        }
     }
 }
