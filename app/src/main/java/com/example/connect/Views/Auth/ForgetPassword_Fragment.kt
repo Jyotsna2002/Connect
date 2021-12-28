@@ -1,4 +1,4 @@
-package com.example.connect.Auth
+package com.example.connect.Views.Auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.connect.R
 
-class Otp_Fragment: Fragment() {
+class ForgetPassword_Fragment:Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.otp_fragment, container, false)
+        val view = inflater.inflate(R.layout.forget_password_fragment, container, false)
 
         return view
     }

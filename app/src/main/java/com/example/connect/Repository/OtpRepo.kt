@@ -7,21 +7,21 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 
-class SignUpRepo {
-    private val signUpLiveData= MutableLiveData<Response<ResponseBody>>()
-    val signUPResponse: LiveData<Response<ResponseBody>>
-        get()=signUpLiveData
+class OtpRepo {
+    private val otpLiveData= MutableLiveData<Response<ResponseBody>>()
+    val otpResponse: LiveData<Response<ResponseBody>>
+        get()=otpLiveData
 
-    fun signUpApi(email:String,name:String) {
+    fun otpApi(email:String,otp:String) {
 
         val request = ServiceBuilder1.buildService()
-        val call = request.signup(
+        val call = request.otp(
             AuthDataClass(
                 email = email,
-                name = name
+                otp = otp
             )
         )
-        signUpLiveData.postValue(Response.Loading())
+        otpLiveData.postValue(Response.Loading())
         call.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(
                 call: Call<ResponseBody?>,
@@ -29,20 +29,15 @@ class SignUpRepo {
             ) {
                 if (response.isSuccessful) {
 
-                    signUpLiveData.postValue(Response.Success(response.body()))
+                    otpLiveData.postValue(Response.Success(response.body()))
 
-                }else if(response.code()==403)
-                {
-                    signUpLiveData.postValue(Response.Error("UserId Already Exist"))
-
-                }
-                else {
-                    signUpLiveData.postValue(Response.Error(response.message()))
+                } else {
+                    otpLiveData.postValue(Response.Error(response.message()))
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                signUpLiveData.postValue(Response.Error("Something went wrong"))
+                otpLiveData.postValue(Response.Error("Something went wrong"))
             }
         })
 

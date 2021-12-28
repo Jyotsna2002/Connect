@@ -7,21 +7,22 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 
-class SignUpRepo {
-    private val signUpLiveData= MutableLiveData<Response<ResponseBody>>()
-    val signUPResponse: LiveData<Response<ResponseBody>>
-        get()=signUpLiveData
+class CreatePasswordRepo {
+    private val passwordLiveData= MutableLiveData<Response<ResponseBody>>()
+    val passwordResponse: LiveData<Response<ResponseBody>>
+        get()=passwordLiveData
 
-    fun signUpApi(email:String,name:String) {
+    fun passwordApi(email:String,name:String,password:String) {
 
         val request = ServiceBuilder1.buildService()
-        val call = request.signup(
+        val call = request.createPassword(
             AuthDataClass(
                 email = email,
-                name = name
+                name = name,
+                password = password
             )
         )
-        signUpLiveData.postValue(Response.Loading())
+        passwordLiveData.postValue(Response.Loading())
         call.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(
                 call: Call<ResponseBody?>,
@@ -29,20 +30,15 @@ class SignUpRepo {
             ) {
                 if (response.isSuccessful) {
 
-                    signUpLiveData.postValue(Response.Success(response.body()))
+                    passwordLiveData.postValue(Response.Success(response.body()))
 
-                }else if(response.code()==403)
-                {
-                    signUpLiveData.postValue(Response.Error("UserId Already Exist"))
-
-                }
-                else {
-                    signUpLiveData.postValue(Response.Error(response.message()))
+                } else {
+                    passwordLiveData.postValue(Response.Error(response.message()))
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                signUpLiveData.postValue(Response.Error("Something went wrong"))
+                passwordLiveData.postValue(Response.Error("Something went wrong"))
             }
         })
 

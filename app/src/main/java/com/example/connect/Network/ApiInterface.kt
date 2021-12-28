@@ -11,4 +11,8 @@ interface ApiInterface {
     fun signup(@Body data: AuthDataClass): Call<ResponseBody>
     @POST("api/user/login/")
     fun login(@Body data: AuthDataClass): Call<ResponseBody>
+    @POST("api/user/signup/verify/")
+    fun otp(@Body data: AuthDataClass): Call<ResponseBody>
+    @POST("api/user/signup/")
+    fun createPassword(@Body data: AuthDataClass): Call<ResponseBody>
 }
