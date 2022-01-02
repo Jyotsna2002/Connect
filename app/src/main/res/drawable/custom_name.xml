@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item  android:state_focused="true">
-    <inset android:drawable="@drawable/ic_vector__24_"
+    <inset android:drawable="@drawable/ic_user__2_"
    />
     </item>
     <item android:state_focused="false">
-        <inset android:drawable="@drawable/ic_vector__21_"
+        <inset android:drawable="@drawable/ic_user__1_"
         />
     </item>
 

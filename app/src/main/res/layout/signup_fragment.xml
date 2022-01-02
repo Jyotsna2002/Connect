@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -55,7 +56,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/SignUp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/signUp_email"
+                    android:id="@+id/signUp_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -68,6 +69,8 @@
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
+                    app:helperText=""
+                    app:helperTextTextColor="#FD0320"
                     app:boxStrokeColor="#EE336F"
                     app:startIconTint="#D0D0D0"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +78,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/signUp_email_edit"
+                        android:id="@+id/signUp_name_edit"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:hint="Full name"
@@ -88,7 +91,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/signUp_password"
+                    android:id="@+id/signUp_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -101,14 +104,16 @@
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
+                    app:helperText=""
+                    app:helperTextTextColor="#FD0320"
                     app:boxStrokeColor="#EE336F"
                     app:startIconTint="#D0D0D0"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/signUp_email">
+                    app:layout_constraintTop_toBottomOf="@+id/signUp_name">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/signUp_password_edit"
+                        android:id="@+id/signUp_email_edit"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:hint="Email"
@@ -121,7 +126,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <android.widget.Button
-                    android:id="@+id/loginBtn"
+                    android:id="@+id/signUpBtn"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginStart="24dp"
@@ -131,12 +136,15 @@
                     android:text="Sign Up"
                     android:foreground="?attr/selectableItemBackground"
                     android:textAllCaps="false"
+                    android:clickable="true"
+                    android:enabled="true"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/signUp_password"
-                    app:layout_constraintStart_toStartOf="@+id/signUp_password"
-                    app:layout_constraintTop_toBottomOf="@+id/signUp_password" />
+                    app:layout_constraintEnd_toEndOf="@+id/signUp_email"
+                    app:layout_constraintStart_toStartOf="@+id/signUp_email"
+                    app:layout_constraintTop_toBottomOf="@+id/signUp_email"
+                    android:focusable="true" />
 
                 <TextView
                     android:id="@+id/TermsAndConditions"
@@ -149,7 +157,7 @@
                     android:text="@string/by_signing_up_you_agree_to_our_terms_conditions"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+                    app:layout_constraintTop_toBottomOf="@+id/signUpBtn" />
 
                 <View
                     android:id="@+id/view"
@@ -165,7 +173,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/TermsAndConditions" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -176,7 +184,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
-
+                <ProgressBar
+                    android:id="@+id/signup_progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.73" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
