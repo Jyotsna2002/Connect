@@ -1,13 +1,16 @@
 package com.example.connect.Repository
 
 import android.content.Context
+import android.service.autofill.UserData
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.core.edit
+import com.example.connect.View_model.AuthDataClass
 import kotlinx.coroutines.flow.first
+
 
 val DATASTORE_NAME = "user_details"
 val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_NAME)
@@ -45,5 +48,13 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
         suspend fun isLogin(): Boolean? {
             val key1 = booleanPreferencesKey(LOGIN_KEY)
             return appContext.datastore.data.first()[key1]
+        }
+        suspend fun saveToDatastore(it: AuthDataClass, context: Context) {
+            val datastore = Datastore(context)
+            datastore.changeLoginState(true)
+            datastore.saveUserDetails(EMAIL_KEY, it.email!!)
+            datastore.saveUserDetails(NAME_KEY, it.name!!)
+            datastore.saveUserDetails(ACCESS_TOKEN_KEY, it.access!!)
+            datastore.saveUserDetails(REF_TOKEN_KEY, it.refresh!!)
         }
     }

@@ -16,18 +16,18 @@
             android:id="@+id/OtpCardView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardCornerRadius="24dp"
             android:layout_marginTop="108dp"
             android:layout_marginBottom="-24dp"
+            app:cardCornerRadius="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="40dp"
-                >
+                android:paddingBottom="40dp">
 
                 <TextView
                     android:id="@+id/otp"
@@ -47,30 +47,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textSize="14sp"
-                    android:textColor="#999999"
                     android:gravity="center_horizontal"
                     android:text="Otp will expire after 5 minutes."
+                    android:textColor="#999999"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/otp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/otp_email"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="24dp"
                     android:textColorHint="#B5B3B3"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusTopStart="8dp"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="#EE336F"
                     app:helperText=""
                     app:helperTextTextColor="#FD0320"
-                    app:boxStrokeColor="#EE336F"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -85,6 +85,7 @@
                         android:paddingEnd="11dp"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <android.widget.Button
                     android:id="@+id/OtpBtn"
                     android:layout_width="match_parent"
@@ -93,18 +94,18 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
                     android:background="@drawable/button_curve"
-                    android:text="Confirm"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:textAllCaps="false"
                     android:clickable="true"
                     android:enabled="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:text="Confirm"
+                    android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/otp_email"
                     app:layout_constraintStart_toStartOf="@+id/otp_email"
-                    app:layout_constraintTop_toBottomOf="@+id/otp_email"
-                    android:focusable="true" />
+                    app:layout_constraintTop_toBottomOf="@+id/otp_email" />
 
 
                 <ProgressBar
@@ -124,8 +125,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="54dp"
-                    android:textColor="@color/black"
                     android:text="@string/didn_t_recieve_the_otp_resend_now"
+                    android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/OtpBtn" />

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.connect.Views.Auth.SignUp_Fragment.Companion.Email
@@ -18,6 +19,10 @@ import com.example.connect.Views.Auth.ForgetPassword_Fragment.Companion.email
 import com.example.connect.Views.Auth.Login_Fragment.Companion.forget
 import com.example.connect.Views.Auth.SignUp_Fragment.Companion.Name
 import com.example.connect.databinding.OtpFragmentBinding
+import android.text.Html
+
+
+
 
 class Otp_Fragment: Fragment() {
     private var _binding: OtpFragmentBinding? = null
@@ -45,8 +50,10 @@ class Otp_Fragment: Fragment() {
             }
 
             override fun onFinish() {
-                timer.text = getString(R.string.didn_t_recieve_the_otp_resend_now)
                 timer.isEnabled = true
+                val text =
+                    " Didn't receive otp?<font color=#EE336F> Resend Now</font>"
+                timer.setText(Html.fromHtml(text))
             }
         }.start()
         timer.setOnClickListener {
@@ -176,6 +183,17 @@ class Otp_Fragment: Fragment() {
         }
         return view
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(R.id.action_otp_Fragment_to_login_Fragment)
+                }
+            }
+        })
+    }
     fun isValid(otp:String):Boolean{
         return when{
             otp.isBlank()->{
@@ -186,5 +204,10 @@ class Otp_Fragment: Fragment() {
                 true
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timerCountDown.cancel()
     }
 }

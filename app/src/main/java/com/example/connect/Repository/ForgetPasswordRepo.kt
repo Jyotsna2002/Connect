@@ -3,6 +3,7 @@ package com.example.connect.Repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.View_model.AuthDataClass
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

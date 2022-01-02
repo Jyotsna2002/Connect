@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.connect.R
@@ -38,8 +39,8 @@ companion object{
         forgetButton.setOnClickListener {
             val forgetEmail = binding.ForgetEmailEdit.text.toString().trim()
             if (isValid(forgetEmail)) {
-                progressBar.visibility=View.VISIBLE
-                forgetButton.isClickable=false
+                progressBar.visibility = View.VISIBLE
+                forgetButton.isClickable = false
                 forgetPasswordRepo = ForgetPasswordRepo()
                 forgetPasswordRepo.verifyApi(forgetEmail)
                 forgetPasswordRepo.VerifyResponse.observe(viewLifecycleOwner, {
@@ -47,9 +48,9 @@ companion object{
                         is Response.Success -> {
 
                             Toast.makeText(context, "Verify Otp", Toast.LENGTH_SHORT).show()
-                            progressBar.visibility=View.GONE
-                            forget="true"
-                            email=forgetEmail
+                            progressBar.visibility = View.GONE
+                            forget = "true"
+                            email = forgetEmail
                             Navigation.findNavController(view)
                                 .navigate(R.id.action_forgetPassword_Fragment_to_otp_Fragment)
                         }
@@ -57,18 +58,29 @@ companion object{
                         is Response.Error -> {
                             Toast.makeText(context, it.errorMessage.toString(), Toast.LENGTH_SHORT)
                                 .show()
-                            progressBar.visibility=View.GONE
-                            forgetButton.isClickable=true
+                            progressBar.visibility = View.GONE
+                            forgetButton.isClickable = true
                         }
 
                         else -> {
-                            forgetButton.isClickable=true
+                            forgetButton.isClickable = true
                         }
                     }
                 })
             }
         }
         return view
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(R.id.action_forgetPassword_Fragment_to_login_Fragment)
+                }
+            }
+        })
     }
     fun isValid(email:String):Boolean{
         return when{
@@ -85,4 +97,5 @@ companion object{
             }
         }
     }
+
 }

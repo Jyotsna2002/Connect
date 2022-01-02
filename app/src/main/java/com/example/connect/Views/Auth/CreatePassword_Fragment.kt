@@ -5,23 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.connect.Password_check.validPass
 import com.example.connect.Views.Auth.SignUp_Fragment.Companion.Email
 import com.example.connect.Views.Auth.SignUp_Fragment.Companion.Name
 import com.example.connect.R
 import com.example.connect.Repository.CreatePasswordRepo
+import com.example.connect.Repository.Datastore
 import com.example.connect.Repository.Response
+import com.example.connect.View_model.AuthDataClass
 import com.example.connect.Views.Auth.ForgetPassword_Fragment.Companion.email
 import com.example.connect.Views.Auth.Login_Fragment.Companion.forget
 import com.example.connect.databinding.CreatePasswordFragmentBinding
+import kotlinx.coroutines.launch
 
 class CreatePassword_Fragment:Fragment() {
     private var _binding: CreatePasswordFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var createPasswordRepo: CreatePasswordRepo
-
+    lateinit var datastore: Datastore
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,6 +61,21 @@ class CreatePassword_Fragment:Fragment() {
 
                                 Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                                 progressBar.visibility = View.GONE
+                                createPasswordRepo.userData.observe(viewLifecycleOwner, {
+                                    datastore = Datastore(requireContext())
+                                    lifecycleScope.launch {
+                                        datastore.saveToDatastore(
+                                            AuthDataClass(
+                                                email = email,
+                                                name = it.name,
+                                                access = it.access,
+                                                refresh = it.refresh
+                                            ),
+                                            requireContext()
+                                        )
+                                        activity?.finish()
+                                    }
+                                })
                                 Navigation.findNavController(view)
                                     .navigate(R.id.action_createPassword_Fragment_to_dashboard)
                             }
@@ -90,6 +110,21 @@ class CreatePassword_Fragment:Fragment() {
 
                             Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                             progressBar.visibility=View.GONE
+                            createPasswordRepo.userData.observe(viewLifecycleOwner, {
+                                datastore = Datastore(requireContext())
+                                lifecycleScope.launch {
+                                    datastore.saveToDatastore(
+                                        AuthDataClass(
+                                            email = Email,
+                                            name = Name,
+                                            access = it.access,
+                                            refresh = it.refresh
+                                        ),
+                                        requireContext()
+                                    )
+                                    activity?.finish()
+                                }
+                            })
                             Navigation.findNavController(view)
                                 .navigate(R.id.action_createPassword_Fragment_to_dashboard)
                         }
@@ -109,6 +144,17 @@ class CreatePassword_Fragment:Fragment() {
             }
         }
         return view
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(R.id.action_createPassword_Fragment_to_login_Fragment)
+                }
+            }
+        })
     }
     fun isValid(pass: String, confirmPass: String): Boolean
     {

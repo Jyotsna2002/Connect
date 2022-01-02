@@ -12,6 +12,7 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_background.xml" value="0.6666666666666666" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_background__1_.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_background__2_.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_bell.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_google_pixel_2___8__1_.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_image.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2" />
@@ -24,14 +25,25 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__24_.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__25_.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__26_.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__27_.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__28_.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__29_.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__30_.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/password_toggle.xml" value="0.18489583333333334" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/activity_dashboard.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/activity_main.xml" value="0.16979166666666667" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/create_password_fragment.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/forget_password_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/home_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/landing_page.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/login_fragment.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/notification_fragment.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/otp_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/post_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/profile_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/search_fragment.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/signup_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.18385416666666668" />
       </map>
     </option>
   </component>

@@ -5,5 +5,5 @@
     <string name="already_have_an_account_log_in">Already have an account?<font color="#EE336F"><b> Log In</b></font> </string>
     <string name="by_signing_up_you_agree_to_our_terms_conditions">By signing up you agree to our<font color="#EE336F"><b>\n Terms and Conditions</b></font></string>
     <string name="enter_the_email_addresss_associated_with_your_acccount_for_otp">Enter the email addresss associated with \n your acccount for OTP.</string>
-    <string name="didn_t_recieve_the_otp_resend_now">Didn’t recieve the otp? <font color="#EE336F"><b>Resend Now</b></font></string>
+    <string name="didn_t_recieve_the_otp_resend_now">Didn’t receive the otp? <font color="#EE336F"><b>Resend Now</b></font></string>
 </resources>
