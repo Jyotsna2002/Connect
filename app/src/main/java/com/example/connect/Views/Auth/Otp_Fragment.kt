@@ -16,12 +16,10 @@ import com.example.connect.Repository.OtpRepo
 import com.example.connect.Repository.Response
 import com.example.connect.Repository.SignUpRepo
 import com.example.connect.Views.Auth.ForgetPassword_Fragment.Companion.email
-import com.example.connect.Views.Auth.Login_Fragment.Companion.forget
 import com.example.connect.Views.Auth.SignUp_Fragment.Companion.Name
 import com.example.connect.databinding.OtpFragmentBinding
 import android.text.Html
-
-
+import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.forget
 
 
 class Otp_Fragment: Fragment() {

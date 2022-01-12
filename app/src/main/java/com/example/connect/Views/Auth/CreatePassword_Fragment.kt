@@ -18,7 +18,7 @@ import com.example.connect.Repository.Datastore
 import com.example.connect.Repository.Response
 import com.example.connect.View_model.AuthDataClass
 import com.example.connect.Views.Auth.ForgetPassword_Fragment.Companion.email
-import com.example.connect.Views.Auth.Login_Fragment.Companion.forget
+import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.forget
 import com.example.connect.databinding.CreatePasswordFragmentBinding
 import kotlinx.coroutines.launch
 

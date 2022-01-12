@@ -13,7 +13,7 @@ import com.example.connect.R
 import com.example.connect.Repository.ForgetPasswordRepo
 import com.example.connect.Repository.LoginRepo
 import com.example.connect.Repository.Response
-import com.example.connect.Views.Auth.Login_Fragment.Companion.forget
+import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.forget
 import com.example.connect.databinding.ForgetPasswordFragmentBinding
 import com.example.connect.databinding.LoginFragmentBinding
 

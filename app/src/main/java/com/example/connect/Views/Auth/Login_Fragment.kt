@@ -14,6 +14,7 @@ import com.example.connect.R
 import com.example.connect.Repository.Datastore
 import com.example.connect.Repository.LoginRepo
 import com.example.connect.Repository.Response
+import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.forget
 import com.example.connect.databinding.LoginFragmentBinding
 import kotlinx.coroutines.launch
 
@@ -22,9 +23,7 @@ class Login_Fragment: Fragment() {
     private val binding get() = _binding!!
     private lateinit var loginRepo: LoginRepo
     lateinit var datastore: Datastore
-    companion object{
-        lateinit var forget:String
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

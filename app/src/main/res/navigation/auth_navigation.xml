@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auth_navigation"
-    app:startDestination="@id/login_Fragment">
+    app:startDestination="@id/landingPage_Fragment">
 
     <fragment
         android:id="@+id/login_Fragment"
@@ -73,4 +73,15 @@
         android:name="com.example.connect.Dashboard"
         android:label="activity_dashboard"
         tools:layout="@layout/activity_dashboard" />
+    <fragment
+        android:id="@+id/landingPage_Fragment"
+        android:name="com.example.connect.Views.Auth.LandingPage_Fragment"
+        android:label="LandingPage_Fragment" >
+        <action
+            android:id="@+id/action_landingPage_Fragment_to_login_Fragment"
+            app:destination="@id/login_Fragment" />
+        <action
+            android:id="@+id/action_landingPage_Fragment_to_signUp_Fragment"
+            app:destination="@id/signUp_Fragment" />
+    </fragment>
 </navigation>
