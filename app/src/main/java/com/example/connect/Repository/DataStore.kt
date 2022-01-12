@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.core.edit
-import com.example.connect.View_model.AuthDataClass
+import com.example.connect.model.AuthDataClass
 import kotlinx.coroutines.flow.first
 
 

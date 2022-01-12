@@ -1,4 +1,4 @@
-package com.example.connect.View_model
+package com.example.connect.model
 
 data class AuthDataClass(val name: String?=null, val email: String?=null, val id:String?=null,
 val password: String?=null, val confirmpass:String?=null, val otp:String?=null,

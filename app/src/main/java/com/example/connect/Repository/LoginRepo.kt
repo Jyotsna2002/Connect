@@ -1,11 +1,9 @@
 package com.example.connect.Repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.connect.Network.ServiceBuilder1
-import com.example.connect.View_model.AuthDataClass
-import okhttp3.ResponseBody
+import com.example.connect.model.AuthDataClass
 import retrofit2.Call
 import retrofit2.Callback
 
@@ -28,8 +26,8 @@ class LoginRepo {
       loginLiveData.postValue(Response.Loading())
          call.enqueue(object : Callback<AuthDataClass?> {
             override fun onResponse(
-               call: Call<AuthDataClass?>,
-               response: retrofit2.Response<AuthDataClass?>
+                call: Call<AuthDataClass?>,
+                response: retrofit2.Response<AuthDataClass?>
             ) {
                if (response.isSuccessful) {
 

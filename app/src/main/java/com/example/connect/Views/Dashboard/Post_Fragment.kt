@@ -1,15 +1,35 @@
 package com.example.connect.Views.Dashboard
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.connect.Repository.Response
+import com.example.connect.View_model.PostViewModel
 import com.example.connect.databinding.PostFragmentBinding
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
+import java.util.*
 
 class Post_Fragment : Fragment() {
     private var _binding: PostFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var ImageUri: Uri
+    private var IMAGE_REQUEST_CODE = 100
+    var image = 0
+    private lateinit var postViewModel: PostViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        postViewModel = ViewModelProvider(this)[PostViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,7 +38,90 @@ class Post_Fragment : Fragment() {
         _binding = PostFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        binding.upload.setOnClickListener {
+            selectImage()
+            lifecycleScope.launch {
+                val result = postViewModel.submitData()
+                result.observe(viewLifecycleOwner, {
+                    when (it) {
+                        is Response.Success -> Toast.makeText(context, "Success", Toast.LENGTH_LONG)
+                            .show()
+                        is Response.Error -> Toast.makeText(
+                            context,
+                            it.errorMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        is Response.Loading -> Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                })
+            }
+        }
+        binding.uploadvideo.setOnClickListener {
+            pickVideoGallery()
+            lifecycleScope.launch {
+                val result = postViewModel.submitData()
+                result.observe(viewLifecycleOwner, {
+                    when (it) {
+                        is Response.Success -> Toast.makeText(context, "Success", Toast.LENGTH_LONG)
+                            .show()
+                        is Response.Error -> Toast.makeText(
+                            context,
+                            it.errorMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        is Response.Loading -> Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                })
+            }
+        }
         return view
     }
 
+
+    private fun selectImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        Toast.makeText(context, "successfully ", Toast.LENGTH_SHORT).show()
+        image = 1
+        startActivityForResult(intent, IMAGE_REQUEST_CODE)
+    }
+
+    private fun pickVideoGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "video/*"
+        Toast.makeText(context, "successfully ", Toast.LENGTH_SHORT).show()
+        startActivityForResult(intent, IMAGE_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Toast.makeText(context, "F", Toast.LENGTH_SHORT).show()
+            ImageUri = data?.getData()!!
+            val randomKey = UUID.randomUUID().toString()
+            val storageReference = FirebaseStorage.getInstance().getReference("images/" + randomKey)
+            storageReference.putFile(ImageUri)
+                .addOnSuccessListener {
+                    it.storage.downloadUrl.addOnSuccessListener {
+                        binding.post.setImageURI(ImageUri)
+                        Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT).show()
+                        if (image == 1) {
+                            postViewModel.imageUrl.setValue(listOf(it.toString()))
+                            Log.i("Hello", "onActivityResult: " + postViewModel.imageUrl.value)
+                            // Toast.makeText(context, postViewModel.imageUrl.value, Toast.LENGTH_SHORT).show()
+                            image = 0
+                        } else {
+                            postViewModel.videoUrl.setValue(listOf(it.toString()))
+                            Log.i("Hello", "onActivityResult: " + it.toString())
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
 }
