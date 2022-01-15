@@ -1,6 +1,7 @@
 package com.example.connect.Views.Auth
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ class Login_Fragment: Fragment() {
         loginButton.setOnClickListener {
             val loginEmail = binding.loginEmailEdit.text.toString().trim()
             val loginPassword = binding.loginPasswordEdit.text.toString().trim()
+            Log.i("email", "onActivityResult: $loginEmail")
             if (isValid(loginEmail,loginPassword)) {
                 progressBar.visibility=View.VISIBLE
                 loginButton.isClickable=false

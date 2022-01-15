@@ -3,6 +3,7 @@ package com.example.connect.Repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Network.ServiceBuilder2
 import com.example.connect.model.AuthDataClass
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -15,7 +16,7 @@ class OtpRepo {
 
     fun otpApi(email:String,otp:String) {
 
-        val request = ServiceBuilder1.buildService()
+        val request = ServiceBuilder2.buildService()
         val call = request.otp(
             AuthDataClass(
                 email = email,
@@ -47,13 +48,13 @@ class OtpRepo {
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                otpLiveData.postValue(Response.Error("Something went wrong"))
+                otpLiveData.postValue(Response.Error("Something went wrong ${t.message}"))
             }
         })
 
     }
     fun EnterOtp(email:String,otp:String){
-        val request = ServiceBuilder1.buildService()
+        val request = ServiceBuilder2.buildService()
         val call = request.EnterOtp(
             AuthDataClass(
                 email = email,

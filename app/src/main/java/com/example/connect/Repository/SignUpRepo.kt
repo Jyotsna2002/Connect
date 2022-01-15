@@ -3,6 +3,7 @@ package com.example.connect.Repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Network.ServiceBuilder2
 import com.example.connect.model.AuthDataClass
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -15,7 +16,7 @@ class SignUpRepo {
 
     fun signUpApi(email:String, name: String?) {
 
-        val request = ServiceBuilder1.buildService()
+        val request = ServiceBuilder2.buildService()
         val call = request.signup(
             AuthDataClass(
                 email = email,
@@ -43,7 +44,7 @@ class SignUpRepo {
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                signUpLiveData.postValue(Response.Error("Something went wrong"))
+                signUpLiveData.postValue(Response.Error("something went wrong ${t.message}"))
             }
         })
 

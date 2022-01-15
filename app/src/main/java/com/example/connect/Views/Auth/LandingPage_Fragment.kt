@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.connect.R
 import com.example.connect.databinding.LandingPageFragmentBinding
-import com.example.connect.databinding.LoginFragmentBinding
+
 
 class LandingPage_Fragment: Fragment() {
     companion object{
@@ -23,6 +23,7 @@ class LandingPage_Fragment: Fragment() {
     ): View? {
         _binding = LandingPageFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
+        forget="false"
         binding.log.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_landingPage_Fragment_to_login_Fragment)
         }

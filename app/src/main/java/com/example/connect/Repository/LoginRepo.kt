@@ -3,6 +3,7 @@ package com.example.connect.Repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Network.ServiceBuilder2
 import com.example.connect.model.AuthDataClass
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,7 +17,7 @@ class LoginRepo {
 
    fun loginApi(email:String,password:String) {
 
-      val request = ServiceBuilder1.buildService()
+      val request = ServiceBuilder2.buildService()
       val call = request.login(
          AuthDataClass(
             email = email,
@@ -45,11 +46,12 @@ class LoginRepo {
                }
                else {
                   loginLiveData.postValue(Response.Error(response.message()))
+
                }
             }
 
             override fun onFailure(call: Call<AuthDataClass?>, t: Throwable) {
-               loginLiveData.postValue(Response.Error("Something went wrong"))
+               loginLiveData.postValue(Response.Error("Something went wrong ${t.message}"))
             }
          })
 

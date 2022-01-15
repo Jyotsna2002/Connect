@@ -1,15 +1,20 @@
 package com.example.connect.Network
 
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceBuilder1 {
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://instagram-si.herokuapp.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    fun buildService(token: String?): ApiInterface {
+        return Retrofit.Builder()
+            .baseUrl("http://65.1.114.5")
+            .client(OkHttpClient.Builder().addInterceptor { chain ->
+                val request =
+                    chain.request().newBuilder().addHeader("Authorization", "Bearer $token").build()
+                chain.proceed(request)
+            }.build())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build().create(ApiInterface::class.java)
 
-    fun buildService():ApiInterface{
-        return retrofit.create(ApiInterface::class.java)
     }
 }

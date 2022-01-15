@@ -3,6 +3,7 @@ package com.example.connect.Repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Network.ServiceBuilder2
 import com.example.connect.model.AuthDataClass
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -16,7 +17,7 @@ class CreatePasswordRepo {
 
     fun passwordApi(email:String,name:String,password:String) {
 
-        val request = ServiceBuilder1.buildService()
+        val request = ServiceBuilder2.buildService()
         val call = request.createPassword(
             AuthDataClass(
                 email = email,
@@ -40,13 +41,13 @@ class CreatePasswordRepo {
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                passwordLiveData.postValue(Response.Error("Something went wrong"))
+                passwordLiveData.postValue(Response.Error("Something went wrong ${t.message}"))
             }
         })
 
     }
     fun ForgetPassword(email:String,password:String){
-        val request = ServiceBuilder1.buildService()
+        val request = ServiceBuilder2.buildService()
         val call = request.ForgetPassword(
             AuthDataClass(
                 email = email,
@@ -78,7 +79,7 @@ class CreatePasswordRepo {
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                passwordLiveData.postValue(Response.Error("Something went wrong"))
+                passwordLiveData.postValue(Response.Error("Something went wrong ${t.message}"))
             }
         })
 

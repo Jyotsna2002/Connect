@@ -12,25 +12,55 @@
 
         <ImageView
             android:id="@+id/post"
+            android:layout_width="379dp"
+            android:layout_height="285dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="57dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/captionEditLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="26dp"
+            android:textColorHint="#B5B3B3"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="#EE336F"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toBottomOf="@+id/post">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/captionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="91dp"
+                android:hint="Write a caption......."
+                android:paddingStart="26dp"
+                android:paddingEnd="11dp"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/upload"
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             android:backgroundTint="#EE336F"
             android:clickable="true"
             android:enabled="true"
             android:focusable="true"
-            android:text="UploadImage"
+            android:text="Post"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -38,26 +68,20 @@
             app:cornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/post" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/uploadvideo"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:backgroundTint="#EE336F"
-            android:clickable="true"
-            android:enabled="true"
-            android:focusable="true"
-            android:text="UploadVideo"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/captionEditLayout" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="13dp"
+            android:text="New post"
             android:textStyle="bold"
-            app:cornerRadius="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upload" />
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

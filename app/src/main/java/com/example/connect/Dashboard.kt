@@ -16,18 +16,24 @@ import kotlinx.coroutines.launch
 class Dashboard : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var navController: NavController
+    companion object{
+        lateinit var token: String
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
         val datastore = this.let { Datastore(it) }
 
-        lifecycleScope.launch {
+      lifecycleScope.launch {
 
             Toast.makeText(this@Dashboard, datastore.getUserDetails(EMAIL_KEY), Toast.LENGTH_SHORT).show()
             Toast.makeText(this@Dashboard, datastore.getUserDetails(ACCESS_TOKEN_KEY), Toast.LENGTH_SHORT).show()
 
+
+              token=  datastore.getUserDetails(ACCESS_TOKEN_KEY).toString()
         }
+
         bottomNav = findViewById(R.id.bottomNav)
         navController = findNavController(R.id.fragmentContainerView2)
         bottomNav.setupWithNavController(navController)
