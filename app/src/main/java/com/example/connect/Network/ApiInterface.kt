@@ -1,6 +1,7 @@
 package com.example.connect.Network
 
 import com.example.connect.model.AuthDataClass
+import com.example.connect.model.HomeDataClassItem
 import com.example.connect.model.PostDataClass
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -25,5 +26,5 @@ interface ApiInterface {
     @POST("/api/user/post/create/")
     fun uploadpost(@Body data: PostDataClass):Call<ResponseBody>
     @GET("http://65.1.114.5/api/user/post/")
-    fun showPost()
+    fun showPost():Call<List<HomeDataClassItem>>
 }

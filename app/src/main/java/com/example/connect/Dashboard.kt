@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.connect.Repository.Datastore
 import com.example.connect.Repository.Datastore.Companion.ACCESS_TOKEN_KEY
 import com.example.connect.Repository.Datastore.Companion.EMAIL_KEY
+import com.example.connect.Repository.Datastore.Companion.NAME_KEY
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
@@ -18,11 +19,12 @@ class Dashboard : AppCompatActivity() {
     private lateinit var navController: NavController
     companion object{
         lateinit var token: String
+        lateinit var name: String
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-
+      token=""
         val datastore = this.let { Datastore(it) }
 
       lifecycleScope.launch {
@@ -32,6 +34,7 @@ class Dashboard : AppCompatActivity() {
 
 
               token=  datastore.getUserDetails(ACCESS_TOKEN_KEY).toString()
+              name= datastore.getUserDetails(NAME_KEY).toString()
         }
 
         bottomNav = findViewById(R.id.bottomNav)

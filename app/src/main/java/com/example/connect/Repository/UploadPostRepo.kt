@@ -36,17 +36,17 @@ class UploadPostRepo(private val service:ApiInterface) {
                 if (response.isSuccessful) {
                     uploadPostLiveData.postValue(Response.Success(response.body()))
                    // Toast.makeText(context,"Post Successfully Created",Toast.LENGTH_SHORT).show()
-                    Log.i("Hellosucces", "onActivityResult: Success" )
+                 //   Log.i("Hellosucces", "onActivityResult: Success" )
                 }
                 else {
                     uploadPostLiveData.postValue(Response.Error(response.message()))
-                    Log.i("Hellosucces", "onActivityResult:"+response.code() )
+                   // Log.i("Hellosucces", "onActivityResult:"+response.code() )
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                 uploadPostLiveData.postValue(Response.Error("Something went wrong ${t.message}"))
-                Log.i("Hellosucces", "onActivityResult: failed" )
+              //  Log.i("Hellosucces", "onActivityResult: failed" )
             }
         })
 
