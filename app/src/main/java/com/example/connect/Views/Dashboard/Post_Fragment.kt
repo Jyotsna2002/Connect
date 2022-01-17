@@ -50,7 +50,6 @@ class Post_Fragment : Fragment() {
     private var IMAGE_REQUEST_CODE = 100
     var image = 0
     private lateinit var postViewModel: PostViewModel
-    lateinit var datastore: Datastore
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

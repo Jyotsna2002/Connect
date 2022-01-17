@@ -28,7 +28,7 @@ class LandingPage_Fragment: Fragment() {
             Navigation.findNavController(view).navigate(R.id.action_landingPage_Fragment_to_login_Fragment)
         }
         binding.sign.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_landingPage_Fragment_to_signUp_Fragment)
+            Navigation.findNavController(view).navigate(R.id.action_landingPage_Fragment_to_username_Fragment)
         }
         return view
     }

@@ -38,11 +38,11 @@
         android:name="com.example.connect.Views.Auth.CreatePassword_Fragment"
         android:label="CreatePassword_Fragment" >
         <action
-            android:id="@+id/action_createPassword_Fragment_to_dashboard"
-            app:destination="@id/dashboard" />
-        <action
             android:id="@+id/action_createPassword_Fragment_to_login_Fragment"
             app:destination="@id/login_Fragment" />
+        <action
+            android:id="@+id/action_createPassword_Fragment_to_dashboard"
+            app:destination="@id/dashboard" />
     </fragment>
     <fragment
         android:id="@+id/otp_Fragment"
@@ -82,6 +82,17 @@
             app:destination="@id/login_Fragment" />
         <action
             android:id="@+id/action_landingPage_Fragment_to_signUp_Fragment"
+            app:destination="@id/signUp_Fragment" />
+        <action
+            android:id="@+id/action_landingPage_Fragment_to_username_Fragment"
+            app:destination="@id/username_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/username_Fragment"
+        android:name="com.example.connect.Views.Dashboard.Username_Fragment"
+        android:label="Username_Fragment" >
+        <action
+            android:id="@+id/action_username_Fragment_to_signUp_Fragment"
             app:destination="@id/signUp_Fragment" />
     </fragment>
 </navigation>

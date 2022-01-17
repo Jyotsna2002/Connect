@@ -23,6 +23,9 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
             const val EMAIL_KEY = "email_key"
             const val ACCESS_TOKEN_KEY = "token_key"
             const val REF_TOKEN_KEY = "ref_token_key"
+            const val USER_NAME_KEY="username_key"
+            const val USER_KEY="user_key"
+
         }
 
         suspend fun saveUserDetails(key: String, value: String) {
@@ -55,5 +58,8 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
             datastore.saveUserDetails(NAME_KEY, it.name!!)
             datastore.saveUserDetails(ACCESS_TOKEN_KEY, it.access!!)
             datastore.saveUserDetails(REF_TOKEN_KEY, it.refresh!!)
+            datastore.saveUserDetails(USER_NAME_KEY,it.username!!)
+            datastore.saveUserDetails(USER_KEY, it.user.toString())
+
         }
     }
