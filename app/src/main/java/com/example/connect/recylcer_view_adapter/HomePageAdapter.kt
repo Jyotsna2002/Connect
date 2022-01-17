@@ -34,7 +34,6 @@ class HomePageAdapter () : RecyclerView.Adapter<HomePageAdapter.HomeViewHolder>(
             crossfade(true)
           //  placeholder(R.drawable.i)
         }
-       //  Log.i("Hello", "onActivityResult:"+ post.post_image.indexOfFirst { true })
 
     }
 

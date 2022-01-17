@@ -75,6 +75,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="84dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/user_image"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -82,6 +83,7 @@
             android:id="@+id/postRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
     </androidx.constraintlayout.widget.ConstraintLayout>

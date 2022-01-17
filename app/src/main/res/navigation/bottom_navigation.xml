@@ -10,7 +10,7 @@
         android:label="Home_Fragment" />
     <fragment
         android:id="@+id/notification_Fragment"
-        android:name="com.example.connect.Views.Dashboard.Notification_Fragment"
+        android:name="com.example.connect.Views.Dashboard.notification.Notification_Fragment"
         android:label="Notification_Fragment" />
     <fragment
         android:id="@+id/post_Fragment"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/search_Fragment"
-        android:name="com.example.connect.Views.Dashboard.Search_Fragment"
+        android:name="com.example.connect.Views.Dashboard.search.Search_Fragment"
         android:label="Search_Fragment" />
     <fragment
         android:id="@+id/profile_Fragment"
