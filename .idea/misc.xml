@@ -9,6 +9,7 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/custom_email.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/custom_name.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/custom_password.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/delte_button_curve.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_background.xml" value="0.6666666666666666" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_background__1_.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_background__2_.xml" value="0.2" />
@@ -35,6 +36,7 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/ic_vector__30_.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/password_toggle.xml" value="0.18489583333333334" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/drawable/tabtext.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout-land/request_items.xml" value="0.14858906525573193" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/accounts.xml" value="0.2982998454404946" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/accunts_items.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/activity_dashboard.xml" value="0.16666666666666666" />
@@ -45,12 +47,17 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/home_fragment.xml" value="0.3574074074074074" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/landing_page.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/landing_page_fragment.xml" value="0.22" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/liked_by.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/liked_by_items.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/login_fragment.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/notification_fragment.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/otp_fragment.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/post.xml" value="0.25" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/post_fragment.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/profile_fragment.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/reques.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/request.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/request_items.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/search_fragment.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/signup_fragment.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/Connect/app/src/main/res/layout/tags.xml" value="0.17552083333333332" />
