@@ -56,6 +56,7 @@ class Post_Fragment : Fragment() {
     ): View? {
         _binding = PostFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
+        ok="3"
         val builder: AlertDialog.Builder? = context?.let { AlertDialog.Builder(it) }
         val inflater = layoutInflater
         val dialogView: View = inflater.inflate(R.layout.alert_dialog_profile_picture, null)
@@ -91,6 +92,9 @@ class Post_Fragment : Fragment() {
             alertDialogProfilePicture?.dismiss()
         }
         binding.upload.setOnClickListener {
+            if (ok !="1" || ok!="0"){
+                binding.upload.isClickable=false
+            }
             val caption=binding.captionEditText.text.toString().trim()
             Log.i("caption", "onActivityResult: $caption")
             postViewModel.caption.setValue(caption)
@@ -99,6 +103,8 @@ class Post_Fragment : Fragment() {
                 when (it) {
                     is Response.Success ->{ Toast.makeText(context, "Success", Toast.LENGTH_LONG)
                         .show()
+                        postViewModel.caption.setValue("")
+                        postViewModel.imageUrl.setValue(null)
                       }
                     is Response.Error -> {Toast.makeText(
                         context,

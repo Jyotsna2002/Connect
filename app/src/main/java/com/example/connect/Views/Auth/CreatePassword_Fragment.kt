@@ -19,6 +19,7 @@ import com.example.connect.Repository.Response
 import com.example.connect.model.AuthDataClass
 import com.example.connect.Views.Auth.ForgetPassword_Fragment.Companion.email
 import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.forget
+import com.example.connect.Views.Dashboard.Username_Fragment.Companion.username
 import com.example.connect.databinding.CreatePasswordFragmentBinding
 import kotlinx.coroutines.launch
 
@@ -103,7 +104,7 @@ class CreatePassword_Fragment:Fragment() {
                 passwordButton.isClickable=false
                 progressBar.visibility=View.VISIBLE
                 createPasswordRepo = CreatePasswordRepo()
-                createPasswordRepo.passwordApi(Email, Name, password)
+                createPasswordRepo.passwordApi(Email, Name, password,username)
                 createPasswordRepo.passwordResponse.observe(viewLifecycleOwner, {
                     when (it) {
                         is Response.Success -> {
@@ -118,7 +119,9 @@ class CreatePassword_Fragment:Fragment() {
                                             email = Email,
                                             name = Name,
                                             access = it.access,
-                                            refresh = it.refresh
+                                            refresh = it.refresh,
+                                            username=it.username,
+                                            user=it.user
                                         ),
                                         requireContext()
                                     )

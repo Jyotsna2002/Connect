@@ -15,14 +15,15 @@ class CreatePasswordRepo {
     val passwordResponse: LiveData<Response<ResponseBody>>
         get()=passwordLiveData
 
-    fun passwordApi(email:String,name:String,password:String) {
+    fun passwordApi(email:String,name:String,password:String,username:String) {
 
         val request = ServiceBuilder2.buildService()
         val call = request.createPassword(
             AuthDataClass(
                 email = email,
                 name = name,
-                password = password
+                password = password,
+                username=username
             )
         )
         passwordLiveData.postValue(Response.Loading())

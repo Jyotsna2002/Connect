@@ -1,6 +1,7 @@
 package com.example.connect.Views.Dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.connect.R
 import com.example.connect.Repository.*
+import com.example.connect.Views.Auth.SignUp_Fragment
 import com.example.connect.databinding.UsernameFragmentBinding
+import com.example.connect.model.AuthDataClass
 import kotlinx.coroutines.launch
 
 class Username_Fragment :Fragment() {
@@ -18,7 +21,9 @@ class Username_Fragment :Fragment() {
     private val binding get() = _binding!!
     private lateinit var usernameRepo: UsernameRepo
     lateinit var datastore: Datastore
-
+companion object{
+    lateinit var username:String
+}
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,21 +40,24 @@ class Username_Fragment :Fragment() {
                 progressBar.visibility = View.VISIBLE
                 usernameButton.isClickable = false
                 usernameRepo = UsernameRepo()
-                usernameRepo.CreateUsername(Username)
+                usernameRepo.Createusername(Username)
                 usernameRepo.UsernameResponse.observe(viewLifecycleOwner, {
                     when (it) {
                         is Response.Success -> {
 
-                            Toast.makeText(context, "LogedIn", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Username is set", Toast.LENGTH_SHORT).show()
                             progressBar.visibility = View.GONE
-                            usernameRepo.userDetails.observe(viewLifecycleOwner, {
-
-                                datastore = Datastore(requireContext())
-                                lifecycleScope.launch {
-                                    datastore.saveToDatastore(it, requireContext())
-                                    activity?.finish()
-                                }
-                            })
+                            username=Username
+//                            usernameRepo.userDetails.observe(viewLifecycleOwner, {
+                            Log.i("username","response"+it)
+//                                datastore = Datastore(requireContext())
+//                                lifecycleScope.launch {
+//                                    datastore.saveToDatastore( AuthDataClass(
+//                                        username=it.username
+//                                    ), requireContext())
+//                                    activity?.finish()
+//                                }
+//                            })
                             Navigation.findNavController(view)
                                 .navigate(R.id.action_username_Fragment_to_signUp_Fragment)
                         }

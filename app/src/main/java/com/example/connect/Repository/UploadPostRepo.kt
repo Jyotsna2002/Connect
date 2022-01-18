@@ -38,6 +38,10 @@ class UploadPostRepo(private val service:ApiInterface) {
                    // Toast.makeText(context,"Post Successfully Created",Toast.LENGTH_SHORT).show()
                  //   Log.i("Hellosucces", "onActivityResult: Success" )
                 }
+                else if (response.code()==500)
+                {
+                    uploadPostLiveData.postValue(Response.Error("Choose am image to post"))
+                }
                 else {
                     uploadPostLiveData.postValue(Response.Error(response.message()))
                    // Log.i("Hellosucces", "onActivityResult:"+response.code() )

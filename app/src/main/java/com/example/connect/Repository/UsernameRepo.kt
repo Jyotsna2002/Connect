@@ -13,9 +13,9 @@ class UsernameRepo {
     var userDetails = MutableLiveData<AuthDataClass>()
     val UsernameResponse: MutableLiveData<Response<AuthDataClass>>
         get()=UsernameLiveData
-    fun CreateUsername(username:String){
+    fun Createusername(username:String){
         val request = ServiceBuilder2.buildService()
-        val call = request.CreateUsername(
+        val call = request.createUsername(
             AuthDataClass(
              username=username
             )
@@ -32,8 +32,9 @@ class UsernameRepo {
                     Log.d("RESPONSE BODY", response.body().toString())
                     userDetails.value=response.body()
 
+
                 }
-                else if(response.code()==400)
+                else if(response.code()==406)
                 {
                     UsernameLiveData.postValue(Response.Error("Username Already exist"))
                 }

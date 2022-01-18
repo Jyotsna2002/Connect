@@ -52,7 +52,7 @@ class Login_Fragment: Fragment() {
                             Toast.makeText(context, "LogedIn", Toast.LENGTH_SHORT).show()
                             progressBar.visibility=View.GONE
                             loginRepo.userDetails.observe(viewLifecycleOwner, {
-
+                                Log.i("login","response"+it)
                                 datastore = Datastore(requireContext())
                                 lifecycleScope.launch {
                                     datastore.saveToDatastore(it, requireContext())
@@ -77,7 +77,7 @@ class Login_Fragment: Fragment() {
                 })
             }
         }
-        binding.signup.setOnClickListener {  Navigation.findNavController(view).navigate(R.id.action_login_Fragment_to_signUp_Fragment) }
+        binding.signup.setOnClickListener {  Navigation.findNavController(view).navigate(R.id.action_login_Fragment_to_username_Fragment) }
         binding.forgetPassword.setOnClickListener {Navigation.findNavController(view).navigate(R.id.action_login_Fragment_to_forgetPassword_Fragment)  }
         return view
     }

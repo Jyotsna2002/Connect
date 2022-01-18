@@ -23,7 +23,7 @@ interface ApiInterface {
     @PATCH("/api/changepsw/")
     fun ForgetPassword(@Body data: AuthDataClass): Call<ResponseBody>
     @POST("api/createusername/")
-    fun CreateUsername(@Body data: AuthDataClass):Call<AuthDataClass>
+    fun createUsername(@Body data: AuthDataClass):Call<AuthDataClass>
     @POST("/api/user/post/create/")
     fun uploadpost(@Body data: PostDataClass):Call<ResponseBody>
     @GET("http://65.1.114.5/api/user/post/")
