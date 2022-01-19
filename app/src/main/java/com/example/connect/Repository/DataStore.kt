@@ -62,5 +62,5 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
             datastore.saveUserDetails(USER_KEY, it.user.toString())
 
         }
-
+        
     }

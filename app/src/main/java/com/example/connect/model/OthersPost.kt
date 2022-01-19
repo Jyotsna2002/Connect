@@ -1,8 +1,7 @@
 package com.example.connect.model
 
-data class HomeDataClassItem(
+data class OthersPost(
     val caption: String?=null,
-    val liked_by: List<String>?=null,
     val post_id: Int?=null,
     val post_image: List<PostImage>?=null,
     val post_video: List<PostVideo>?=null,

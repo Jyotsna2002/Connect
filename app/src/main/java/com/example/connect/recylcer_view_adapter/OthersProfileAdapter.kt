@@ -12,9 +12,10 @@ import coil.load
 import com.example.connect.Dashboard.Companion.name
 import com.example.connect.R
 import com.example.connect.model.HomeDataClassItem
+import com.example.connect.model.OthersPost
 
-class HomePageAdapter () : RecyclerView.Adapter<HomePageAdapter.HomeViewHolder>()  {
-    var Posts= ArrayList<HomeDataClassItem>()
+class OthersProfileAdapter () : RecyclerView.Adapter<OthersProfileAdapter.HomeViewHolder>()  {
+    var Posts= ArrayList<OthersPost>()
     private var mlistner: onItemClickListener? = null
     interface onItemClickListener {
 
@@ -24,23 +25,19 @@ class HomePageAdapter () : RecyclerView.Adapter<HomePageAdapter.HomeViewHolder>(
     fun setOnItemClickListener(listener: onItemClickListener) {
         mlistner = listener
     }
-    fun setUpdatedData( Posts: ArrayList<HomeDataClassItem>){
+    fun setUpdatedData( Posts: ArrayList<OthersPost>){
         this.Posts=Posts
         notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.post, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.profile_items, parent, false)
         return HomeViewHolder(view,mlistner)
 
     }
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
 
         val post = Posts[position]
-      holder.caption.text=post.caption
-        holder.name.text= post.user_name
-        holder.name2.text= post.user_name
-        holder.likedBy.text=post.no_of_likes.toString()
-        holder.postImage.load(post.post_image?.get(0)?.images?.trim()){
+        holder.otherspost.load(post.post_image?.get(0)?.images?.trim()){
             crossfade(true)
           //  placeholder(R.drawable.i)
         }
@@ -54,15 +51,12 @@ class HomePageAdapter () : RecyclerView.Adapter<HomePageAdapter.HomeViewHolder>(
     class HomeViewHolder(itemView: View,listener: onItemClickListener?) :
         RecyclerView.ViewHolder(itemView) {
 
-        var postImage=itemView.findViewById<ImageView>(R.id.postImage)
-        var caption=itemView.findViewById<TextView>(R.id.caption)
-        var name=itemView.findViewById<TextView>(R.id.name)
-        var name2=itemView.findViewById<TextView>(R.id.name2)
-        var likedBy=itemView.findViewById<TextView>(R.id.likedByPeople)
+        var otherspost=itemView.findViewById<ImageView>(R.id.otherspost)
+
 
 
         init {
-            name2.setOnClickListener {
+            itemView.setOnClickListener {
                 listener?.onItemClick(adapterPosition)
             }
         }

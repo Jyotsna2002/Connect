@@ -1,5 +1,6 @@
 package com.example.connect.Views.Dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,10 +10,13 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Dashboard.Companion.token
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.OthersProfile
+import com.example.connect.R
 import com.example.connect.Repository.HomePageRepo
 import com.example.connect.Repository.Response
 import com.example.connect.View_model.HomePageViewModelFactory
@@ -35,9 +39,19 @@ class Home_Fragment :Fragment() {
         val view = binding.root
         recyclerView= binding.postRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-//        adapter =HomePageAdapter()
         recyclerView.adapter = adapter
-
+        adapter.setOnItemClickListener(object : HomePageAdapter.onItemClickListener {
+            override fun onItemClick(position: Int) {
+                val intent = Intent(context, OthersProfile::class.java)
+                intent.putExtra("USER", adapter.Posts[position].user.toString())
+                Log.i("userId", "onActivityResult:" +adapter.Posts[position].user.toString())
+                startActivity(intent)
+            }
+        })
+        binding.messenger.setOnClickListener {
+            Navigation.findNavController(view)
+                .navigate(R.id.action_home_Fragment_to_post_Fragment)
+        }
         return view
     }
 
@@ -63,11 +77,6 @@ class Home_Fragment :Fragment() {
         val homeViewModelFactory = HomePageViewModelFactory(postshowRepo)
         homeViewModel = ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
         homeViewModel.submitPost()
-
-//        adapter = HomePageAdapter(activity, mutableListOf())
-//        recyclerView.adapter = adapter
-//        recyclerView.layoutManager =
-//            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
     }
 

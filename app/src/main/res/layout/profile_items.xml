@@ -2,9 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="124dp"
-    android:layout_height="150dp"
+    android:layout_width="115dp"
+    android:layout_height="146dp"
+    android:layout_marginBottom="4dp"
     app:cardCornerRadius="8dp"
+    app:cardMaxElevation="1dp"
+    app:cardElevation="1dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
@@ -12,9 +15,10 @@
     android:animateLayoutChanges="true">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/otherspost"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars"
                />
 </androidx.cardview.widget.CardView>

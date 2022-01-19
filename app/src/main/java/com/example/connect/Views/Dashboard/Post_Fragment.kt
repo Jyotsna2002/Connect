@@ -65,21 +65,6 @@ class Post_Fragment : Fragment() {
         val video =dialogView.findViewById<ImageView>(R.id.imageViewADPPGallery)
         val alertDialogProfilePicture: AlertDialog? = builder?.create()
         alertDialogProfilePicture?.setCanceledOnTouchOutside(false)
-//        alertDialogProfilePicture?.setOnKeyListener(object : DialogInterface.OnKeyListener {
-//            override fun onKey(
-//                arg0: DialogInterface?, keyCode: Int,
-//                event: KeyEvent?
-//            ): Boolean {
-//                if (keyCode == KeyEvent.KEYCODE_BACK) {
-//                    val fragmentManager = activity?.supportFragmentManager
-//                    val fragmentTransaction = fragmentManager?.beginTransaction()
-//                    fragmentTransaction?.replace(R.id.work, Home_Fragment())
-//                    fragmentTransaction?.addToBackStack(null)
-//                    fragmentTransaction?.commit()
-//                }
-//                return true
-//            }
-//        })
         alertDialogProfilePicture?.show()
         image.setOnClickListener {
             selectImage()

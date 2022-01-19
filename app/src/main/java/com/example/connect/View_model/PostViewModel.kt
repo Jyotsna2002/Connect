@@ -17,11 +17,7 @@ class PostViewModel(private val postRepo: UploadPostRepo) : ViewModel() {
     var imageUrl = MutableLiveData<List<String>>()
     var videoUrl = MutableLiveData<List<String>>()
     var caption =  MutableLiveData<String>()
-//    fun submitData(): LiveData<Response<ResponseBody>> {
-//        postRepo.uploadmedia(imageUrl.value!!,videoUrl.value,null)
-//        val result = postRepo.uploadPostResponse
-//        return result
-//    }
+
     private var postResult:MutableLiveData<Response<ResponseBody>> = MutableLiveData()
     val Result:LiveData<Response<ResponseBody>>
         get() = postResult

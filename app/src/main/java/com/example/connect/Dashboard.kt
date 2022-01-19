@@ -20,7 +20,7 @@ class Dashboard : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var navController: NavController
     companion object{
-        lateinit var token: String
+        var token: String? =null
         lateinit var name: String
         lateinit var username:String
         lateinit var user:String
@@ -31,16 +31,16 @@ class Dashboard : AppCompatActivity() {
         val datastore = this.let { Datastore(it) }
 
       lifecycleScope.launch {
+          token=  datastore.getUserDetails(ACCESS_TOKEN_KEY).toString()
+          name= datastore.getUserDetails(NAME_KEY).toString()
+          username=datastore.getUserDetails(USER_NAME_KEY).toString()
+          user=datastore.getUserDetails(USER_KEY).toString()
+//            Toast.makeText(this@Dashboard, datastore.getUserDetails(EMAIL_KEY), Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@Dashboard, datastore.getUserDetails(ACCESS_TOKEN_KEY), Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@Dashboard, datastore.getUserDetails(USER_NAME_KEY), Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@Dashboard, datastore.getUserDetails(USER_KEY), Toast.LENGTH_SHORT).show()
 
-            Toast.makeText(this@Dashboard, datastore.getUserDetails(EMAIL_KEY), Toast.LENGTH_SHORT).show()
-            Toast.makeText(this@Dashboard, datastore.getUserDetails(ACCESS_TOKEN_KEY), Toast.LENGTH_SHORT).show()
-            Toast.makeText(this@Dashboard, datastore.getUserDetails(USER_NAME_KEY), Toast.LENGTH_SHORT).show()
-            Toast.makeText(this@Dashboard, datastore.getUserDetails(USER_KEY), Toast.LENGTH_SHORT).show()
 
-              token=  datastore.getUserDetails(ACCESS_TOKEN_KEY).toString()
-              name= datastore.getUserDetails(NAME_KEY).toString()
-              username=datastore.getUserDetails(USER_NAME_KEY).toString()
-              user=datastore.getUserDetails(USER_KEY).toString()
         }
 
         bottomNav = findViewById(R.id.bottomNav)
