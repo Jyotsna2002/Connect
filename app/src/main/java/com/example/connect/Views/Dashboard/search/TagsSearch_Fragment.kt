@@ -20,6 +20,7 @@ class TagsSearch_Fragment: Fragment() {
         _binding = TagsBinding.inflate(inflater, container, false)
         val view = binding.root
 
+
         return view
     }
 

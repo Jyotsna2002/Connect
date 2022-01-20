@@ -12,7 +12,7 @@ class NotificationTabAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
                 LikedBy_Fragment()
             }
             1 -> {
-                Notification_Fragment()
+                Request_Fragment()
             }
             else -> {
                 LikedBy_Fragment()

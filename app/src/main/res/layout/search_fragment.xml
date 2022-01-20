@@ -8,55 +8,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/searchLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:drawablePadding="10dp"
-            app:endIconDrawable="@drawable/ic_x"
-            android:textColorHint="#B3B3B3"
-            app:endIconMode="custom"
-            app:endIconTint="@color/black"
-            app:boxStrokeWidthFocused="0dp"
-            app:boxStrokeWidth="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-
-                android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:background="@drawable/border_curve"
-                android:hint="Search for accounts and tags"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_Search"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/tabbox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchLayout"
+            app:layout_constraintTop_toTopOf="parent"
             app:tabGravity="fill"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            app:tabIndicatorFullWidth="true"
             app:tabIndicatorColor="#EE336F"
+            app:tabIndicatorFullWidth="true"
             app:tabIndicatorGravity="bottom"
             app:tabMode="fixed"
             app:tabSelectedTextColor="#EE336F"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             app:tabTextColor="@color/black" />
 
         <androidx.viewpager2.widget.ViewPager2

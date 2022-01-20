@@ -30,6 +30,8 @@ interface ApiInterface {
     fun viewProfile(@Body data: Profile):Call<Profile>
     @POST("api/user/profile/post/")
     fun viewOtherPost(@Body data: Profile):Call<List<OthersPost>>
-    @GET("api/user/search/profile/")
-    fun SearchProfile(@Body data: SearchProfileDataClassItem):Call<List<SearchProfileDataClassItem>>
+    @POST("api/user/search/profile/")
+    fun searchProfile(@Body data: SearchProfileDataClassItem):Call<List<SearchProfileDataClassItem>>
+    @POST("api/user/search/tag/")
+    fun searchTag(@Body data: SearchTagDataClass):Call<List<SearchTagDataClass>>
 }

@@ -1,16 +1,34 @@
 package com.example.connect.Views.Dashboard.search
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.connect.Dashboard
+import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Repository.Response
+import com.example.connect.Repository.SearchProfileRepo
+import com.example.connect.View_model.SearchProfileViewModel
+import com.example.connect.View_model.SearchProfileViewModelFactory
+
 import com.example.connect.databinding.AccountsBinding
-import com.example.connect.databinding.SearchFragmentBinding
+import com.example.connect.model.SearchProfileDataClassItem
+import com.example.connect.recylcer_view_adapter.SearchProfileAdapter
 
 class AcoountSearch_Fragment: Fragment() {
     private var _binding: AccountsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var searchProfileViewModel: SearchProfileViewModel
+        var adapter= SearchProfileAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,8 +36,59 @@ class AcoountSearch_Fragment: Fragment() {
     ): View? {
         _binding = AccountsBinding.inflate(inflater, container, false)
         val view = binding.root
+        recyclerView= binding.accounts
+        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = adapter
+        val search=binding.searchEditText
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s?.length!! > 0) {
+                   searchProfileViewModel.submitotherprofile(s.toString())
+                    Log.i("View", "ontext")
+                    searchProfileViewModel.searchProfilResult.observe(viewLifecycleOwner, {
+                        when (it) {
+                            is Response.Success -> {
+                                Toast.makeText(context, "Success", Toast.LENGTH_LONG)
+                                    .show()
+                                adapter.setUpdatedData(it.data as ArrayList<SearchProfileDataClassItem>)
+                            }
+                            is Response.Error -> {
+                                Toast.makeText(
+                                    context,
+                                    it.errorMessage,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            is Response.Loading -> {
+                                Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+
+                        }
+                    })
+
+
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
         return view
     }
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val searchProfileRepo= SearchProfileRepo(ServiceBuilder1.buildService(Dashboard.token))
+        Log.i("tokenmyaccount", "access:${Dashboard.token}")
+        val searchProfileViewModelFactory= SearchProfileViewModelFactory(searchProfileRepo)
+        searchProfileViewModel= ViewModelProvider(this,searchProfileViewModelFactory)[SearchProfileViewModel::class.java]
+    }
+
 
 }

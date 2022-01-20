@@ -22,8 +22,8 @@ class Notification_Fragment : Fragment() {
         val view = binding.root
         val notificationViewPager = binding.viewpagerNotification
         val notificationTabLayout = binding.tabNotification
-        val searchPageAdapter = SearchTabAdapter(this)
-        notificationViewPager.adapter = searchPageAdapter
+        val notiPageAdapter = NotificationTabAdapter(this)
+        notificationViewPager.adapter = notiPageAdapter
         TabLayoutMediator(notificationTabLayout, notificationViewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = "Liked post"
