@@ -34,4 +34,6 @@ interface ApiInterface {
     fun searchProfile(@Body data: SearchProfileDataClassItem):Call<List<SearchProfileDataClassItem>>
     @POST("api/user/search/tag/")
     fun searchTag(@Body data: SearchTagDataClass):Call<List<SearchTagDataClass>>
+    @POST("api/user/tag/")
+    fun seeTag(@Body data:OthersPost):Call<List<OthersPost>>
 }

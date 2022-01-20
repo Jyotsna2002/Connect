@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Dashboard
+import com.example.connect.Dashboard.Companion.name
 import com.example.connect.Dashboard.Companion.user
+import com.example.connect.Dashboard.Companion.username
 import com.example.connect.EditProfile
 import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.OthersProfile
@@ -40,6 +42,8 @@ class Profile_Fragment : Fragment() {
     ): View? {
         _binding = ProfileFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
+        binding.username.text=username
+        binding.userName.text=name
         recyclerView= binding.recyclerView2
         gridLayoutManager= GridLayoutManager(context,3,
             LinearLayoutManager.VERTICAL,false)

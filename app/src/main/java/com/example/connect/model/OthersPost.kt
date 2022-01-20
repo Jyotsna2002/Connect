@@ -7,5 +7,6 @@ data class OthersPost(
     val post_video: List<PostVideo>?=null,
     val user: Int?=null,
     val no_of_likes: Int?=null,
-    val user_name:String?=null
+    val user_name:String?=null,
+    val tag:String?=null
 )

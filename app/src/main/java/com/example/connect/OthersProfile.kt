@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.connect.Dashboard.Companion.user
 import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Repository.HomePageRepo
 import com.example.connect.Repository.OthersProfilePostRepo
@@ -31,7 +32,7 @@ class OthersProfile : AppCompatActivity() {
     private var gridLayoutManager: GridLayoutManager?=null
     private lateinit var recyclerView: RecyclerView
     private var adapter= OthersProfileAdapter()
-    var user: Int?=null
+    var userid: Int?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ProfileFragmentBinding.inflate(layoutInflater)
@@ -50,9 +51,9 @@ class OthersProfile : AppCompatActivity() {
         Log.i("token", "access:${Dashboard.token}")
         val othersPostViewModelFactory=OthersProfilePostViewModelFactory(othersProfilePostRepo)
         othersprofilepostViewModel= ViewModelProvider(this,othersPostViewModelFactory)[OthersProfilePostViewModel::class.java]
-        user = intent.getStringExtra("USER")?.toInt()
-
-        othersprofileViewModel.User_id.setValue(user)
+        userid = intent.getStringExtra("USER")?.toInt()
+        val UserId=userid.toString()
+        othersprofileViewModel.User_id.setValue(userid)
         othersprofileViewModel.submitotherprofile()
         othersprofileViewModel.showotherProfilResult.observe(this, {
             when (it) {
@@ -92,7 +93,7 @@ class OthersProfile : AppCompatActivity() {
 
             }
         })
-        othersprofilepostViewModel.User_id.setValue(user)
+        othersprofilepostViewModel.User_id.setValue(userid)
         othersprofilepostViewModel.submitotherprofilepost()
         othersprofilepostViewModel.showotherProfilPostResult.observe(this, {
             when (it) {
@@ -118,9 +119,5 @@ class OthersProfile : AppCompatActivity() {
 
     }
 
-    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View?
-    {
 
-        return super.onCreateView(parent, name, context, attrs)
-    }
 }

@@ -1,5 +1,6 @@
 package com.example.connect.Views.Dashboard.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,17 +11,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Dashboard
+import com.example.connect.Dashboard.Companion.user
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.OthersProfile
+import com.example.connect.R
 import com.example.connect.Repository.Response
 import com.example.connect.Repository.SearchProfileRepo
 import com.example.connect.View_model.SearchProfileViewModel
 import com.example.connect.View_model.SearchProfileViewModelFactory
+import com.example.connect.Views.Dashboard.Profile_Fragment
 
 import com.example.connect.databinding.AccountsBinding
 import com.example.connect.model.SearchProfileDataClassItem
+import com.example.connect.recylcer_view_adapter.HomePageAdapter
 import com.example.connect.recylcer_view_adapter.SearchProfileAdapter
 
 class AcoountSearch_Fragment: Fragment() {
@@ -75,6 +82,23 @@ class AcoountSearch_Fragment: Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
+            }
+        })
+        adapter.setOnItemClickListener(object : SearchProfileAdapter.onItemClickListener {
+            override fun onItemClick(position: Int) {
+                if( adapter.Posts[position].user.toString()==user){
+                    val fragmentManager = activity?.supportFragmentManager
+                    val fragmentTransaction = fragmentManager?.beginTransaction()
+                    fragmentTransaction?.add(R.id.move, Profile_Fragment())
+                    fragmentTransaction?.addToBackStack(null)
+                    fragmentTransaction?.commit()
+                }
+                else {
+                    val intent = Intent(context, OthersProfile::class.java)
+                    intent.putExtra("USER", adapter.Posts[position].user.toString())
+                    Log.i("userId", "onActivityResult:" + adapter.Posts[position].user.toString())
+                    startActivity(intent)
+                }
             }
         })
         return view
