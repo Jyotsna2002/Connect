@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:layout_marginTop="30dp"
-        android:text="liked your post"
+        android:text=" requested to follow you"
         android:textSize="14sp"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/user2"
@@ -49,9 +49,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/confirmBtn"
-        android:layout_width="match_parent"
+        android:layout_width="130dp"
         android:layout_height="49dp"
-        android:layout_marginStart="52dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="201dp"
         android:backgroundTint="#EE336F"
@@ -64,16 +64,15 @@
         android:textSize="14sp"
         android:textStyle="bold"
         app:cornerRadius="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user2" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/deleteBtn"
-        android:layout_width="match_parent"
+        android:layout_width="130dp"
         android:layout_height="49dp"
         android:layout_marginStart="201dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="22dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
@@ -86,7 +85,6 @@
         android:textStyle="bold"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/confirmBtn"
         app:layout_constraintTop_toBottomOf="@+id/user2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

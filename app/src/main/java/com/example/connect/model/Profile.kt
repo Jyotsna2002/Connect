@@ -1,7 +1,7 @@
 package com.example.connect.model
 
 data class Profile(
-    val active_story: Boolean?=null,
+    val active_story: Int?=null,
     val bio: String?=null,
     val no_of_followers: Int?=null,
     val no_of_following: Int?=null,

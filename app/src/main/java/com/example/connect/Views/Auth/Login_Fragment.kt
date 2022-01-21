@@ -15,6 +15,7 @@ import com.example.connect.R
 import com.example.connect.Repository.Datastore
 import com.example.connect.Repository.LoginRepo
 import com.example.connect.Repository.Response
+import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.access
 import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.forget
 import com.example.connect.databinding.LoginFragmentBinding
 import kotlinx.coroutines.launch
@@ -56,11 +57,14 @@ class Login_Fragment: Fragment() {
                                 datastore = Datastore(requireContext())
                                 lifecycleScope.launch {
                                     datastore.saveToDatastore(it, requireContext())
+
+                                    access=it.access.toString()
                                     activity?.finish()
+                                    Navigation.findNavController(view)
+                                        .navigate(R.id.action_login_Fragment_to_dashboard)
                                 }
                                 })
-                            Navigation.findNavController(view)
-                                .navigate(R.id.action_login_Fragment_to_dashboard)
+
                         }
 
                         is Response.Error -> {

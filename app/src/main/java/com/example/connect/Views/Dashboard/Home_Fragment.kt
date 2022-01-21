@@ -1,6 +1,8 @@
 package com.example.connect.Views.Dashboard
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,12 +33,15 @@ class Home_Fragment :Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
     private var adapter= HomePageAdapter()
+    private var images:ArrayList<Uri?>?=null
+    private val PICK_IMAGE_CODE=0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
+        images= ArrayList()
         recyclerView= binding.postRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
@@ -52,10 +57,44 @@ class Home_Fragment :Fragment() {
             Navigation.findNavController(view)
                 .navigate(R.id.action_home_Fragment_to_post_Fragment)
         }
+        binding.pickImages.setOnClickListener {
+            pickImages()
+        }
         return view
     }
 
 
+    private fun pickImages(){
+        val intent=Intent()
+        intent.type="image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true)
+        intent.action=Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent,"Select Image(s)"),PICK_IMAGE_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode==PICK_IMAGE_CODE){
+            if(resultCode==Activity.RESULT_OK){
+
+                if (data!!.clipData != null){
+
+                    val count=data.clipData!!.itemCount
+                    for(i in 0 until count)
+                    {
+                        val imageUri=data.clipData!!.getItemAt(i).uri
+                        images!!.add(imageUri)
+                    }
+                }
+                else{
+                    val imageUri=data.data
+                }
+            }
+        }
+       // Toast.makeText(this, images, Toast.LENGTH_SHORT).show()
+        Log.i("Images", "onActivityResult: ${images.toString()}")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

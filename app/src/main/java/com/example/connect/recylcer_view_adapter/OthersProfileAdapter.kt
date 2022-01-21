@@ -37,7 +37,7 @@ class OthersProfileAdapter () : RecyclerView.Adapter<OthersProfileAdapter.HomeVi
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
 
         val post = Posts[position]
-        holder.otherspost.load(post.post_image?.get(0)?.images?.trim()){
+        holder.otherspost.load(post.post_image?.get(0)?.images){
             crossfade(true)
           //  placeholder(R.drawable.i)
         }

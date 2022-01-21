@@ -10,9 +10,9 @@ import retrofit2.Call
 import retrofit2.Callback
 
 class CreatePasswordRepo {
-    private val passwordLiveData= MutableLiveData<Response<ResponseBody>>()
+    private val passwordLiveData= MutableLiveData<Response<AuthDataClass>>()
     var userData = MutableLiveData<AuthDataClass>()
-    val passwordResponse: LiveData<Response<ResponseBody>>
+    val passwordResponse: LiveData<Response<AuthDataClass>>
         get()=passwordLiveData
 
     fun passwordApi(email:String,name:String,password:String,username:String) {
@@ -27,21 +27,22 @@ class CreatePasswordRepo {
             )
         )
         passwordLiveData.postValue(Response.Loading())
-        call.enqueue(object : Callback<ResponseBody?> {
+        call.enqueue(object : Callback<AuthDataClass?> {
             override fun onResponse(
-                call: Call<ResponseBody?>,
-                response: retrofit2.Response<ResponseBody?>
+                call: Call<AuthDataClass?>,
+                response: retrofit2.Response<AuthDataClass?>
             ) {
                 if (response.isSuccessful) {
 
                     passwordLiveData.postValue(Response.Success(response.body()))
+                    userData.value=response.body()
 
                 } else {
-                    passwordLiveData.postValue(Response.Error(response.message()))
+                    passwordLiveData.postValue(Response.Error(response.code().toString()))
                 }
             }
 
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+            override fun onFailure(call: Call<AuthDataClass?>, t: Throwable) {
                 passwordLiveData.postValue(Response.Error("Something went wrong ${t.message}"))
             }
         })
@@ -56,15 +57,15 @@ class CreatePasswordRepo {
             )
         )
         passwordLiveData.postValue(Response.Loading())
-        call.enqueue(object : Callback<ResponseBody?> {
+        call.enqueue(object : Callback<AuthDataClass?> {
             override fun onResponse(
-                call: Call<ResponseBody?>,
-                response: retrofit2.Response<ResponseBody?>
+                call: Call<AuthDataClass?>,
+                response: retrofit2.Response<AuthDataClass?>
             ) {
                 if (response.isSuccessful) {
 
                     passwordLiveData.postValue(Response.Success(response.body()))
-
+                    userData.value=response.body()
                 }
                 else if(response.code()==403)
                 {
@@ -79,7 +80,7 @@ class CreatePasswordRepo {
                 }
             }
 
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+            override fun onFailure(call: Call<AuthDataClass?>, t: Throwable) {
                 passwordLiveData.postValue(Response.Error("Something went wrong ${t.message}"))
             }
         })

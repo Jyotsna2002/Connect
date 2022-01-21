@@ -59,7 +59,7 @@
             app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/change_dp"
+            android:id="@+id/pickImages"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@color/white"

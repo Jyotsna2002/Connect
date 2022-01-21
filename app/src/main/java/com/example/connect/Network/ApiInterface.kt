@@ -13,13 +13,13 @@ interface ApiInterface {
     @POST("/api/signup/verify/")
     fun otp(@Body data: AuthDataClass): Call<ResponseBody>
     @POST("/api/signup/")
-    fun createPassword(@Body data: AuthDataClass): Call<ResponseBody>
+    fun createPassword(@Body data: AuthDataClass): Call<AuthDataClass>
     @POST("/api/reset/")
     fun Verify(@Body data: AuthDataClass): Call<ResponseBody>
     @POST("/api/reset/verify/")
     fun EnterOtp(@Body data: AuthDataClass): Call<ResponseBody>
     @PATCH("/api/changepsw/")
-    fun ForgetPassword(@Body data: AuthDataClass): Call<ResponseBody>
+    fun ForgetPassword(@Body data: AuthDataClass): Call<AuthDataClass>
     @POST("api/createusername/")
     fun createUsername(@Body data: AuthDataClass):Call<AuthDataClass>
     @POST("/api/user/post/create/")
@@ -36,4 +36,10 @@ interface ApiInterface {
     fun searchTag(@Body data: SearchTagDataClass):Call<List<SearchTagDataClass>>
     @POST("api/user/tag/")
     fun seeTag(@Body data:OthersPost):Call<List<OthersPost>>
+    @PUT("api/user/profile/follow/")
+    fun sendRequest(@Body data:Profile):Call<ResponseBody>
+    @GET("api/user/follow/")
+    fun showRequest():Call<List<ShowFollowRequestDataClass>>
+    @POST("api/user/follow/")
+    fun acceptRequest(@Body data:ShowFollowRequestDataClass):Call<ResponseBody>
 }

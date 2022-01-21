@@ -38,6 +38,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
+import kotlin.collections.ArrayList
 
 
 class Post_Fragment : Fragment() {
@@ -46,9 +47,9 @@ class Post_Fragment : Fragment() {
     }
     private var _binding: PostFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var ImageUri: Uri
+    private lateinit var ImageUri: ArrayList<String>
     private var IMAGE_REQUEST_CODE = 100
-    var image = 0
+    var imageSet = 0
     private lateinit var postViewModel: PostViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +58,7 @@ class Post_Fragment : Fragment() {
         _binding = PostFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
         ok="3"
+        ImageUri= ArrayList()
         val builder: AlertDialog.Builder? = context?.let { AlertDialog.Builder(it) }
         val inflater = layoutInflater
         val dialogView: View = inflater.inflate(R.layout.alert_dialog_profile_picture, null)
@@ -83,7 +85,26 @@ class Post_Fragment : Fragment() {
             val caption=binding.captionEditText.text.toString().trim()
             Log.i("caption", "onActivityResult: $caption")
             postViewModel.caption.setValue(caption)
-            postViewModel.submitData()
+            if (imageSet == 1) {
+                postViewModel.imageUrl.setValue(listOf(ImageUri.toString()))
+                Log.i(
+                    "Hello",
+                    "onActivityResult: " + postViewModel.imageUrl.value
+                )
+                // Toast.makeText(context, postViewModel.imageUrl.value, Toast.LENGTH_SHORT).show()
+                imageSet = 0
+            } else {
+                postViewModel.videoUrl.setValue(listOf(it.toString()))
+                Log.i(
+                    "Hello",
+                    "onActivityResult: " + postViewModel.videoUrl.value
+                )
+            }
+            Log.i(
+                "HelloUri2",
+                "onActivityResult: $ImageUri"
+            )
+            postViewModel.submitData(ImageUri)
             postViewModel.Result.observe(viewLifecycleOwner, {
                 when (it) {
                     is Response.Success ->{ Toast.makeText(context, "Success", Toast.LENGTH_LONG)
@@ -120,9 +141,10 @@ class Post_Fragment : Fragment() {
     private fun selectImage() {
         val intent = Intent()
         intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true)
         intent.action = Intent.ACTION_GET_CONTENT
      //   Toast.makeText(context, "successfully ", Toast.LENGTH_SHORT).show()
-        image = 1
+        imageSet = 1
         startActivityForResult(intent, IMAGE_REQUEST_CODE)
     }
 
@@ -137,37 +159,44 @@ class Post_Fragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
          //   Toast.makeText(context, "F", Toast.LENGTH_SHORT).show()
-            ImageUri = data?.getData()!!
-            val progressDialog=ProgressDialog(context)
-            progressDialog.setMessage("Uploading File...")
-            progressDialog.setCancelable(false)
-            progressDialog.show()
-            val randomKey = UUID.randomUUID().toString()
-            val storageReference = FirebaseStorage.getInstance().getReference("images/" + randomKey)
-            storageReference.putFile(ImageUri)
-                .addOnSuccessListener {
-                    it.storage.downloadUrl.addOnSuccessListener {
-                        binding.post.setImageURI(ImageUri)
-                       Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT).show()
-                        if(progressDialog.isShowing)
-                            progressDialog.dismiss()
-                        if (image == 1) {
-                            postViewModel.imageUrl.setValue(listOf(it.toString()))
-                            Log.i("Hello", "onActivityResult: " + postViewModel.imageUrl.value)
-                            // Toast.makeText(context, postViewModel.imageUrl.value, Toast.LENGTH_SHORT).show()
-                            image = 0
-                        } else {
-                            postViewModel.videoUrl.setValue(listOf(it.toString()))
-                            Log.i("Hello", "onActivityResult: " + postViewModel.videoUrl.value)
-                        }
+           // ImageUri = data?.getData()!!
+            if (data!!.clipData != null) {
 
-                    }
+                val count = data.clipData!!.itemCount
+                for (i in 0 until count) {
+                    val imageUri = data.clipData!!.getItemAt(i).uri
+
+                    val progressDialog = ProgressDialog(context)
+                    progressDialog.setMessage("Uploading File...")
+                    progressDialog.setCancelable(false)
+                    progressDialog.show()
+                    val randomKey = UUID.randomUUID().toString()
+                    val storageReference =
+                        FirebaseStorage.getInstance().getReference("images/" + randomKey)
+                    storageReference.putFile(imageUri)
+                        .addOnSuccessListener {
+                            it.storage.downloadUrl.addOnSuccessListener {
+                                binding.post.setImageURI(imageUri)
+                                Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT)
+                                    .show()
+                                ImageUri!!.add(it.toString())
+                                Log.i(
+                                    "HelloUri",
+                                    "onActivityResult: $ImageUri"
+                                )
+                                if (progressDialog.isShowing)
+                                    progressDialog.dismiss()
+
+
+                            }
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                            if (progressDialog.isShowing)
+                                progressDialog.dismiss()
+                        }
                 }
-                .addOnFailureListener {
-                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-                    if(progressDialog.isShowing)
-                        progressDialog.dismiss()
-                }
+            }
         }
     }
 

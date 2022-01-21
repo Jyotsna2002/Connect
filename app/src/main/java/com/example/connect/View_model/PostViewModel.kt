@@ -22,7 +22,7 @@ class PostViewModel(private val postRepo: UploadPostRepo) : ViewModel() {
     val Result:LiveData<Response<ResponseBody>>
         get() = postResult
 
-    fun submitData() = viewModelScope.launch {
+    fun submitData(image:List<String>) = viewModelScope.launch {
         if(ok=="0")
         {
             imageUrl.value= emptyList()
@@ -34,6 +34,6 @@ class PostViewModel(private val postRepo: UploadPostRepo) : ViewModel() {
         {
             caption.value=""
         }
-        postResult= postRepo.uploadmedia(imageUrl.value,videoUrl.value,caption.value) as MutableLiveData<Response<ResponseBody>>
+        postResult= postRepo.uploadmedia(image,videoUrl.value,caption.value) as MutableLiveData<Response<ResponseBody>>
     }
 }

@@ -18,6 +18,7 @@ import com.example.connect.Repository.Datastore
 import com.example.connect.Repository.Response
 import com.example.connect.model.AuthDataClass
 import com.example.connect.Views.Auth.ForgetPassword_Fragment.Companion.email
+import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.access
 import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.forget
 import com.example.connect.Views.Dashboard.Username_Fragment.Companion.username
 import com.example.connect.databinding.CreatePasswordFragmentBinding
@@ -74,11 +75,13 @@ class CreatePassword_Fragment:Fragment() {
                                             ),
                                             requireContext()
                                         )
+                                        access=it.access.toString()
                                         activity?.finish()
+                                        Navigation.findNavController(view)
+                                            .navigate(R.id.action_createPassword_Fragment_to_dashboard)
                                     }
                                 })
-                                Navigation.findNavController(view)
-                                    .navigate(R.id.action_createPassword_Fragment_to_dashboard)
+
                             }
 
                             is Response.Error -> {
@@ -125,11 +128,13 @@ class CreatePassword_Fragment:Fragment() {
                                         ),
                                         requireContext()
                                     )
+                                    access=it.access.toString()
                                     activity?.finish()
+                                    Navigation.findNavController(view)
+                                        .navigate(R.id.action_createPassword_Fragment_to_dashboard)
                                 }
                             })
-                            Navigation.findNavController(view)
-                                .navigate(R.id.action_createPassword_Fragment_to_dashboard)
+
                         }
 
                         is Response.Error -> {

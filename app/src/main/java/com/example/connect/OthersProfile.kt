@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,10 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.connect.Dashboard.Companion.user
 import com.example.connect.Network.ServiceBuilder1
-import com.example.connect.Repository.HomePageRepo
-import com.example.connect.Repository.OthersProfilePostRepo
-import com.example.connect.Repository.OthersProfileRepo
-import com.example.connect.Repository.Response
+import com.example.connect.Repository.*
 import com.example.connect.View_model.*
 import com.example.connect.databinding.ProfileFragmentBinding
 import com.example.connect.model.HomeDataClassItem
@@ -29,6 +27,7 @@ class OthersProfile : AppCompatActivity() {
     private lateinit var binding: ProfileFragmentBinding
     private lateinit var othersprofileViewModel: OthersProfileViewModel
     private lateinit var othersprofilepostViewModel:OthersProfilePostViewModel
+    private lateinit var sendRequestViewModel:SendRequestViewModel
     private var gridLayoutManager: GridLayoutManager?=null
     private lateinit var recyclerView: RecyclerView
     private var adapter= OthersProfileAdapter()
@@ -51,6 +50,12 @@ class OthersProfile : AppCompatActivity() {
         Log.i("token", "access:${Dashboard.token}")
         val othersPostViewModelFactory=OthersProfilePostViewModelFactory(othersProfilePostRepo)
         othersprofilepostViewModel= ViewModelProvider(this,othersPostViewModelFactory)[OthersProfilePostViewModel::class.java]
+
+        val sendRequestRepo = SendRequestRepo( ServiceBuilder1.buildService(Dashboard.token))
+        Log.i("token", "access:${Dashboard.token}")
+        val sendRequestViewModelFactory = SendRequestViewModelFactory(sendRequestRepo)
+        sendRequestViewModel = ViewModelProvider(this, sendRequestViewModelFactory)[SendRequestViewModel::class.java]
+
         userid = intent.getStringExtra("USER")?.toInt()
         val UserId=userid.toString()
         othersprofileViewModel.User_id.setValue(userid)
@@ -77,6 +82,14 @@ class OthersProfile : AppCompatActivity() {
                            binding.recyclerView2.visibility=View.GONE
                            binding.AccountPrivate.visibility=View.VISIBLE
                        }
+                    if(it.data?.is_follow==true){
+                        binding.follow.text="Following"
+                           binding.follow.background.setTint(ContextCompat.getColor(this,R.color.gray ))
+                       }
+                    else{
+                        binding.follow.text="Follow"
+                        binding.follow.background.setTint(ContextCompat.getColor(this,R.color.pink ))
+                    }
 
                 }
                 is Response.Error -> {
@@ -116,8 +129,35 @@ class OthersProfile : AppCompatActivity() {
 
             }
         })
+        binding.follow.setOnClickListener {
+            sendRequestViewModel.User_id.setValue(userid)
+            sendRequestViewModel.sendRequest()
+            sendRequestViewModel.sendRequestResult.observe(this, {
+                when (it) {
+                    is Response.Success -> {
+                        Toast.makeText(this, "Request Sent", Toast.LENGTH_LONG)
+                            .show()
+                        binding.follow.text = "Following"
+                        binding.follow.background.setTint(ContextCompat.getColor(this, R.color.gray))
 
+                    }
+                    is Response.Error -> {
+                        Toast.makeText(
+                            this,
+                            it.errorMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    is Response.Loading -> {
+                        Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                }
+            })
+        }
     }
+
 
 
 }
