@@ -49,11 +49,6 @@ class Request_Fragment: Fragment() {
                         is Response.Success -> {
                             Toast.makeText(context, "Success", Toast.LENGTH_LONG)
                                 .show()
-
-                          adapter.Posts.removeAt(position)
-                            adapter.notifyItemRemoved(position)
-
-
                         }
                         is Response.Error -> {
                             Toast.makeText(
@@ -83,8 +78,6 @@ class Request_Fragment: Fragment() {
                         is Response.Success -> {
                             Toast.makeText(context, "Success", Toast.LENGTH_LONG)
                                 .show()
-                            adapter.Posts.removeAt(position)
-                            adapter.notifyItemRemoved(position)
 
                         }
                         is Response.Error -> {
@@ -101,6 +94,7 @@ class Request_Fragment: Fragment() {
 
                     }
                 })
+
             }
         })
         return view

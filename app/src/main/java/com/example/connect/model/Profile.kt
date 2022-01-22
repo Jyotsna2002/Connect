@@ -12,5 +12,6 @@ data class Profile(
     val user: Int?=null,
     val user_name: String?=null,
     val username: String?=null,
-    val user_id:Int?=null
+    val user_id:Int?=null,
+    val follow:Boolean?=null
 )

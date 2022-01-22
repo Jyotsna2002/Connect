@@ -37,9 +37,11 @@ interface ApiInterface {
     @POST("api/user/tag/")
     fun seeTag(@Body data:OthersPost):Call<List<OthersPost>>
     @PUT("api/user/profile/follow/")
-    fun sendRequest(@Body data:Profile):Call<ResponseBody>
+    fun sendRequest(@Body data:Profile):Call<EditProfileDataClass>
     @GET("api/user/follow/")
     fun showRequest():Call<List<ShowFollowRequestDataClass>>
     @POST("api/user/follow/")
     fun acceptRequest(@Body data:ShowFollowRequestDataClass):Call<ResponseBody>
+    @PATCH("api/user/profile/")
+    fun editProfile(@Body data:EditProfileDataClass):Call<ResponseBody>
 }

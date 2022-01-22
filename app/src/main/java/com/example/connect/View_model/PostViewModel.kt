@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.connect.Repository.Response
 import com.example.connect.Repository.UploadPostRepo
+import com.example.connect.Views.Dashboard.Post_Fragment.Companion.choose
 import com.example.connect.Views.Dashboard.Post_Fragment.Companion.ok
 import com.example.connect.model.PostDataClass
 import kotlinx.coroutines.launch
@@ -34,6 +35,21 @@ class PostViewModel(private val postRepo: UploadPostRepo) : ViewModel() {
         {
             caption.value=""
         }
-        postResult= postRepo.uploadmedia(image,videoUrl.value,caption.value) as MutableLiveData<Response<ResponseBody>>
+        if (choose==1) {
+            postResult = postRepo.uploadmedia(
+                image,
+                videoUrl.value,
+                caption.value
+            ) as MutableLiveData<Response<ResponseBody>>
+        }
+        else
+            if(choose==0)
+            {
+                postResult = postRepo.uploadmedia(
+                    imageUrl.value,
+                    videoUrl.value,
+                    caption.value
+                ) as MutableLiveData<Response<ResponseBody>>
+            }
     }
 }

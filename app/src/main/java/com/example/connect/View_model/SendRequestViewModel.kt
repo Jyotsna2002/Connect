@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.connect.Repository.OthersProfileRepo
 import com.example.connect.Repository.Response
 import com.example.connect.Repository.SendRequestRepo
+import com.example.connect.model.EditProfileDataClass
 import com.example.connect.model.Profile
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
@@ -15,8 +16,8 @@ import okhttp3.ResponseBody
 class SendRequestViewModel(private val sendRequestRepo: SendRequestRepo) : ViewModel() {
     var User_id =  MutableLiveData<Int>()
 
-    private var SendRequestResult: MutableLiveData<Response<ResponseBody>> = MutableLiveData()
-    val sendRequestResult: LiveData<Response<ResponseBody>>
+    private var SendRequestResult: MutableLiveData<Response<EditProfileDataClass>> = MutableLiveData()
+    val sendRequestResult: LiveData<Response<EditProfileDataClass>>
         get() = SendRequestResult
     fun sendRequest() = viewModelScope.launch {
         Log.i("User", "onActivityResult: ${User_id.value?.toInt()}")

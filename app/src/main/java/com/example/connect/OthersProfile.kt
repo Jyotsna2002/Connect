@@ -82,7 +82,7 @@ class OthersProfile : AppCompatActivity() {
                            binding.recyclerView2.visibility=View.GONE
                            binding.AccountPrivate.visibility=View.VISIBLE
                        }
-                    if(it.data?.is_follow==true){
+                    if(it.data?.follow==true){
                         binding.follow.text="Following"
                            binding.follow.background.setTint(ContextCompat.getColor(this,R.color.gray ))
                        }
@@ -137,9 +137,15 @@ class OthersProfile : AppCompatActivity() {
                     is Response.Success -> {
                         Toast.makeText(this, "Request Sent", Toast.LENGTH_LONG)
                             .show()
+                        if(it.data?.follow==true){
                         binding.follow.text = "Following"
                         binding.follow.background.setTint(ContextCompat.getColor(this, R.color.gray))
-
+                        }
+                        else
+                        {
+                            binding.follow.text="Follow"
+                            binding.follow.background.setTint(ContextCompat.getColor(this,R.color.pink ))
+                        }
                     }
                     is Response.Error -> {
                         Toast.makeText(

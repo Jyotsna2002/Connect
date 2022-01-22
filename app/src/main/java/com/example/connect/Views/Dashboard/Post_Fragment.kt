@@ -44,12 +44,15 @@ import kotlin.collections.ArrayList
 class Post_Fragment : Fragment() {
     companion object{
         lateinit var ok:String
+        var choose=1
     }
     private var _binding: PostFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var ImageUri: ArrayList<String>
+    private lateinit var Imageuri:Uri
     private var IMAGE_REQUEST_CODE = 100
     var imageSet = 0
+
     private lateinit var postViewModel: PostViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,26 +88,22 @@ class Post_Fragment : Fragment() {
             val caption=binding.captionEditText.text.toString().trim()
             Log.i("caption", "onActivityResult: $caption")
             postViewModel.caption.setValue(caption)
-            if (imageSet == 1) {
-                postViewModel.imageUrl.setValue(listOf(ImageUri.toString()))
-                Log.i(
-                    "Hello",
-                    "onActivityResult: " + postViewModel.imageUrl.value
-                )
-                // Toast.makeText(context, postViewModel.imageUrl.value, Toast.LENGTH_SHORT).show()
-                imageSet = 0
-            } else {
                 postViewModel.videoUrl.setValue(listOf(it.toString()))
                 Log.i(
                     "Hello",
                     "onActivityResult: " + postViewModel.videoUrl.value
                 )
-            }
+
             Log.i(
                 "HelloUri2",
                 "onActivityResult: $ImageUri"
             )
+            if(choose==1)
             postViewModel.submitData(ImageUri)
+            else if(choose==0) {
+
+                postViewModel.submitData(ImageUri)
+            }
             postViewModel.Result.observe(viewLifecycleOwner, {
                 when (it) {
                     is Response.Success ->{ Toast.makeText(context, "Success", Toast.LENGTH_LONG)
@@ -130,7 +129,6 @@ class Post_Fragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val postRepo = UploadPostRepo(ServiceBuilder1.buildService(token))
         Log.i("token", "access:$token")
         val postViewModelFactory = PostViewModelFactory(postRepo)
@@ -143,7 +141,6 @@ class Post_Fragment : Fragment() {
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true)
         intent.action = Intent.ACTION_GET_CONTENT
-     //   Toast.makeText(context, "successfully ", Toast.LENGTH_SHORT).show()
         imageSet = 1
         startActivityForResult(intent, IMAGE_REQUEST_CODE)
     }
@@ -151,17 +148,14 @@ class Post_Fragment : Fragment() {
     private fun pickVideoGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "video/*"
-      //  Toast.makeText(context, "successfully ", Toast.LENGTH_SHORT).show()
         startActivityForResult(intent, IMAGE_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-         //   Toast.makeText(context, "F", Toast.LENGTH_SHORT).show()
-           // ImageUri = data?.getData()!!
             if (data!!.clipData != null) {
-
+                choose=1
                 val count = data.clipData!!.itemCount
                 for (i in 0 until count) {
                     val imageUri = data.clipData!!.getItemAt(i).uri
@@ -196,6 +190,37 @@ class Post_Fragment : Fragment() {
                                 progressDialog.dismiss()
                         }
                 }
+            }
+            else
+            {
+                choose=0
+              Imageuri = data.getData()!!
+                val progressDialog = ProgressDialog(context)
+                progressDialog.setMessage("Uploading File...")
+                progressDialog.setCancelable(false)
+                progressDialog.show()
+                val randomKey = UUID.randomUUID().toString()
+                val storageReference =
+                    FirebaseStorage.getInstance().getReference("images/" + randomKey)
+                storageReference.putFile(Imageuri)
+                    .addOnSuccessListener {
+                        it.storage.downloadUrl.addOnSuccessListener {
+                            binding.post.setImageURI(Imageuri)
+                            Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT)
+                                .show()
+                            postViewModel.imageUrl.setValue(listOf(it.toString()))
+
+                            if (progressDialog.isShowing)
+                                progressDialog.dismiss()
+
+
+                        }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                        if (progressDialog.isShowing)
+                            progressDialog.dismiss()
+                    }
             }
         }
     }
