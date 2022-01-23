@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/postsee"
+            android:layout_width="379dp"
+            android:layout_height="285dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="57dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/uploadstory"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:backgroundTint="#EE336F"
+            android:clickable="true"
+            android:enabled="true"
+            android:focusable="true"
+            android:text="Post"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postsee" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

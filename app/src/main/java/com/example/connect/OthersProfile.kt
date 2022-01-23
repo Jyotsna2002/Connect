@@ -85,7 +85,7 @@ class OthersProfile : AppCompatActivity() {
                     if(it.data?.follow==true){
                         binding.follow.text="Following"
                            binding.follow.background.setTint(ContextCompat.getColor(this,R.color.gray ))
-                       }
+                    }
                     else{
                         binding.follow.text="Follow"
                         binding.follow.background.setTint(ContextCompat.getColor(this,R.color.pink ))
@@ -140,6 +140,7 @@ class OthersProfile : AppCompatActivity() {
                         if(it.data?.follow==true){
                         binding.follow.text = "Following"
                         binding.follow.background.setTint(ContextCompat.getColor(this, R.color.gray))
+
                         }
                         else
                         {

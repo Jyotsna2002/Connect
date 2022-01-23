@@ -54,6 +54,9 @@
             android:layout_height="84dp"
             android:scaleType="centerCrop"
             android:src="@drawable/circle_image"
+            app:strokeColor="@color/pink"
+            app:strokeWidth="3dp"
+            android:padding="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView" />
@@ -73,9 +76,9 @@
             app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="84dp"
+            android:id="@+id/homeStoryrecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/user_image"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -84,9 +87,23 @@
             android:id="@+id/postRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/homeStoryrecyclerView" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Your Story"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/user_image"
+            app:layout_constraintStart_toStartOf="@+id/user_image"
+            app:layout_constraintTop_toBottomOf="@+id/user_image" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </ScrollView>

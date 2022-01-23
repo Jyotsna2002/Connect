@@ -11,22 +11,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.connect.CreateStory
 import com.example.connect.Dashboard.Companion.token
 import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.OthersProfile
 import com.example.connect.R
+import com.example.connect.Repository.CreateStoryRepo
 import com.example.connect.Repository.HomePageRepo
+import com.example.connect.Repository.HomeStoryRepo
 import com.example.connect.Repository.Response
-import com.example.connect.View_model.HomePageViewModelFactory
-import com.example.connect.View_model.HomeViewModel
+import com.example.connect.ShowStory
+import com.example.connect.View_model.*
 import com.example.connect.databinding.HomeFragmentBinding
 import com.example.connect.model.HomeDataClassItem
+import com.example.connect.model.HomeStoryDataClass
 import com.example.connect.recylcer_view_adapter.HomePageAdapter
+import com.example.connect.recylcer_view_adapter.HomeStoryAdapter
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 import kotlin.collections.ArrayList
@@ -35,17 +41,17 @@ class Home_Fragment :Fragment() {
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var homeStoryViewModel: HomeStoryViewModel
     private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView2: RecyclerView
     private var adapter= HomePageAdapter()
-    private lateinit var ImageUri: ArrayList<String>
-    private var IMAGE_REQUEST_CODE = 100
+    private lateinit var adapter2:HomeStoryAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-        ImageUri= ArrayList()
         recyclerView= binding.postRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
@@ -57,67 +63,33 @@ class Home_Fragment :Fragment() {
                 startActivity(intent)
             }
         })
+        recyclerView2=binding.homeStoryrecyclerView
+        adapter2=HomeStoryAdapter(requireContext())
+        recyclerView2.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView2.adapter = adapter2
+        adapter2.setOnItemClickListener(object : HomeStoryAdapter.onItemClickListener {
+            override fun onItemClick(position: Int) {
+                val intent = Intent(context,ShowStory ::class.java)
+                intent.putExtra("USER", adapter2.Posts[position].user.toString())
+                Log.i("userId", "onActivityResult:" +adapter.Posts[position].user.toString())
+                startActivity(intent)
+            }
+        })
+
+        binding.pickImages.setOnClickListener {
+            val intent = Intent(context, CreateStory::class.java)
+            startActivity(intent)
+
+        }
         binding.messenger.setOnClickListener {
             Navigation.findNavController(view)
                 .navigate(R.id.action_home_Fragment_to_post_Fragment)
+
         }
-        binding.pickImages.setOnClickListener {
-            pickImages()
-        }
+
         return view
     }
 
-
-    private fun pickImages(){
-        val intent=Intent()
-        intent.type="image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true)
-        intent.action=Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent, IMAGE_REQUEST_CODE)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            if (data!!.clipData != null) {
-
-                val count = data.clipData!!.itemCount
-                for (i in 0 until count) {
-                    val imageUri = data.clipData!!.getItemAt(i).uri
-
-                    val progressDialog = ProgressDialog(context)
-                    progressDialog.setMessage("Uploading File...")
-                    progressDialog.setCancelable(false)
-                    progressDialog.show()
-                    val randomKey = UUID.randomUUID().toString()
-                    val storageReference =
-                        FirebaseStorage.getInstance().getReference("images/" + randomKey)
-                    storageReference.putFile(imageUri)
-                        .addOnSuccessListener {
-                            it.storage.downloadUrl.addOnSuccessListener {
-//                                binding.post.setImageURI(imageUri)
-                                Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT)
-                                    .show()
-                                ImageUri!!.add(it.toString())
-                                Log.i(
-                                    "HelloUri",
-                                    "onActivityResult: $ImageUri"
-                                )
-                                if (progressDialog.isShowing)
-                                    progressDialog.dismiss()
-
-
-                            }
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-                            if (progressDialog.isShowing)
-                                progressDialog.dismiss()
-                        }
-                }
-            }
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -139,6 +111,11 @@ class Home_Fragment :Fragment() {
         val homeViewModelFactory = HomePageViewModelFactory(postshowRepo)
         homeViewModel = ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
         homeViewModel.submitPost()
+
+        val homestoryRepo = HomeStoryRepo(ServiceBuilder1.buildService(token))
+        val homeStoryViewModelFactory = HomeStoryViewModelFactory(homestoryRepo)
+        homeStoryViewModel = ViewModelProvider(this, homeStoryViewModelFactory)[HomeStoryViewModel::class.java]
+        homeStoryViewModel.HomeStory()
 
     }
 
@@ -165,5 +142,29 @@ class Home_Fragment :Fragment() {
 
             }
         })
+
+        homeStoryViewModel.homeStoryResult.observe(viewLifecycleOwner, {
+            when (it) {
+                is Response.Success -> {
+                    Toast.makeText(context, "Success", Toast.LENGTH_LONG)
+                        .show()
+                    adapter2.setUpdatedData(it.data as ArrayList<HomeStoryDataClass>)
+                    binding.userImage.setStrokeColorResource(R.color.gray)
+                }
+                is Response.Error -> {
+                    Toast.makeText(
+                        context,
+                        it.errorMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is Response.Loading -> {
+                    Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
+                        .show()
+                }
+
+            }
+        })
+
     }
 }

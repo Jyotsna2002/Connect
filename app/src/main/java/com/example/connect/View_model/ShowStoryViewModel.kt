@@ -6,26 +6,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.connect.Repository.EditProfileRepo
 import com.example.connect.Repository.Response
+import com.example.connect.Repository.ShowStoryRepo
 import com.example.connect.Repository.UploadPostRepo
 import com.example.connect.Views.Dashboard.Post_Fragment.Companion.choose
 import com.example.connect.Views.Dashboard.Post_Fragment.Companion.ok
 import com.example.connect.model.PostDataClass
+import com.example.connect.model.ShowStoryDataClass
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
 
-class EditProfileViewModel(private val editRepo: EditProfileRepo) : ViewModel() {
+class ShowStoryViewModel(private val ShowStoryRepo: ShowStoryRepo) : ViewModel() {
 
-    var Username = MutableLiveData<String>()
-    var Bio = MutableLiveData<String>()
-    var ProfilePhoto =  MutableLiveData<String>()
+    var UserId = MutableLiveData<Int>()
 
-    private var EditResult:MutableLiveData<Response<ResponseBody>> = MutableLiveData()
-    val editResult:LiveData<Response<ResponseBody>>
-        get() = EditResult
+    private var ShowStoryResult:MutableLiveData<Response<List<ShowStoryDataClass>>> = MutableLiveData()
+    val showStoryResult:LiveData<Response<List<ShowStoryDataClass>>>
+        get() = ShowStoryResult
 
-    fun EditProfileSubmitData() = viewModelScope.launch {
-        EditResult =editRepo.EditProfile(Username.value, Bio.value, ProfilePhoto.value)
+    fun ShowStorySubmitData() = viewModelScope.launch {
+        ShowStoryResult =ShowStoryRepo.ShowStory(UserId.value)
 
     }
 }

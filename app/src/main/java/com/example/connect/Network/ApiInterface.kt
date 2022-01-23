@@ -44,4 +44,10 @@ interface ApiInterface {
     fun acceptRequest(@Body data:ShowFollowRequestDataClass):Call<ResponseBody>
     @PATCH("api/user/profile/")
     fun editProfile(@Body data:EditProfileDataClass):Call<ResponseBody>
+    @GET("api/user/home/story/")
+    fun homeStory():Call<List<HomeStoryDataClass>>
+    @POST("api/user/story/")
+    fun createStory(@Body data:CreateStoryDataClass):Call<CreateStoryDataClass>
+    @POST("api/user/story/get/")
+    fun showStory(@Body data:ShowStoryDataClass):Call<List<ShowStoryDataClass>>
 }

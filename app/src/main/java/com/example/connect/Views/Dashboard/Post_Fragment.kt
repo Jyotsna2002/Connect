@@ -86,13 +86,10 @@ class Post_Fragment : Fragment() {
                 binding.upload.isClickable=false
             }
             val caption=binding.captionEditText.text.toString().trim()
-            Log.i("caption", "onActivityResult: $caption")
+
             postViewModel.caption.setValue(caption)
-                postViewModel.videoUrl.setValue(listOf(it.toString()))
-                Log.i(
-                    "Hello",
-                    "onActivityResult: " + postViewModel.videoUrl.value
-                )
+            Log.i("caption", "onActivityResult: $caption")
+
 
             Log.i(
                 "HelloUri2",
@@ -190,6 +187,10 @@ class Post_Fragment : Fragment() {
                                 progressDialog.dismiss()
                         }
                 }
+                Log.i(
+                    "HelloUrihlooo",
+                    "onActivityResult: $ImageUri"
+                )
             }
             else
             {
@@ -208,8 +209,16 @@ class Post_Fragment : Fragment() {
                             binding.post.setImageURI(Imageuri)
                             Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT)
                                 .show()
-                            postViewModel.imageUrl.setValue(listOf(it.toString()))
-
+                            if(imageSet==1) {
+                                postViewModel.imageUrl.setValue(listOf(it.toString()))
+                            }
+                            else {
+                                postViewModel.videoUrl.setValue(listOf(it.toString()))
+                                Log.i(
+                                    "Hello",
+                                    "onActivityResult: " + postViewModel.videoUrl.value
+                                )
+                            }
                             if (progressDialog.isShowing)
                                 progressDialog.dismiss()
 

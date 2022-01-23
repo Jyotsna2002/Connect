@@ -28,13 +28,11 @@ class PostViewModel(private val postRepo: UploadPostRepo) : ViewModel() {
         {
             imageUrl.value= emptyList()
         }
-        else if(ok=="1"){
+        else if(ok=="1")
+        {
             videoUrl.value= emptyList()
         }
-        else
-        {
-            caption.value=""
-        }
+
         if (choose==1) {
             postResult = postRepo.uploadmedia(
                 image,
