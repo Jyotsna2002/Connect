@@ -19,13 +19,14 @@ class EditProfileViewModel(private val editRepo: EditProfileRepo) : ViewModel() 
     var Username = MutableLiveData<String>()
     var Bio = MutableLiveData<String>()
     var ProfilePhoto =  MutableLiveData<String>()
+    var private= MutableLiveData<Boolean>()
 
     private var EditResult:MutableLiveData<Response<ResponseBody>> = MutableLiveData()
     val editResult:LiveData<Response<ResponseBody>>
         get() = EditResult
 
     fun EditProfileSubmitData() = viewModelScope.launch {
-        EditResult =editRepo.EditProfile(Username.value, Bio.value, ProfilePhoto.value)
+        EditResult =editRepo.EditProfile(Username.value, Bio.value, ProfilePhoto.value,private.value)
 
     }
 }

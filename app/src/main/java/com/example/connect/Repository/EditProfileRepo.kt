@@ -13,13 +13,14 @@ import retrofit2.Callback
 
 class EditProfileRepo(private val service: ApiInterface) {
     private val EditLiveData= MutableLiveData<Response<ResponseBody>>()
-    fun EditProfile(Username:String?,Bio:String?,Profile:String?): MutableLiveData<Response<ResponseBody>> {
-        Log.i("Profile", "Respone $Username$Profile$Bio")
+    fun EditProfile(Username:String?,Bio:String?,Profile:String?,Private:Boolean?): MutableLiveData<Response<ResponseBody>> {
+        Log.i("Profile", "Respone $Username$Profile$Bio$Private")
         val call=service.editProfile(
             EditProfileDataClass(
                username = Username,
                 bio = Bio,
-                profile_photo=Profile
+                profile_photo=Profile,
+                is_private = Private
             )
         )
         EditLiveData.postValue(Response.Loading())

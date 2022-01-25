@@ -21,9 +21,11 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
     private var mlistner2: onItemClickListener2? = null
     private var mlistner3: onItemClickListener3? = null
     private var mlistner4: onItemClickListener4? = null
+    private var mlistner5: onItemClickListener5? = null
 
     companion object {
         var click: Boolean? = null
+        var book: Boolean?=null
     }
     interface onItemClickListener {
 
@@ -42,6 +44,10 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
 
         fun onItemClick4(position: Int)
     }
+    interface onItemClickListener5 {
+
+        fun onItemClick5(position: Int)
+    }
     fun setOnItemClickListener(listener: onItemClickListener) {
         mlistner = listener
     }
@@ -53,6 +59,9 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
     }
     fun setOnItemClickListener4(listener4: onItemClickListener4){
         mlistner4=listener4
+    }
+    fun setOnItemClickListener5(listener5: onItemClickListener5){
+        mlistner5=listener5
     }
     fun setUpdatedData( Posts: ArrayList<HomeDataClassItem>){
         if (Posts.isEmpty())
@@ -68,7 +77,7 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.post, parent, false)
-        return HomeViewHolder(view,mlistner,mlistner2,mlistner3,mlistner4)
+        return HomeViewHolder(view,mlistner,mlistner2,mlistner3,mlistner4,mlistner5)
 
     }
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
@@ -82,29 +91,32 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
             crossfade(true)
             placeholder(R.drawable.ic_launcher_background)
         }
+        holder.userImage.load(post.profile_picture){
+            crossfade(true)
+            placeholder(R.drawable.ic_baseline_circle_24)
+        }
         click=post.Like
+        book=post.bookmarked
         if(click == true) {
             holder.like.setImageResource(R.drawable.ic_thumbs_up2)
         }
         else{
             holder.like.setImageResource(R.drawable.ic_thumbs_up)
         }
-//
-//        holder.share.setOnClickListener {
-//            val intent=Intent()
-//            intent.action=Intent.ACTION_SEND
-//            intent.putExtra(Intent.EXTRA_TEXT,post.post_image?.get(0)?.images)
-//            intent.type="image/*"
-//            startActivity(Intent.createChooser(intent,"Start to..."))
-//
-//        }
+        if(book == true) {
+            holder.Bookmark.setImageResource(R.drawable.ic_bookmark2)
+        }
+        else{
+            holder.Bookmark.setImageResource(R.drawable.ic_bookmark)
+        }
+
     }
 
     override fun getItemCount(): Int {
         return Posts.size
     }
 
-    class HomeViewHolder(itemView: View,listener: onItemClickListener?,listener2: onItemClickListener2?,listener3: onItemClickListener3?,listener4: onItemClickListener4?) :
+    class HomeViewHolder(itemView: View,listener: onItemClickListener?,listener2: onItemClickListener2?,listener3: onItemClickListener3?,listener4: onItemClickListener4?,listener5: onItemClickListener5?) :
         RecyclerView.ViewHolder(itemView) {
 
         var postImage=itemView.findViewById<ImageView>(R.id.postImage)
@@ -115,6 +127,8 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
         var like=itemView.findViewById<ImageView>(R.id.Like)
         var share=itemView.findViewById<ImageView>(R.id.ShareBtn)
         val comment=itemView.findViewById<ImageView>(R.id.commentImg)
+        val Bookmark=itemView.findViewById<ImageView>(R.id.imageView5)
+        val userImage=itemView.findViewById<ImageView>(R.id.user_image)
 
 
         init {
@@ -129,15 +143,14 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
             }
             share.setOnClickListener {
                 listener3?.onItemClick3(adapterPosition)
-                if(click == true) {
-                    like.setImageResource(R.drawable.ic_thumbs_up2)
-                }
-                else{
-                    like.setImageResource(R.drawable.ic_thumbs_up)
-                }
+
             }
             comment.setOnClickListener {
                 listener4?.onItemClick4(adapterPosition)
+
+            }
+            Bookmark.setOnClickListener {
+                listener5?.onItemClick5(adapterPosition)
 
             }
         }

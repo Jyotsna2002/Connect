@@ -1,5 +1,6 @@
 package com.example.connect
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,33 +9,119 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Network.ServiceBuilder1
-import com.example.connect.Repository.OthersProfileRepo
-import com.example.connect.Repository.Response
-import com.example.connect.Repository.SeeTagPostRepo
+import com.example.connect.Repository.*
 import com.example.connect.View_model.*
 import com.example.connect.databinding.ActivityPostBinding
 import com.example.connect.databinding.PostBinding
 import com.example.connect.databinding.ProfileFragmentBinding
 import com.example.connect.model.OthersPost
+import com.example.connect.recylcer_view_adapter.HomePageAdapter
 import com.example.connect.recylcer_view_adapter.OthersProfileAdapter
 import com.example.connect.recylcer_view_adapter.SeeTagAdapter
 
 class Post : AppCompatActivity() {
     private lateinit var binding: ActivityPostBinding
     private lateinit var seeTagViewModel: SeeTagViewModel
+    private lateinit var likeStoryViewModel: LikeStoryViewModel
+    private lateinit var createBookmarkViewModel: CreateBookmarkViewModel
     var Tag: String?=null
     private lateinit var recyclerView: RecyclerView
     private var adapter= SeeTagAdapter()
+    var PostId:Int?=null
+    var Post:Int?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =ActivityPostBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        Tag = intent.getStringExtra("USER")
+        Log.i("tag", "access:$Tag")
         recyclerView= binding.seePost
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
-        Tag = intent.getStringExtra("USER")
-        Log.i("tag", "access:$Tag")
+        val likestoryRepo = LikePostRepo(ServiceBuilder1.buildService(Dashboard.token))
+        val likeStoryViewModelFactory = LikeStoryViewModelFactory(likestoryRepo)
+        likeStoryViewModel = ViewModelProvider(this, likeStoryViewModelFactory)[LikeStoryViewModel::class.java]
+
+        val createBookmarkRepo = CreateBookmarkRepo(ServiceBuilder1.buildService(Dashboard.token))
+        val createBookmarkViewModelFactory = CreateBookmarkViewModelFactory(createBookmarkRepo)
+        createBookmarkViewModel = ViewModelProvider(this, createBookmarkViewModelFactory)[CreateBookmarkViewModel::class.java]
+
+        adapter.setOnItemClickListener(object : SeeTagAdapter.onItemClickListener {
+            override fun onItemClick(position: Int) {
+                val intent = Intent(this@Post, OthersProfile::class.java)
+                intent.putExtra("USER", adapter.Posts[position].user.toString())
+                Log.i("userId", "onActivityResult:" +adapter.Posts[position].user.toString())
+                startActivity(intent)
+            }
+        })
+        adapter.setOnItemClickListener2(object : SeeTagAdapter.onItemClickListener2 {
+            override fun onItemClick2(position: Int) {
+                PostId=adapter.Posts[position].post_id
+                likeStoryViewModel.PostId.setValue(PostId)
+                likeStoryViewModel.LikeStorySubmitData()
+                likeStoryViewModel.likePostStoryResult.observe(this@Post, {
+                    when (it) {
+                        is Response.Success -> {
+
+
+
+                            seeTagViewModel.submitTagPost()                        }
+                        is Response.Error -> {
+                            Toast.makeText(
+                                this@Post,
+                                it.errorMessage,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+
+                    }
+                })
+
+            }
+        })
+
+        adapter.setOnItemClickListener3(object : SeeTagAdapter.onItemClickListener3 {
+            override fun onItemClick3(position: Int) {
+                val shareIntent = Intent()
+                shareIntent.action = Intent.ACTION_SEND
+                shareIntent.putExtra(Intent.EXTRA_TEXT,adapter.Posts[position].post_image?.get(0)?.images)
+                shareIntent.type = "text/*"
+                startActivity(Intent.createChooser(shareIntent, "share movie to"))
+            }
+        })
+
+        adapter.setOnItemClickListener4(object : SeeTagAdapter.onItemClickListener4 {
+            override fun onItemClick4(position: Int) {
+                val intent = Intent(this@Post, Comment::class.java)
+                intent.putExtra("USER", adapter.Posts[position].post_id.toString())
+                Log.i("userId", "onActivityResult:" +adapter.Posts[position].post_id.toString())
+                startActivity(intent)
+            }
+        })
+        adapter.setOnItemClickListener5(object : SeeTagAdapter.onItemClickListener5 {
+            override fun onItemClick5(position: Int) {
+                Post=adapter.Posts[position].post_id
+                createBookmarkViewModel.PostId.setValue(Post)
+                createBookmarkViewModel.CreateBookmarkSubmitData()
+                createBookmarkViewModel.createBookmarkResult.observe(this@Post, {
+                    when (it) {
+                        is Response.Success -> {
+                            seeTagViewModel.submitTagPost()                        }
+                        is Response.Error -> {
+                            Toast.makeText(
+                                this@Post,
+                                it.errorMessage,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    }
+                })
+            }
+        })
+
         val seeTagRepo = SeeTagPostRepo( ServiceBuilder1.buildService(Dashboard.token))
         val seeTagViewModelFactory = SeeTagViewModelFactory(seeTagRepo)
         seeTagViewModel = ViewModelProvider(this, seeTagViewModelFactory)[SeeTagViewModel::class.java]
@@ -43,8 +130,7 @@ class Post : AppCompatActivity() {
         seeTagViewModel.submitTagPost()
         seeTagViewModel.seePostResult.observe(this, {
             when (it) {
-                is Response.Success ->{ Toast.makeText(this, "Success", Toast.LENGTH_LONG)
-                    .show()
+                is Response.Success ->{
 
                     adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
                 }
@@ -55,10 +141,7 @@ class Post : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+
 
             }
         })

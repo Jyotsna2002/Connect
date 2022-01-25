@@ -60,4 +60,8 @@ interface ApiInterface {
     fun showComment(@Body data:CommentDataClass):Call<List<CommentDataClass>>
     @POST("api/user/profile/bookmark/")
     fun createBookmark(@Body data:HomeDataClassItem):Call<HomeDataClassItem>
+    @GET("api/user/profile/bookmark/")
+    fun showBookMark():Call<List<OthersPost>>
+    @GET("api/user/profile/notification/")
+    fun noti():Call<List<Notificationpage>>
 }

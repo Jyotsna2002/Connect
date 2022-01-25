@@ -8,5 +8,9 @@ data class OthersPost(
     val user: Int?=null,
     val no_of_likes: Int?=null,
     val user_name:String?=null,
-    val tag:String?=null
+    val tag:String?=null,
+    val Like:Boolean?=null,
+    val Bookmark:Boolean?=null,
+    val bookmarked:Boolean?=null,
+    val profile_picture:String?=null
 )

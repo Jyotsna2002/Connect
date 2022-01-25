@@ -10,5 +10,7 @@ data class HomeDataClassItem(
     val no_of_likes: Int?=null,
     val user_name:String?=null,
     val Like:Boolean?=null,
-    val Bookmark:Boolean?=null
+    val Bookmark:Boolean?=null,
+    val bookmarked:Boolean?=null,
+    val profile_picture:String?=null
 )

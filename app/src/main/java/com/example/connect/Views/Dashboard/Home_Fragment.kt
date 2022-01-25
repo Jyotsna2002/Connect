@@ -38,11 +38,13 @@ class Home_Fragment :Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var homeStoryViewModel: HomeStoryViewModel
     private lateinit var likeStoryViewModel: LikeStoryViewModel
+    private lateinit var createBookmarkViewModel: CreateBookmarkViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerView2: RecyclerView
     private lateinit var adapter: HomePageAdapter
     private lateinit var adapter2:HomeStoryAdapter
     var PostId:Int?=null
+    var Post:Int?=null
 companion object{
     lateinit var Text5:TextView
 }
@@ -111,6 +113,28 @@ companion object{
                 startActivity(intent)
             }
         })
+        adapter.setOnItemClickListener5(object : HomePageAdapter.onItemClickListener5 {
+            override fun onItemClick5(position: Int) {
+                Post=adapter.Posts[position].post_id
+                createBookmarkViewModel.PostId.setValue(Post)
+                createBookmarkViewModel.CreateBookmarkSubmitData()
+                createBookmarkViewModel.createBookmarkResult.observe(viewLifecycleOwner, {
+                    when (it) {
+                        is Response.Success -> {
+                            homeViewModel.submitPost()
+                        }
+                        is Response.Error -> {
+                            Toast.makeText(
+                                context,
+                                it.errorMessage,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    }
+                })
+            }
+        })
         recyclerView2=binding.homeStoryrecyclerView
         adapter2=HomeStoryAdapter(requireContext())
         recyclerView2.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -173,6 +197,10 @@ companion object{
         val likeStoryViewModelFactory = LikeStoryViewModelFactory(likestoryRepo)
         likeStoryViewModel = ViewModelProvider(this, likeStoryViewModelFactory)[LikeStoryViewModel::class.java]
 
+        val createBookmarkRepo = CreateBookmarkRepo(ServiceBuilder1.buildService(token))
+        val createBookmarkViewModelFactory = CreateBookmarkViewModelFactory(createBookmarkRepo)
+        createBookmarkViewModel = ViewModelProvider(this, createBookmarkViewModelFactory)[CreateBookmarkViewModel::class.java]
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -182,6 +210,7 @@ companion object{
                 is Response.Success -> {
 
                     adapter.setUpdatedData(it.data as ArrayList<HomeDataClassItem>)
+
 
                 }
                 is Response.Error -> {

@@ -21,6 +21,7 @@ import com.example.connect.View_model.EditProfileViewModelFactory
 import com.example.connect.View_model.OthersProfileViewModel
 import com.example.connect.View_model.OthersProfileViewModelFactory
 import com.example.connect.Views.Dashboard.Post_Fragment
+import com.example.connect.Views.Dashboard.Profile_Fragment
 import com.example.connect.databinding.EditFragmentBinding
 import com.example.connect.databinding.ProfileFragmentBinding
 import com.example.connect.model.OthersPost
@@ -51,6 +52,13 @@ class EditProfile : AppCompatActivity() {
 
         binding.SaveChanges.setOnClickListener {
 
+            if (binding.checkBox.isChecked==true){
+                editViewModel.private.setValue(true)
+            }
+            else
+            {
+                editViewModel.private.setValue(false)
+            }
             val UserName=binding.changeUsernameEditText.text.toString().trim()
             val Bio=binding.SetYourBioEditText.text.toString().trim()
             editViewModel.Username.setValue(UserName)
@@ -60,6 +68,12 @@ class EditProfile : AppCompatActivity() {
                 when (it) {
                     is Response.Success ->{ Toast.makeText(this, "Success", Toast.LENGTH_LONG)
                         .show()
+
+//                        val fragmentManager = this.supportFragmentManager
+//                        val fragmentTransaction = fragmentManager.beginTransaction()
+//                        fragmentTransaction.replace(R.id.change, Profile_Fragment())
+//                        fragmentTransaction.addToBackStack(null)
+//                        fragmentTransaction.commit()
                     }
                     is Response.Error -> {
                         Toast.makeText(

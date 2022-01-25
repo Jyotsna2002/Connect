@@ -48,7 +48,7 @@ class Post_Fragment : Fragment() {
     }
     private var _binding: PostFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var ImageUri: ArrayList<String>
+   // private lateinit var ImageUri: ArrayList<String>
     private lateinit var Imageuri:Uri
     private var IMAGE_REQUEST_CODE = 100
     var imageSet = 0
@@ -61,26 +61,26 @@ class Post_Fragment : Fragment() {
         _binding = PostFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
         ok="3"
-        ImageUri= ArrayList()
-        val builder: AlertDialog.Builder? = context?.let { AlertDialog.Builder(it) }
-        val inflater = layoutInflater
-        val dialogView: View = inflater.inflate(R.layout.alert_dialog_profile_picture, null)
-        builder?.setView(dialogView)
-        val image=dialogView.findViewById<ImageView>(R.id.imageViewADPPCamera)
-        val video =dialogView.findViewById<ImageView>(R.id.imageViewADPPGallery)
-        val alertDialogProfilePicture: AlertDialog? = builder?.create()
-        alertDialogProfilePicture?.setCanceledOnTouchOutside(false)
-        alertDialogProfilePicture?.show()
-        image.setOnClickListener {
-            selectImage()
-            ok="1"
-            alertDialogProfilePicture?.dismiss()
-        }
-        video.setOnClickListener {
-            pickVideoGallery()
-            ok="0"
-            alertDialogProfilePicture?.dismiss()
-        }
+       // ImageUri= ArrayList()
+//        val builder: AlertDialog.Builder? = context?.let { AlertDialog.Builder(it) }
+//        val inflater = layoutInflater
+//        val dialogView: View = inflater.inflate(R.layout.alert_dialog_profile_picture, null)
+//        builder?.setView(dialogView)
+//        val image=dialogView.findViewById<ImageView>(R.id.imageViewADPPCamera)
+//        val video =dialogView.findViewById<ImageView>(R.id.imageViewADPPGallery)
+//        val alertDialogProfilePicture: AlertDialog? = builder?.create()
+//        alertDialogProfilePicture?.setCanceledOnTouchOutside(false)
+//        alertDialogProfilePicture?.show()
+//        image.setOnClickListener {
+//            selectImage()
+//            ok="1"
+//            alertDialogProfilePicture?.dismiss()
+//        }
+//        video.setOnClickListener {
+//            pickVideoGallery()
+//            ok="0"
+//            alertDialogProfilePicture?.dismiss()
+//        }
         binding.upload.setOnClickListener {
             if (ok !="1" || ok!="0"){
                 binding.upload.isClickable=false
@@ -91,16 +91,16 @@ class Post_Fragment : Fragment() {
             Log.i("caption", "onActivityResult: $caption")
 
 
-            Log.i(
-                "HelloUri2",
-                "onActivityResult: $ImageUri"
-            )
-            if(choose==1)
-            postViewModel.submitData(ImageUri)
-            else if(choose==0) {
+//            Log.i(
+//                "HelloUri2",
+//                "onActivityResult: $ImageUri"
+//            )
+//            if(choose==1)
+//            postViewModel.submitData(ImageUri)
+//            else if(choose==0) {
 
-                postViewModel.submitData(ImageUri)
-            }
+                postViewModel.submitData()
+//            }
             postViewModel.Result.observe(viewLifecycleOwner, {
                 when (it) {
                     is Response.Success ->{ Toast.makeText(context, "Success", Toast.LENGTH_LONG)
@@ -130,72 +130,73 @@ class Post_Fragment : Fragment() {
         Log.i("token", "access:$token")
         val postViewModelFactory = PostViewModelFactory(postRepo)
         postViewModel = ViewModelProvider(this, postViewModelFactory)[PostViewModel::class.java]
+        selectImage()
 
 
     }
     private fun selectImage() {
         val intent = Intent()
         intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true)
+      //  intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true)
         intent.action = Intent.ACTION_GET_CONTENT
-        imageSet = 1
+      //  imageSet = 1
         startActivityForResult(intent, IMAGE_REQUEST_CODE)
     }
 
-    private fun pickVideoGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "video/*"
-        startActivityForResult(intent, IMAGE_REQUEST_CODE)
-    }
+//    private fun pickVideoGallery() {
+//        val intent = Intent(Intent.ACTION_PICK)
+//        intent.type = "video/*"
+//        startActivityForResult(intent, IMAGE_REQUEST_CODE)
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            if (data!!.clipData != null) {
-                choose=1
-                val count = data.clipData!!.itemCount
-                for (i in 0 until count) {
-                    val imageUri = data.clipData!!.getItemAt(i).uri
-
-                    val progressDialog = ProgressDialog(context)
-                    progressDialog.setMessage("Uploading File...")
-                    progressDialog.setCancelable(false)
-                    progressDialog.show()
-                    val randomKey = UUID.randomUUID().toString()
-                    val storageReference =
-                        FirebaseStorage.getInstance().getReference("images/" + randomKey)
-                    storageReference.putFile(imageUri)
-                        .addOnSuccessListener {
-                            it.storage.downloadUrl.addOnSuccessListener {
-                                binding.post.setImageURI(imageUri)
-                                Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT)
-                                    .show()
-                                ImageUri!!.add(it.toString())
-                                Log.i(
-                                    "HelloUri",
-                                    "onActivityResult: $ImageUri"
-                                )
-                                if (progressDialog.isShowing)
-                                    progressDialog.dismiss()
-
-
-                            }
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-                            if (progressDialog.isShowing)
-                                progressDialog.dismiss()
-                        }
-                }
-                Log.i(
-                    "HelloUrihlooo",
-                    "onActivityResult: $ImageUri"
-                )
-            }
-            else
-            {
-                choose=0
-              Imageuri = data.getData()!!
+//            if (data!!.clipData != null) {
+//                choose=1
+//                val count = data.clipData!!.itemCount
+//                for (i in 0 until count) {
+//                    val imageUri = data.clipData!!.getItemAt(i).uri
+//
+//                    val progressDialog = ProgressDialog(context)
+//                    progressDialog.setMessage("Uploading File...")
+//                    progressDialog.setCancelable(false)
+//                    progressDialog.show()
+//                    val randomKey = UUID.randomUUID().toString()
+//                    val storageReference =
+//                        FirebaseStorage.getInstance().getReference("images/" + randomKey)
+//                    storageReference.putFile(imageUri)
+//                        .addOnSuccessListener {
+//                            it.storage.downloadUrl.addOnSuccessListener {
+//                                binding.post.setImageURI(imageUri)
+//                                Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT)
+//                                    .show()
+//                                ImageUri!!.add(it.toString())
+//                                Log.i(
+//                                    "HelloUri",
+//                                    "onActivityResult: $ImageUri"
+//                                )
+//                                if (progressDialog.isShowing)
+//                                    progressDialog.dismiss()
+//
+//
+//                            }
+//                        }
+//                        .addOnFailureListener {
+//                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+//                            if (progressDialog.isShowing)
+//                                progressDialog.dismiss()
+//                        }
+//                }
+//                Log.i(
+//                    "HelloUrihlooo",
+//                    "onActivityResult: $ImageUri"
+//                )
+//            }
+//            else
+//            {
+//                choose=0
+              Imageuri = data?.getData()!!
                 val progressDialog = ProgressDialog(context)
                 progressDialog.setMessage("Uploading File...")
                 progressDialog.setCancelable(false)
@@ -209,16 +210,16 @@ class Post_Fragment : Fragment() {
                             binding.post.setImageURI(Imageuri)
                             Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT)
                                 .show()
-                            if(imageSet==1) {
+                           // if(imageSet==1) {
                                 postViewModel.imageUrl.setValue(listOf(it.toString()))
-                            }
-                            else {
-                                postViewModel.videoUrl.setValue(listOf(it.toString()))
-                                Log.i(
-                                    "Hello",
-                                    "onActivityResult: " + postViewModel.videoUrl.value
-                                )
-                            }
+                          //  }
+                         //   else {
+//                                postViewModel.videoUrl.setValue(listOf(it.toString()))
+//                                Log.i(
+//                                    "Hello",
+//                                    "onActivityResult: " + postViewModel.videoUrl.value
+//                                )
+                          //  }
                             if (progressDialog.isShowing)
                                 progressDialog.dismiss()
 
@@ -230,7 +231,7 @@ class Post_Fragment : Fragment() {
                         if (progressDialog.isShowing)
                             progressDialog.dismiss()
                     }
-            }
+//            }
         }
     }
 
