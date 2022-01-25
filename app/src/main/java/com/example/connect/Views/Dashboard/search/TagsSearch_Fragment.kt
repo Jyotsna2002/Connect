@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -39,13 +40,16 @@ class TagsSearch_Fragment: Fragment() {
     private lateinit var searchTagViewModel:SearchTagViewModel
     private lateinit var recyclerView: RecyclerView
     var adapter= SearchTagAdapter()
-
+    companion object{
+        lateinit var Text3:TextView
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = TagsBinding.inflate(inflater, container, false)
         val view = binding.root
+        Text3=binding.textView12
         recyclerView= binding.tags
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter

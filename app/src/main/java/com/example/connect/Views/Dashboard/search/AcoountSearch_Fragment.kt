@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,13 +37,16 @@ class AcoountSearch_Fragment: Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchProfileViewModel: SearchProfileViewModel
         var adapter= SearchProfileAdapter()
-
+companion object{
+    lateinit var Text2:TextView
+}
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = AccountsBinding.inflate(inflater, container, false)
         val view = binding.root
+        Text2=binding.textView11
         recyclerView= binding.accounts
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter

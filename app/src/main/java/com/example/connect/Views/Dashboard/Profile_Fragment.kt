@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isEmpty
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -45,6 +48,9 @@ class Profile_Fragment : Fragment() {
     private var IMAGE_REQUEST_CODE = 100
     private lateinit var photo:String
     private var adapter= OthersProfileAdapter()
+    companion object{
+        lateinit var Text:TextView
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +59,7 @@ class Profile_Fragment : Fragment() {
         val view = binding.root
         binding.username.text=username
         binding.userName.text=name
+        Text=binding.textView10
         recyclerView= binding.recyclerView2
         gridLayoutManager= GridLayoutManager(context,3,
             LinearLayoutManager.VERTICAL,false)
@@ -89,6 +96,14 @@ class Profile_Fragment : Fragment() {
                     .show()
 
                     adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
+
+//                    if(recyclerView.adapter.isEmpty())
+//                    {
+//                        binding.textView10.visibility=View.VISIBLE
+//                    }
+//                    if (recyclerView.isNotEmpty()) {
+//                        binding.textView10.visibility=View.GONE
+//                    }
                 }
                 is Response.Error -> {
                     Toast.makeText(
@@ -117,10 +132,15 @@ class Profile_Fragment : Fragment() {
                     binding.followings.text=it.data?.no_of_following.toString()
                     binding.bio.text=it.data?.bio
                     photo= it.data?.profile_photo.toString()
-                    binding.ProfilePhoto.load(it.data?.profile_photo) {
-                        ImageView.ScaleType.CENTER_CROP
-                        crossfade(true)
-                        placeholder(R.drawable.ic_launcher_background)
+                    if (it.data?.profile_photo==null){
+                        binding.ProfilePhoto.setImageResource(R.drawable.ic_baseline_circle_24)
+                    }
+                    else {
+                        binding.ProfilePhoto.load(it.data?.profile_photo) {
+                            ImageView.ScaleType.CENTER_CROP
+                            crossfade(true)
+                            placeholder(R.drawable.ic_launcher_background)
+                        }
                     }
                 }
                 is Response.Error -> {

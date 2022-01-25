@@ -50,4 +50,14 @@ interface ApiInterface {
     fun createStory(@Body data:CreateStoryDataClass):Call<CreateStoryDataClass>
     @POST("api/user/story/get/")
     fun showStory(@Body data:ShowStoryDataClass):Call<List<ShowStoryDataClass>>
+//    @DELETE("api/user/story/")
+//    fun deleteStory(@Body data:ShowStoryDataClass):Call<ResponseBody>
+    @PUT("api/user/post/like/")
+    fun likePost(@Body data:LikePostDataClass):Call<LikePostDataClass>
+    @PUT("api/user/post/comment/")
+    fun createComment(@Body data:CommentDataClass):Call<CommentDataClass>
+    @POST("api/user/post/comment/")
+    fun showComment(@Body data:CommentDataClass):Call<List<CommentDataClass>>
+    @POST("api/user/profile/bookmark/")
+    fun createBookmark(@Body data:HomeDataClassItem):Call<HomeDataClassItem>
 }

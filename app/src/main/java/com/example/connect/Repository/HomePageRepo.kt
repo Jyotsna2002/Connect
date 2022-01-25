@@ -13,7 +13,7 @@ import com.example.connect.recylcer_view_adapter.HomePageAdapter
 import retrofit2.Call
 import retrofit2.Callback
 
-class HomePageRepo(private val context: Context?,private val service: ApiInterface) {
+class HomePageRepo(private val service: ApiInterface) {
 
 
 

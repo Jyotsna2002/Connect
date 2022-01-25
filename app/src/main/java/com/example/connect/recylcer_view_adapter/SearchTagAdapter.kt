@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.connect.Dashboard.Companion.name
 import com.example.connect.R
+import com.example.connect.Views.Dashboard.search.TagsSearch_Fragment.Companion.Text3
 import com.example.connect.model.HomeDataClassItem
 import com.example.connect.model.OthersPost
 import com.example.connect.model.SearchProfileDataClassItem
@@ -30,6 +31,14 @@ class SearchTagAdapter () : RecyclerView.Adapter<SearchTagAdapter.HomeViewHolder
     }
 
     fun setUpdatedData(Posts: ArrayList<SearchTagDataClass>) {
+        if (Posts.isEmpty())
+        {
+            Text3.visibility=View.VISIBLE
+        }
+        else
+        {
+            Text3.visibility=View.GONE
+        }
         this.Posts = Posts
         notifyDataSetChanged()
     }

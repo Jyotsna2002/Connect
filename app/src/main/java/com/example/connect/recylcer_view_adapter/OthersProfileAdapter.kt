@@ -10,7 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.connect.Dashboard.Companion.name
+
 import com.example.connect.R
+import com.example.connect.Views.Dashboard.Profile_Fragment.Companion.Text
 import com.example.connect.model.HomeDataClassItem
 import com.example.connect.model.OthersPost
 
@@ -26,6 +28,17 @@ class OthersProfileAdapter () : RecyclerView.Adapter<OthersProfileAdapter.HomeVi
         mlistner = listener
     }
     fun setUpdatedData( Posts: ArrayList<OthersPost>){
+
+        if(Posts.isEmpty())
+        {
+            Text.visibility=View.VISIBLE
+//            Text7.visibility=View.VISIBLE
+        }
+        else
+        {
+            Text.visibility=View.GONE
+//            Text7.visibility=View.GONE
+        }
         this.Posts=Posts
         notifyDataSetChanged()
     }

@@ -8,5 +8,6 @@ data class ShowStoryDataClass(
     val profile_picture: String?=null,
     val user: Int?=null,
     val user_id: Int?=null,
-    val user_name: String?=null
+    val user_name: String?=null,
+    val story_id: Int?=null
 )

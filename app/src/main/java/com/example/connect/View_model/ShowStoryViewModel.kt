@@ -1,5 +1,6 @@
 package com.example.connect.View_model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,6 +27,7 @@ class ShowStoryViewModel(private val ShowStoryRepo: ShowStoryRepo) : ViewModel()
 
     fun ShowStorySubmitData() = viewModelScope.launch {
         ShowStoryResult =ShowStoryRepo.ShowStory(UserId.value)
+        Log.i("userId", "onActivityResult:" +UserId.value)
 
     }
 }

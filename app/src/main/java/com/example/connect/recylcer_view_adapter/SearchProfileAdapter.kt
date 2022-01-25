@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.connect.R
+import com.example.connect.Views.Dashboard.search.AcoountSearch_Fragment.Companion.Text2
 import com.example.connect.model.SearchProfileDataClassItem
 
 class SearchProfileAdapter () : RecyclerView.Adapter<SearchProfileAdapter.HomeViewHolder>()  {
@@ -22,6 +23,14 @@ class SearchProfileAdapter () : RecyclerView.Adapter<SearchProfileAdapter.HomeVi
         mlistner = listener
     }
     fun setUpdatedData( Posts: ArrayList<SearchProfileDataClassItem>){
+        if (Posts.isEmpty())
+        {
+            Text2.visibility=View.VISIBLE
+        }
+        else
+        {
+            Text2.visibility=View.GONE
+        }
         this.Posts=Posts
         notifyDataSetChanged()
     }

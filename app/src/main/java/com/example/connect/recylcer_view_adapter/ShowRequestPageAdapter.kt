@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.connect.Dashboard.Companion.name
 import com.example.connect.R
+import com.example.connect.Views.Dashboard.notification.Request_Fragment.Companion.Text4
 import com.example.connect.model.HomeDataClassItem
 import com.example.connect.model.ShowFollowRequestDataClass
 import okhttp3.ResponseBody
@@ -35,6 +36,14 @@ class ShowRequestPageAdapter () : RecyclerView.Adapter<ShowRequestPageAdapter.Ho
         mlistner2=listener2
     }
     fun setUpdatedData(Posts: ArrayList<ShowFollowRequestDataClass>){
+        if (Posts.isEmpty())
+        {
+            Text4.visibility=View.VISIBLE
+        }
+        else
+        {
+            Text4.visibility=View.GONE
+        }
         this.Posts=Posts
         notifyDataSetChanged()
     }

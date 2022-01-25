@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -28,13 +29,16 @@ class Request_Fragment: Fragment() {
     private val binding get() = _binding!!
     private lateinit var showRequestViewModel: ShowRequestViewModel
     private lateinit var acceptRequestViewModel: AcceptRequestViewModel
+    companion object{
+        lateinit var Text4:TextView
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = RequestBinding.inflate(inflater, container, false)
         val view = binding.root
-
+        Text4=binding.textView13
         recyclerView= binding.requestRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
@@ -49,6 +53,8 @@ class Request_Fragment: Fragment() {
                         is Response.Success -> {
                             Toast.makeText(context, "Success", Toast.LENGTH_LONG)
                                 .show()
+
+                            showRequestViewModel.showRequest()
 //                            adapter.Posts.removeAt(position)
 //                            adapter.notifyDataSetChanged()
                         }
@@ -80,6 +86,8 @@ class Request_Fragment: Fragment() {
                         is Response.Success -> {
                             Toast.makeText(context, "Success", Toast.LENGTH_LONG)
                                 .show()
+
+                            showRequestViewModel.showRequest()
 //                            adapter.Posts.removeAt(position)
 //                            adapter.notifyDataSetChanged()
                         }
