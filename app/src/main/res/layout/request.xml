@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:text="No friend Requests"
         android:textSize="24sp"
+        android:fontFamily="@font/open_sans"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

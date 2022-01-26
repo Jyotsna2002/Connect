@@ -62,8 +62,7 @@ companion object{
                     searchProfileViewModel.searchProfilResult.observe(viewLifecycleOwner, {
                         when (it) {
                             is Response.Success -> {
-                                Toast.makeText(context, "Success", Toast.LENGTH_LONG)
-                                    .show()
+
                                 adapter.setUpdatedData(it.data as ArrayList<SearchProfileDataClassItem>)
                             }
                             is Response.Error -> {
@@ -72,10 +71,6 @@ companion object{
                                     it.errorMessage,
                                     Toast.LENGTH_LONG
                                 ).show()
-                            }
-                            is Response.Loading -> {
-                                Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                                    .show()
                             }
 
                         }
@@ -91,11 +86,8 @@ companion object{
         adapter.setOnItemClickListener(object : SearchProfileAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 if( adapter.Posts[position].user.toString()==user){
-                    val fragmentManager = activity?.supportFragmentManager
-                    val fragmentTransaction = fragmentManager?.beginTransaction()
-                    fragmentTransaction?.add(R.id.move, Profile_Fragment())
-                    fragmentTransaction?.addToBackStack(null)
-                    fragmentTransaction?.commit()
+                    Navigation.findNavController(view)
+                        .navigate(R.id.action_search_Fragment_to_profile_Fragment)
                 }
                 else {
                     val intent = Intent(context, OthersProfile::class.java)

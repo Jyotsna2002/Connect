@@ -27,19 +27,34 @@ import com.example.connect.databinding.ProfileFragmentBinding
 import com.example.connect.model.OthersPost
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+import kotlin.properties.Delegates
 
 class EditProfile : AppCompatActivity() {
     private lateinit var binding: EditFragmentBinding
     private var IMAGE_REQUEST_CODE = 100
     private lateinit var Imageuri: Uri
     private lateinit var profilePhoto:String
+    private lateinit var click:String
     private lateinit var editViewModel:EditProfileViewModel
+    var value:Boolean?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             binding = EditFragmentBinding.inflate(layoutInflater)
             val view = binding.root
             setContentView(view)
+        Log.d("checkbox", "onCreate:Hello")
+        click=intent.getStringExtra("CLICK").toString()
         profilePhoto= intent.getStringExtra("Photo").toString()
+        Log.i("checkbox", "onCreate:"+click)
+        if(click=="true")
+        {
+            Log.i("checkbox", "onCreate:"+value)
+            binding.checkBox.isChecked=true
+        }
+        else
+        {
+            binding.checkBox.isChecked=false
+        }
         binding.SetProfilePhoto.load(profilePhoto) {
             ImageView.ScaleType.CENTER_CROP
             crossfade(true)
@@ -66,7 +81,7 @@ class EditProfile : AppCompatActivity() {
             editViewModel.EditProfileSubmitData()
             editViewModel.editResult.observe(this, {
                 when (it) {
-                    is Response.Success ->{ Toast.makeText(this, "Success", Toast.LENGTH_LONG)
+                    is Response.Success ->{ Toast.makeText(this, "Your Profile is updated", Toast.LENGTH_LONG)
                         .show()
 
 //                        val fragmentManager = this.supportFragmentManager
@@ -82,10 +97,10 @@ class EditProfile : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    is Response.Loading -> {
-                        Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-                            .show()
-                    }
+//                    is Response.Loading -> {
+//                        Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
+//                            .show()
+//                    }
 
                 }
             })

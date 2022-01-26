@@ -157,11 +157,7 @@ companion object{
             startActivity(intent)
 
         }
-        binding.messenger.setOnClickListener {
-            Navigation.findNavController(view)
-                .navigate(R.id.action_home_Fragment_to_post_Fragment)
 
-        }
 
         return view
     }
@@ -214,11 +210,11 @@ companion object{
 
                 }
                 is Response.Error -> {
-                    Toast.makeText(
-                        context,
-                        it.errorMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        it.errorMessage,
+//                        Toast.LENGTH_LONG
+//                    ).show()
                 }
 
 
@@ -233,11 +229,11 @@ companion object{
                    // binding.userImage.setStrokeColorResource(R.color.gray)
                 }
                 is Response.Error -> {
-                    Toast.makeText(
-                        context,
-                        it.errorMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        it.errorMessage,
+//                        Toast.LENGTH_LONG
+//                    ).show()
                 }
 
 

@@ -39,8 +39,7 @@ class ShowStory : AppCompatActivity() {
 
         showStoryViewModel.showStoryResult.observe(this, {
             when (it) {
-                is Response.Success ->{ Toast.makeText(this, "Success", Toast.LENGTH_LONG)
-                    .show()
+                is Response.Success ->{
 
                         for (image in it.data?.listIterator(0)!!){
                           //  storyid=image.id
@@ -60,10 +59,7 @@ class ShowStory : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+
 
             }
         })

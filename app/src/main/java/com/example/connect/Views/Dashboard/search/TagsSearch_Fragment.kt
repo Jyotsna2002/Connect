@@ -65,8 +65,7 @@ class TagsSearch_Fragment: Fragment() {
                     searchTagViewModel.searchTagResult.observe(viewLifecycleOwner, {
                         when (it) {
                             is Response.Success -> {
-                                Toast.makeText(context, "Success", Toast.LENGTH_LONG)
-                                    .show()
+
                                 adapter.setUpdatedData(it.data as ArrayList<SearchTagDataClass>)
                             }
                             is Response.Error -> {
@@ -77,8 +76,7 @@ class TagsSearch_Fragment: Fragment() {
                                 ).show()
                             }
                             is Response.Loading -> {
-                                Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                                    .show()
+
                             }
 
                         }

@@ -103,7 +103,7 @@ class Post_Fragment : Fragment() {
 //            }
             postViewModel.Result.observe(viewLifecycleOwner, {
                 when (it) {
-                    is Response.Success ->{ Toast.makeText(context, "Success", Toast.LENGTH_LONG)
+                    is Response.Success ->{ Toast.makeText(context, "Post is sent", Toast.LENGTH_LONG)
                         .show()
                         postViewModel.caption.setValue("")
                         postViewModel.imageUrl.setValue(null)
@@ -114,9 +114,9 @@ class Post_Fragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                         }
-                    is Response.Loading -> {Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                 }
+//                    is Response.Loading -> {Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
+//                        .show()
+//                 }
 
                 }
             })

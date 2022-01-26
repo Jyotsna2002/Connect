@@ -55,8 +55,7 @@ class LikedBy_Fragment: Fragment() {
         showNotiViewModel.showNotiResult.observe(viewLifecycleOwner, {
             when (it) {
                 is Response.Success -> {
-                    Toast.makeText(context, "Success", Toast.LENGTH_LONG)
-                        .show()
+
                     adapter.setUpdatedData(it.data as ArrayList<Notificationpage>)
 
                 }
@@ -68,8 +67,7 @@ class LikedBy_Fragment: Fragment() {
                     ).show()
                 }
                 is Response.Loading -> {
-                    Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                        .show()
+
                 }
 
             }

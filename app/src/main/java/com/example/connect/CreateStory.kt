@@ -43,7 +43,7 @@ class CreateStory : AppCompatActivity() {
 
         pickImages()
         binding.uploadstory.setOnClickListener {
-
+            binding.uploadstory.isClickable=false
             if(multiple ==1) {
 
                 createStoryViewModel.submitDataCreateStory(ImageUri)
@@ -55,7 +55,7 @@ class CreateStory : AppCompatActivity() {
 
             createStoryViewModel.createStoryResult.observe(this, {
                 when (it) {
-                    is Response.Success ->{ Toast.makeText(this, "Success", Toast.LENGTH_LONG)
+                    is Response.Success ->{ Toast.makeText(this, "Your story is uploaded", Toast.LENGTH_LONG)
                         .show()
                     }
                     is Response.Error -> {
@@ -106,8 +106,8 @@ class CreateStory : AppCompatActivity() {
                         .addOnSuccessListener {
                             it.storage.downloadUrl.addOnSuccessListener {
                                 binding.postsee.setImageURI(imageUri)
-                                Toast.makeText(this, "successfully Uploaded", Toast.LENGTH_SHORT)
-                                    .show()
+//                                Toast.makeText(this, "successfully Uploaded", Toast.LENGTH_SHORT)
+//                                    .show()
                                 ImageUri!!.add(it.toString())
                                 Log.i(
                                     "HelloUri",
@@ -141,8 +141,8 @@ class CreateStory : AppCompatActivity() {
                     .addOnSuccessListener {
                         it.storage.downloadUrl.addOnSuccessListener {
                              binding.postsee.setImageURI(Imageuri)
-                            Toast.makeText(this, "successfully Uploaded", Toast.LENGTH_SHORT)
-                                .show()
+//                            Toast.makeText(this, "successfully Uploaded", Toast.LENGTH_SHORT)
+//                                .show()
                             createStoryViewModel.imageUrl.setValue(listOf(it.toString()))
                             if (progressDialog.isShowing)
                                 progressDialog.dismiss()

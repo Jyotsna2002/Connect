@@ -39,6 +39,7 @@ import com.example.connect.model.OthersPost
 import com.example.connect.recylcer_view_adapter.OthersProfileAdapter
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class Profile_Fragment : Fragment() {
     private var _binding: ProfileFragmentBinding? = null
@@ -49,6 +50,7 @@ class Profile_Fragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var IMAGE_REQUEST_CODE = 100
     private lateinit var photo:String
+    private lateinit var check :String
     private var adapter= OthersProfileAdapter()
     lateinit var toggle: ActionBarDrawerToggle
     companion object{
@@ -78,6 +80,8 @@ class Profile_Fragment : Fragment() {
         binding.editProfile.setOnClickListener {
             val intent = Intent(context, EditProfile::class.java)
             intent.putExtra("Photo", photo)
+            intent.putExtra("CHECK",check)
+            Log.i("checkbox", "onCreate:Hello")
             startActivity(intent)
         }
 
@@ -138,8 +142,7 @@ class Profile_Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         othersprofilepostViewModel.showotherProfilPostResult.observe(viewLifecycleOwner, {
             when (it) {
-                is Response.Success ->{ Toast.makeText(context, "Success", Toast.LENGTH_LONG)
-                    .show()
+                is Response.Success ->{
 
                     adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
 
@@ -151,10 +154,7 @@ class Profile_Fragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+
 
             }
         })
@@ -162,8 +162,7 @@ class Profile_Fragment : Fragment() {
         othersprofileViewModel.submitotherprofile()
         othersprofileViewModel.showotherProfilResult.observe(viewLifecycleOwner, {
             when (it) {
-                is Response.Success ->{ Toast.makeText(context, "Success", Toast.LENGTH_LONG)
-                    .show()
+                is Response.Success ->{
 
                     binding.username.text=it.data?.username
                     binding.userName.text=it.data?.user_name
@@ -171,6 +170,7 @@ class Profile_Fragment : Fragment() {
                     binding.followings.text=it.data?.no_of_following.toString()
                     binding.bio.text=it.data?.bio
                     photo= it.data?.profile_photo.toString()
+                    check= it.data?.is_private.toString()
                     if (it.data?.profile_photo==null){
                         binding.ProfilePhoto.setImageResource(R.drawable.ic_baseline_circle_24)
                     }
@@ -189,10 +189,7 @@ class Profile_Fragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+
 
             }
         })

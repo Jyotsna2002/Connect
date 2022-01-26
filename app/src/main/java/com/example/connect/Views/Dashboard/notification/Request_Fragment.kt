@@ -51,7 +51,7 @@ class Request_Fragment: Fragment() {
                 acceptRequestViewModel.acceptRequestResult.observe(viewLifecycleOwner, {
                     when (it) {
                         is Response.Success -> {
-                            Toast.makeText(context, "Success", Toast.LENGTH_LONG)
+                            Toast.makeText(context, "Request Accepted", Toast.LENGTH_LONG)
                                 .show()
 
                             showRequestViewModel.showRequest()
@@ -66,8 +66,7 @@ class Request_Fragment: Fragment() {
                             ).show()
                         }
                         is Response.Loading -> {
-                            Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                                .show()
+
                         }
 
                     }
@@ -84,7 +83,7 @@ class Request_Fragment: Fragment() {
                 acceptRequestViewModel.acceptRequestResult.observe(viewLifecycleOwner, {
                     when (it) {
                         is Response.Success -> {
-                            Toast.makeText(context, "Success", Toast.LENGTH_LONG)
+                            Toast.makeText(context, "Request Deleted", Toast.LENGTH_LONG)
                                 .show()
 
                             showRequestViewModel.showRequest()
@@ -99,8 +98,7 @@ class Request_Fragment: Fragment() {
                             ).show()
                         }
                         is Response.Loading -> {
-                            Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                                .show()
+
                         }
 
                     }
@@ -129,8 +127,7 @@ class Request_Fragment: Fragment() {
         showRequestViewModel.showRequestResult.observe(viewLifecycleOwner, {
             when (it) {
                 is Response.Success -> {
-                    Toast.makeText(context, "Success", Toast.LENGTH_LONG)
-                        .show()
+
                     adapter.setUpdatedData(it.data as ArrayList<ShowFollowRequestDataClass>)
 
                 }
@@ -141,10 +138,7 @@ class Request_Fragment: Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(context, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+
 
             }
         })

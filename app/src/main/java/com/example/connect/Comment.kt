@@ -53,8 +53,7 @@ class Comment : AppCompatActivity() {
         showCommentViewModel.ShowCommentSubmitData()
         showCommentViewModel.showCommentResult.observe(this, {
             when (it) {
-                is Response.Success ->{ Toast.makeText(this, "Success", Toast.LENGTH_LONG)
-                    .show()
+                is Response.Success ->{
 
                     adapter.setUpdatedData(it.data as ArrayList<CommentDataClass>)
                 }
@@ -65,16 +64,13 @@ class Comment : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+
 
             }
         })
         createCommentViewModel.createCommentResult.observe(this, {
             when (it) {
-                is Response.Success ->{ Toast.makeText(this, "Success", Toast.LENGTH_LONG)
+                is Response.Success ->{ Toast.makeText(this, "Your comment is sent", Toast.LENGTH_LONG)
                     .show()
 
                     //    adapter.setUpdatedData(it.data)
@@ -86,10 +82,10 @@ class Comment : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+//                is Response.Loading -> {
+//                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
+//                        .show()
+//                }
 
             }
         })

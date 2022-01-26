@@ -25,6 +25,7 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
             const val REF_TOKEN_KEY = "ref_token_key"
             const val USER_NAME_KEY="username_key"
             const val USER_KEY="user_key"
+           // const val PROFILE_KEY="profile_key"
 
         }
 
@@ -60,6 +61,7 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
             datastore.saveUserDetails(REF_TOKEN_KEY, it.refresh!!)
             datastore.saveUserDetails(USER_NAME_KEY,it.username!!)
             datastore.saveUserDetails(USER_KEY, it.user.toString())
+//            datastore.saveUserDetails(PROFILE_KEY,it.profile_picture!!)
 
         }
         

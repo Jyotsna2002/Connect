@@ -34,7 +34,10 @@ class CreateStoryRepo(private val service:ApiInterface) {
                     CreateStoryLiveData.postValue(Response.Success(response.body()))
                     Log.i("HellosuccesStory", "onActivityResult: Success" )
                 }
-
+                else if (response.code()==400)
+                {
+                    CreateStoryLiveData.postValue(Response.Error("Choose am image to create your story"))
+                }
                 else {
                     CreateStoryLiveData.postValue(Response.Error(response.message()))
                     Log.i("HellosuccesStory", "onActivityResult:"+response.code() )

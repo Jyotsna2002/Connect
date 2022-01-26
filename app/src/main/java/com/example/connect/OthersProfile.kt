@@ -72,8 +72,8 @@ class OthersProfile : AppCompatActivity() {
         othersprofileViewModel.showotherProfilResult.observe(this, {
             when (it) {
                 is Response.Success -> {
-                    Toast.makeText(this, "Success", Toast.LENGTH_LONG)
-                        .show()
+//                    Toast.makeText(this, "Success", Toast.LENGTH_LONG)
+//                        .show()
 
                     binding.username.text = it.data?.username
                     binding.userName.text = it.data?.user_name
@@ -121,10 +121,7 @@ class OthersProfile : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+
 
             }
         })
@@ -133,8 +130,8 @@ class OthersProfile : AppCompatActivity() {
         othersprofilepostViewModel.showotherProfilPostResult.observe(this, {
             when (it) {
                 is Response.Success -> {
-                    Toast.makeText(this, "Success", Toast.LENGTH_LONG)
-                        .show()
+//                    Toast.makeText(this, "Success", Toast.LENGTH_LONG)
+//                        .show()
 
                     adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
                 }
@@ -145,10 +142,7 @@ class OthersProfile : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                is Response.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-                        .show()
-                }
+
 
             }
         })
@@ -158,8 +152,8 @@ class OthersProfile : AppCompatActivity() {
             sendRequestViewModel.sendRequestResult.observe(this, {
                 when (it) {
                     is Response.Success -> {
-                        Toast.makeText(this, "Request Sent", Toast.LENGTH_LONG)
-                            .show()
+//                        Toast.makeText(this, "Request Sent", Toast.LENGTH_LONG)
+//                            .show()
                         if (it.data?.follow == true) {
                             binding.follow.text = "Following"
                             binding.follow.background.setTint(
@@ -190,10 +184,7 @@ class OthersProfile : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    is Response.Loading -> {
-                        Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-                            .show()
-                    }
+
 
                 }
             })

@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="91dp"
                 android:hint="Write a caption......."
+                android:fontFamily="@font/open_sans"
                 android:paddingStart="26dp"
                 android:paddingEnd="11dp"
                 android:textSize="16sp" />
@@ -61,6 +62,7 @@
             android:enabled="true"
             android:focusable="true"
             android:text="Post"
+            android:fontFamily="@font/open_sans"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -77,6 +79,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="13dp"
             android:text="New post"
+            android:fontFamily="@font/open_sans"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="16sp"
