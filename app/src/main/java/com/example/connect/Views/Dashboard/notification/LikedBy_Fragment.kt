@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -32,12 +33,16 @@ class LikedBy_Fragment: Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var adapter=NotiAdapter()
     private lateinit var showNotiViewModel: ShowNotiViewModel
+    companion object{
+        lateinit var Text7:TextView
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = LikedByBinding.inflate(inflater, container, false)
         val view = binding.root
+        Text7=binding.likeP
         recyclerView= binding.LikedByRecyclerview
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter

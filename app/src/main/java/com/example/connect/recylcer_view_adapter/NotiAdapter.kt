@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.connect.R
+import com.example.connect.Views.Dashboard.notification.LikedBy_Fragment.Companion.Text7
+import com.example.connect.Views.Dashboard.notification.Request_Fragment
 import com.example.connect.model.HomeStoryDataClass
 import com.example.connect.model.Notificationpage
 
@@ -28,6 +30,14 @@ class NotiAdapter() : RecyclerView.Adapter<NotiAdapter.HomeViewHolder>() {
     }
 
     fun setUpdatedData(Posts: ArrayList<Notificationpage>) {
+        if (Posts.isEmpty())
+        {
+            Text7.visibility=View.VISIBLE
+        }
+        else
+        {
+            Text7.visibility=View.GONE
+        }
         this.Posts = Posts
         notifyDataSetChanged()
     }

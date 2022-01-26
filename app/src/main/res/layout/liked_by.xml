@@ -18,5 +18,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/liked_by_items"/>
+    <TextView
+        android:id="@+id/likeP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Liked Posts"
+        android:textSize="24sp"
+        android:fontFamily="@font/open_sans"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

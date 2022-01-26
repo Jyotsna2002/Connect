@@ -38,7 +38,7 @@
         android:elevation="10dp"
         app:itemTextColor="@color/white"
         app:labelVisibilityMode="unlabeled"
-
+        app:itemIconTint="@drawable/nav_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

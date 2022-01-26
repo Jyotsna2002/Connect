@@ -58,7 +58,7 @@ class EditProfile : AppCompatActivity() {
         binding.SetProfilePhoto.load(profilePhoto) {
             ImageView.ScaleType.CENTER_CROP
             crossfade(true)
-            placeholder(R.drawable.ic_launcher_background)
+            placeholder(R.drawable.ic_baseline_circle_24)
         }
         binding.changeUsernameEditText.setText(username)
         val editProfileRepo = EditProfileRepo( ServiceBuilder1.buildService(Dashboard.token))

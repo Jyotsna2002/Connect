@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.connect.*
 import com.example.connect.Dashboard.Companion.token
 import com.example.connect.Network.ServiceBuilder1
@@ -38,6 +40,7 @@ class Home_Fragment :Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var homeStoryViewModel: HomeStoryViewModel
     private lateinit var likeStoryViewModel: LikeStoryViewModel
+    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var createBookmarkViewModel: CreateBookmarkViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerView2: RecyclerView
@@ -197,6 +200,10 @@ companion object{
         val createBookmarkViewModelFactory = CreateBookmarkViewModelFactory(createBookmarkRepo)
         createBookmarkViewModel = ViewModelProvider(this, createBookmarkViewModelFactory)[CreateBookmarkViewModel::class.java]
 
+        val profileRepo = ProfilePhotoRepo(ServiceBuilder1.buildService(token))
+        val profileViewModelFactory = ProfileViewModelFactory(profileRepo)
+        profileViewModel = ViewModelProvider(this, profileViewModelFactory)[ProfileViewModel::class.java]
+        profileViewModel.HomeProfile()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -220,7 +227,28 @@ companion object{
 
             }
         })
+        profileViewModel.homeProfileResult.observe(viewLifecycleOwner, {
+            when (it) {
+                is Response.Success -> {
 
+                    binding.userImage.load(it.data?.profile_picture){
+                        ImageView.ScaleType.CENTER_CROP
+                        crossfade(true)
+                        placeholder(R.drawable.ic_baseline_circle_24)
+                    }
+
+                }
+                is Response.Error -> {
+                    Toast.makeText(
+                        context,
+                        it.errorMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+
+            }
+        })
         homeStoryViewModel.homeStoryResult.observe(viewLifecycleOwner, {
             when (it) {
                 is Response.Success -> {

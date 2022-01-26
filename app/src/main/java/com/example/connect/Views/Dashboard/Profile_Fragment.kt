@@ -40,6 +40,10 @@ import com.example.connect.recylcer_view_adapter.OthersProfileAdapter
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
+import androidx.core.view.GravityCompat
+
+
+
 
 class Profile_Fragment : Fragment() {
     private var _binding: ProfileFragmentBinding? = null
@@ -84,6 +88,9 @@ class Profile_Fragment : Fragment() {
             Log.i("checkbox", "onCreate:Hello")
             startActivity(intent)
         }
+        binding.icondrawer.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.END)
+        }
 
         val intent = Intent(context, MainActivity::class.java)
         val builder = android.app.AlertDialog.Builder(context)
@@ -103,11 +110,6 @@ class Profile_Fragment : Fragment() {
                     val intent = Intent(context, Bookmark::class.java)
                     startActivity(intent)
                     drawerLayout.closeDrawers()
-                }
-                R.id.change_password -> {
-//                    val intent = Intent(this, ChangePassword::class.java)
-//                    startActivity(intent)
-//                    drawerLayout.closeDrawers()
                 }
                 R.id.signout -> {
                     drawerLayout.closeDrawers()
