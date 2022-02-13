@@ -2,8 +2,8 @@ package com.example.connect.Repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Network.ServiceBuilder2
+import com.example.connect.Password_check.Response
 import com.example.connect.model.AuthDataClass
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,8 +45,8 @@ class LoginRepo {
                   loginLiveData.postValue(Response.Error("Wrong Password"))
                }
                else {
-                  loginLiveData.postValue(Response.Error(response.message()))
-
+                  loginLiveData.postValue(Response.Error(response.code().toString()))
+                 // Log.d("RESPONSE BODY", response.code().toString())
                }
             }
 

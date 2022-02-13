@@ -1,19 +1,17 @@
 package com.example.connect.View_model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.connect.Repository.Response
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.UploadPostRepo
-import com.example.connect.Views.Dashboard.Post_Fragment.Companion.choose
-import com.example.connect.Views.Dashboard.Post_Fragment.Companion.ok
-import com.example.connect.model.PostDataClass
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
 
-class PostViewModel(private val postRepo: UploadPostRepo) : ViewModel() {
+class PostViewModel : ViewModel() {
 
     var imageUrl = MutableLiveData<List<String>>()
     var videoUrl = MutableLiveData<List<String>>()
@@ -23,7 +21,7 @@ class PostViewModel(private val postRepo: UploadPostRepo) : ViewModel() {
     val Result:LiveData<Response<ResponseBody>>
         get() = postResult
 
-    fun submitData() = viewModelScope.launch {
+    fun submitData(context: Context) = viewModelScope.launch {
 //        if(ok=="0")
 //        {
 //            imageUrl.value= emptyList()
@@ -43,10 +41,10 @@ class PostViewModel(private val postRepo: UploadPostRepo) : ViewModel() {
 //        else
 //            if(choose==0)
 //            {
-                postResult = postRepo.uploadmedia(
+                postResult = UploadPostRepo().uploadmedia(
                     imageUrl.value,
                     emptyList(),
-                    caption.value
+                    caption.value,context
                 ) as MutableLiveData<Response<ResponseBody>>
 //            }
     }

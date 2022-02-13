@@ -1,16 +1,17 @@
 package com.example.connect.View_model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.*
 import com.example.connect.model.LikePostDataClass
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
 
 
-class LikeStoryViewModel(private val likeStoryRepo: LikePostRepo) : ViewModel() {
+class LikeStoryViewModel : ViewModel() {
 
     var PostId = MutableLiveData<Int>()
 
@@ -18,8 +19,8 @@ class LikeStoryViewModel(private val likeStoryRepo: LikePostRepo) : ViewModel() 
     val likePostStoryResult:LiveData<Response<LikePostDataClass>>
         get() = LikePostStoryResult
 
-    fun LikeStorySubmitData() = viewModelScope.launch {
-        LikePostStoryResult =likeStoryRepo.LikePost(PostId.value)
+    fun LikeStorySubmitData(context: Context) = viewModelScope.launch {
+        LikePostStoryResult =LikePostRepo().LikePost(PostId.value,context)
 
     }
 }

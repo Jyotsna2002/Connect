@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,15 +21,13 @@ import com.example.connect.Dashboard.Companion.user
 import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.OthersProfile
 import com.example.connect.R
-import com.example.connect.Repository.Response
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.SearchProfileRepo
 import com.example.connect.View_model.SearchProfileViewModel
 import com.example.connect.View_model.SearchProfileViewModelFactory
-import com.example.connect.Views.Dashboard.Profile_Fragment
 
 import com.example.connect.databinding.AccountsBinding
 import com.example.connect.model.SearchProfileDataClassItem
-import com.example.connect.recylcer_view_adapter.HomePageAdapter
 import com.example.connect.recylcer_view_adapter.SearchProfileAdapter
 
 class AcoountSearch_Fragment: Fragment() {
@@ -57,7 +56,7 @@ companion object{
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length!! > 0) {
-                   searchProfileViewModel.submitotherprofile(s.toString())
+                   searchProfileViewModel.submitotherprofile(s.toString(),requireContext())
                     Log.i("View", "ontext")
                     searchProfileViewModel.searchProfilResult.observe(viewLifecycleOwner, {
                         when (it) {
@@ -104,10 +103,8 @@ companion object{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val searchProfileRepo= SearchProfileRepo(ServiceBuilder1.buildService(Dashboard.token))
-        Log.i("tokenmyaccount", "access:${Dashboard.token}")
-        val searchProfileViewModelFactory= SearchProfileViewModelFactory(searchProfileRepo)
-        searchProfileViewModel= ViewModelProvider(this,searchProfileViewModelFactory)[SearchProfileViewModel::class.java]
+
+        searchProfileViewModel= ViewModelProvider((context as FragmentActivity?)!!)[SearchProfileViewModel::class.java]
     }
 
 

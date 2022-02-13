@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_post_Fragment_to_home_Fragment"
             app:destination="@id/home_Fragment" />
+        <action
+            android:id="@+id/action_post_Fragment_to_profile_Fragment"
+            app:destination="@id/profile_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/search_Fragment"

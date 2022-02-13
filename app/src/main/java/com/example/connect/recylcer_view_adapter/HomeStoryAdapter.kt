@@ -42,11 +42,17 @@ class HomeStoryAdapter(private val context: Context) : RecyclerView.Adapter<Home
 
         val post = Posts[position]
         holder.Name.text = post.username
-        holder.HomeImage.load(post.profile_photo) {
-            ImageView.ScaleType.CENTER_CROP
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_background)
 
+        if (post.profile_photo==null){
+            holder.HomeImage.setImageResource(R.drawable.photo)
+        }else {
+
+            holder.HomeImage.load(post.profile_photo) {
+                ImageView.ScaleType.CENTER_CROP
+                crossfade(true)
+                placeholder(R.drawable.ic_launcher_background)
+
+            }
         }
 //        val gd = holder.HomeImage.background as GradientDrawable
 //        //gd.setCornerRadius(10)

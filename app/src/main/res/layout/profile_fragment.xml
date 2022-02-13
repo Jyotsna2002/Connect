@@ -64,7 +64,7 @@
 
         android:layout_marginTop="68dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/circle_image"
+        android:src="@drawable/photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -15,7 +15,7 @@ import com.example.connect.Views.Dashboard.Home_Fragment.Companion.Text5
 import com.example.connect.model.HomeDataClassItem
 
 
-class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<HomePageAdapter.HomeViewHolder>()  {
+class HomePageAdapter : RecyclerView.Adapter<HomePageAdapter.HomeViewHolder>()  {
     var Posts= ArrayList<HomeDataClassItem>()
     private var mlistner: onItemClickListener? = null
     private var mlistner2: onItemClickListener2? = null
@@ -23,10 +23,6 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
     private var mlistner4: onItemClickListener4? = null
     private var mlistner5: onItemClickListener5? = null
 
-    companion object {
-        var click: Boolean? = null
-        var book: Boolean?=null
-    }
     interface onItemClickListener {
 
         fun onItemClick(position: Int)
@@ -91,19 +87,21 @@ class HomePageAdapter (private var context: Context) : RecyclerView.Adapter<Home
             crossfade(true)
             placeholder(R.drawable.ic_launcher_background)
         }
-        holder.userImage.load(post.profile_picture){
-            crossfade(true)
-            placeholder(R.drawable.ic_baseline_circle_24)
+        if(post.profile_picture==null){
+            holder.userImage.setImageResource(R.drawable.photo)
+        }else {
+            holder.userImage.load(post.profile_picture) {
+                crossfade(true)
+                placeholder(R.drawable.ic_baseline_circle_24)
+            }
         }
-        click=post.Like
-        book=post.bookmarked
-        if(click == true) {
+        if(post.Like == true) {
             holder.like.setImageResource(R.drawable.ic_thumbs_up2)
         }
         else{
             holder.like.setImageResource(R.drawable.ic_thumbs_up)
         }
-        if(book == true) {
+        if(post.bookmarked == true) {
             holder.Bookmark.setImageResource(R.drawable.ic_bookmark2)
         }
         else{

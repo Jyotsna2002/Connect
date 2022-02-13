@@ -1,19 +1,20 @@
 package com.example.connect
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.connect.Network.ServiceBuilder1
-import com.example.connect.Repository.*
-import com.example.connect.View_model.*
+import com.example.connect.Password_check.Response
+import com.example.connect.View_model.OthersProfilePostViewModel
+import com.example.connect.View_model.OthersProfileViewModel
+import com.example.connect.View_model.SendRequestViewModel
 import com.example.connect.Views.Dashboard.Profile_Fragment.Companion.Text
 import com.example.connect.databinding.ProfileFragmentBinding
 import com.example.connect.model.OthersPost
@@ -21,9 +22,9 @@ import com.example.connect.recylcer_view_adapter.OthersProfileAdapter
 
 class OthersProfile : AppCompatActivity() {
     private lateinit var binding: ProfileFragmentBinding
-    private lateinit var othersprofileViewModel: OthersProfileViewModel
-    private lateinit var othersprofilepostViewModel: OthersProfilePostViewModel
-    private lateinit var sendRequestViewModel: SendRequestViewModel
+    private val othersprofileViewModel: OthersProfileViewModel by viewModels()
+    private val othersprofilepostViewModel: OthersProfilePostViewModel by viewModels()
+    private val sendRequestViewModel: SendRequestViewModel by viewModels()
     private var gridLayoutManager: GridLayoutManager? = null
     private lateinit var recyclerView: RecyclerView
     private var adapter = OthersProfileAdapter()
@@ -38,37 +39,21 @@ class OthersProfile : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 //        Text7=binding.textView10
+        val drawerLayout=binding.drawerLayout
         Text = binding.textView10
         recyclerView = binding.recyclerView2
         gridLayoutManager =
             GridLayoutManager(applicationContext, 3, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.adapter = adapter
-        val othersshowRepo = OthersProfileRepo(ServiceBuilder1.buildService(Dashboard.token))
-        Log.i("token", "access:${Dashboard.token}")
-        val othersViewModelFactory = OthersProfileViewModelFactory(othersshowRepo)
-        othersprofileViewModel =
-            ViewModelProvider(this, othersViewModelFactory)[OthersProfileViewModel::class.java]
 
-        val othersProfilePostRepo =
-            OthersProfilePostRepo(ServiceBuilder1.buildService(Dashboard.token))
-        Log.i("token", "access:${Dashboard.token}")
-        val othersPostViewModelFactory = OthersProfilePostViewModelFactory(othersProfilePostRepo)
-        othersprofilepostViewModel = ViewModelProvider(
-            this,
-            othersPostViewModelFactory
-        )[OthersProfilePostViewModel::class.java]
-
-        val sendRequestRepo = SendRequestRepo(ServiceBuilder1.buildService(Dashboard.token))
-        Log.i("token", "access:${Dashboard.token}")
-        val sendRequestViewModelFactory = SendRequestViewModelFactory(sendRequestRepo)
-        sendRequestViewModel =
-            ViewModelProvider(this, sendRequestViewModelFactory)[SendRequestViewModel::class.java]
-
+        binding.icondrawer.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.END)
+        }
         userid = intent.getStringExtra("USER")?.toInt()
         val UserId = userid.toString()
         othersprofileViewModel.User_id.setValue(userid)
-        othersprofileViewModel.submitotherprofile()
+        othersprofileViewModel.submitotherprofile(this)
         othersprofileViewModel.showotherProfilResult.observe(this, {
             when (it) {
                 is Response.Success -> {
@@ -126,7 +111,7 @@ class OthersProfile : AppCompatActivity() {
             }
         })
         othersprofilepostViewModel.User_id.setValue(userid)
-        othersprofilepostViewModel.submitotherprofilepost()
+        othersprofilepostViewModel.submitotherprofilepost(this)
         othersprofilepostViewModel.showotherProfilPostResult.observe(this, {
             when (it) {
                 is Response.Success -> {
@@ -148,7 +133,7 @@ class OthersProfile : AppCompatActivity() {
         })
         binding.follow.setOnClickListener {
             sendRequestViewModel.User_id.setValue(userid)
-            sendRequestViewModel.sendRequest()
+            sendRequestViewModel.sendRequest(this)
             sendRequestViewModel.sendRequestResult.observe(this, {
                 when (it) {
                     is Response.Success -> {

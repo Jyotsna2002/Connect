@@ -1,9 +1,6 @@
 package com.example.connect.Views.Dashboard
 
-import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,16 +10,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.connect.*
 import com.example.connect.Dashboard.Companion.token
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.*
 import com.example.connect.View_model.*
 import com.example.connect.databinding.HomeFragmentBinding
@@ -30,8 +27,7 @@ import com.example.connect.model.HomeDataClassItem
 import com.example.connect.model.HomeStoryDataClass
 import com.example.connect.recylcer_view_adapter.HomePageAdapter
 import com.example.connect.recylcer_view_adapter.HomeStoryAdapter
-import com.google.firebase.storage.FirebaseStorage
-import java.util.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlin.collections.ArrayList
 
 class Home_Fragment :Fragment() {
@@ -59,7 +55,7 @@ companion object{
         val view = binding.root
         Text5=binding.textView14
         recyclerView= binding.postRecyclerView
-        adapter= activity?.let { HomePageAdapter(it) }!!
+        adapter= HomePageAdapter()
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
         adapter.setOnItemClickListener(object : HomePageAdapter.onItemClickListener {
@@ -74,14 +70,22 @@ companion object{
             override fun onItemClick2(position: Int) {
                 PostId=adapter.Posts[position].post_id
                 likeStoryViewModel.PostId.setValue(PostId)
-                likeStoryViewModel.LikeStorySubmitData()
+                likeStoryViewModel.LikeStorySubmitData(requireContext())
                 likeStoryViewModel.likePostStoryResult.observe(viewLifecycleOwner, {
                     when (it) {
                         is Response.Success -> {
 
+                            homeViewModel.submitPost(requireContext())
+                            homeViewModel.showpostResult.observe(viewLifecycleOwner, {
+                                when (it) {
+                                    is Response.Success -> {
+
+                                        adapter.setUpdatedData(it.data as ArrayList<HomeDataClassItem>)
 
 
-                            homeViewModel.submitPost()
+                                    }
+                                }
+                            })
                         }
                         is Response.Error -> {
                             Toast.makeText(
@@ -120,11 +124,21 @@ companion object{
             override fun onItemClick5(position: Int) {
                 Post=adapter.Posts[position].post_id
                 createBookmarkViewModel.PostId.setValue(Post)
-                createBookmarkViewModel.CreateBookmarkSubmitData()
+                createBookmarkViewModel.CreateBookmarkSubmitData(requireContext())
                 createBookmarkViewModel.createBookmarkResult.observe(viewLifecycleOwner, {
                     when (it) {
                         is Response.Success -> {
-                            homeViewModel.submitPost()
+                            homeViewModel.submitPost(requireContext())
+                            homeViewModel.showpostResult.observe(viewLifecycleOwner, {
+                                when (it) {
+                                    is Response.Success -> {
+
+                                        adapter.setUpdatedData(it.data as ArrayList<HomeDataClassItem>)
+
+
+                                    }
+                                }
+                            })
                         }
                         is Response.Error -> {
                             Toast.makeText(
@@ -181,33 +195,26 @@ companion object{
                 exit.show()
             }
         })
-        val postshowRepo = HomePageRepo(ServiceBuilder1.buildService(token))
-        Log.i("token", "access:$token")
-        val homeViewModelFactory = HomePageViewModelFactory(postshowRepo)
-        homeViewModel = ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
-        homeViewModel.submitPost()
 
-        val homestoryRepo = HomeStoryRepo(ServiceBuilder1.buildService(token))
-        val homeStoryViewModelFactory = HomeStoryViewModelFactory(homestoryRepo)
-        homeStoryViewModel = ViewModelProvider(this, homeStoryViewModelFactory)[HomeStoryViewModel::class.java]
-        homeStoryViewModel.HomeStory()
+        homeViewModel = ViewModelProvider((context as FragmentActivity?)!!)[HomeViewModel::class.java]
 
-        val likestoryRepo = LikePostRepo(ServiceBuilder1.buildService(token))
-        val likeStoryViewModelFactory = LikeStoryViewModelFactory(likestoryRepo)
-        likeStoryViewModel = ViewModelProvider(this, likeStoryViewModelFactory)[LikeStoryViewModel::class.java]
+        homeStoryViewModel = ViewModelProvider((context as FragmentActivity?)!!)[HomeStoryViewModel::class.java]
 
-        val createBookmarkRepo = CreateBookmarkRepo(ServiceBuilder1.buildService(token))
-        val createBookmarkViewModelFactory = CreateBookmarkViewModelFactory(createBookmarkRepo)
-        createBookmarkViewModel = ViewModelProvider(this, createBookmarkViewModelFactory)[CreateBookmarkViewModel::class.java]
 
-        val profileRepo = ProfilePhotoRepo(ServiceBuilder1.buildService(token))
-        val profileViewModelFactory = ProfileViewModelFactory(profileRepo)
-        profileViewModel = ViewModelProvider(this, profileViewModelFactory)[ProfileViewModel::class.java]
-        profileViewModel.HomeProfile()
+        likeStoryViewModel = ViewModelProvider((context as FragmentActivity?)!!)[LikeStoryViewModel::class.java]
+
+
+        createBookmarkViewModel = ViewModelProvider((context as FragmentActivity?)!!)[CreateBookmarkViewModel::class.java]
+
+
+        profileViewModel = ViewModelProvider((context as FragmentActivity?)!!)[ProfileViewModel::class.java]
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        homeViewModel.submitPost(requireContext())
         homeViewModel.showpostResult.observe(viewLifecycleOwner, {
             when (it) {
                 is Response.Success -> {
@@ -227,16 +234,28 @@ companion object{
 
             }
         })
+        profileViewModel.HomeProfile(requireContext())
         profileViewModel.homeProfileResult.observe(viewLifecycleOwner, {
             when (it) {
                 is Response.Success -> {
 
-                    binding.userImage.load(it.data?.profile_picture){
-                        ImageView.ScaleType.CENTER_CROP
-                        crossfade(true)
-                        placeholder(R.drawable.ic_baseline_circle_24)
-                    }
+                   // Log.i("photo", "onViewCreated: " + it.data?.profile_picture)
+//                    binding.userImage.load(it.data?.profile_picture) {
+//                        ImageView.ScaleType.CENTER_CROP
+//                        crossfade(true)
+//                        placeholder(R.drawable.ic_baseline_circle_24)
+//                        error(R.drawable.ic_baseline_circle_24)
+//                    }
+                    if (it.data?.profile_picture == null) {
+                        binding.userImage.setImageResource(R.drawable.photo)
+                    } else {
+                        binding.userImage.load(it.data.profile_picture) {
+                            ImageView.ScaleType.CENTER_CROP
+                            crossfade(true)
+                            placeholder(R.drawable.photo)
+                        }
 
+                    }
                 }
                 is Response.Error -> {
                     Toast.makeText(
@@ -249,6 +268,7 @@ companion object{
 
             }
         })
+        homeStoryViewModel.HomeStory(requireContext())
         homeStoryViewModel.homeStoryResult.observe(viewLifecycleOwner, {
             when (it) {
                 is Response.Success -> {

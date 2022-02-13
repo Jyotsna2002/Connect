@@ -7,19 +7,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Dashboard
 import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Repository.AcceptRequestRepo
-import com.example.connect.Repository.Response
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.ShowRequestPageRepo
 import com.example.connect.View_model.*
 import com.example.connect.databinding.RequestBinding
 import com.example.connect.model.ShowFollowRequestDataClass
 import com.example.connect.recylcer_view_adapter.ShowRequestPageAdapter
-import okhttp3.ResponseBody
 
 class Request_Fragment: Fragment() {
     private var _binding: RequestBinding? = null
@@ -47,14 +47,32 @@ class Request_Fragment: Fragment() {
                 id=adapter.Posts[position].id
                 acceptRequestViewModel.Follow_id.setValue(id)
                 acceptRequestViewModel.Confirm.setValue("true")
-                acceptRequestViewModel.submitotherprofile()
+                acceptRequestViewModel.submitotherprofile(requireContext())
                 acceptRequestViewModel.acceptRequestResult.observe(viewLifecycleOwner, {
                     when (it) {
                         is Response.Success -> {
                             Toast.makeText(context, "Request Accepted", Toast.LENGTH_LONG)
                                 .show()
 
-                            showRequestViewModel.showRequest()
+                            showRequestViewModel.showRequest(requireContext())
+                            showRequestViewModel.showRequestResult.observe(viewLifecycleOwner, {
+                                when (it) {
+                                    is Response.Success -> {
+
+                                        adapter.setUpdatedData(it.data as ArrayList<ShowFollowRequestDataClass>)
+
+                                    }
+                                    is Response.Error -> {
+                                        Toast.makeText(
+                                            context,
+                                            it.errorMessage,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+
+
+                                }
+                            })
 //                            adapter.Posts.removeAt(position)
 //                            adapter.notifyDataSetChanged()
                         }
@@ -79,14 +97,32 @@ class Request_Fragment: Fragment() {
                 id=adapter.Posts[position].id
                 acceptRequestViewModel.Follow_id.setValue(id)
                 acceptRequestViewModel.Confirm.setValue("false")
-                acceptRequestViewModel.submitotherprofile()
+                acceptRequestViewModel.submitotherprofile(requireContext())
                 acceptRequestViewModel.acceptRequestResult.observe(viewLifecycleOwner, {
                     when (it) {
                         is Response.Success -> {
                             Toast.makeText(context, "Request Deleted", Toast.LENGTH_LONG)
                                 .show()
 
-                            showRequestViewModel.showRequest()
+                            showRequestViewModel.showRequest(requireContext())
+                            showRequestViewModel.showRequestResult.observe(viewLifecycleOwner, {
+                                when (it) {
+                                    is Response.Success -> {
+
+                                        adapter.setUpdatedData(it.data as ArrayList<ShowFollowRequestDataClass>)
+
+                                    }
+                                    is Response.Error -> {
+                                        Toast.makeText(
+                                            context,
+                                            it.errorMessage,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+
+
+                                }
+                            })
 //                            adapter.Posts.removeAt(position)
 //                            adapter.notifyDataSetChanged()
                         }
@@ -111,19 +147,18 @@ class Request_Fragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val showRequestRepo = ShowRequestPageRepo(ServiceBuilder1.buildService(Dashboard.token))
-        val showViewModelFactory = ShowRequestViewModelFactory(showRequestRepo)
-        showRequestViewModel = ViewModelProvider(this, showViewModelFactory)[ShowRequestViewModel::class.java]
-        showRequestViewModel.showRequest()
 
-        val acceptRequestRepo = AcceptRequestRepo(ServiceBuilder1.buildService(Dashboard.token))
-        val acceptViewModelFactory = AcceptRequestViewModelFactory(acceptRequestRepo)
-        acceptRequestViewModel = ViewModelProvider(this, acceptViewModelFactory)[AcceptRequestViewModel::class.java]
+        showRequestViewModel = ViewModelProvider((context as FragmentActivity?)!!)[ShowRequestViewModel::class.java]
+
+
+
+        acceptRequestViewModel = ViewModelProvider((context as FragmentActivity?)!!)[AcceptRequestViewModel::class.java]
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showRequestViewModel.showRequest(requireContext())
         showRequestViewModel.showRequestResult.observe(viewLifecycleOwner, {
             when (it) {
                 is Response.Success -> {

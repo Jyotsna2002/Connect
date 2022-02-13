@@ -1,20 +1,17 @@
 package com.example.connect.View_model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.connect.Repository.EditProfileRepo
-import com.example.connect.Repository.Response
-import com.example.connect.Repository.UploadPostRepo
-import com.example.connect.Views.Dashboard.Post_Fragment.Companion.choose
-import com.example.connect.Views.Dashboard.Post_Fragment.Companion.ok
-import com.example.connect.model.PostDataClass
+import com.example.connect.Password_check.Response
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
 
-class EditProfileViewModel(private val editRepo: EditProfileRepo) : ViewModel() {
+class EditProfileViewModel : ViewModel() {
 
     var Username = MutableLiveData<String>()
     var Bio = MutableLiveData<String>()
@@ -25,8 +22,8 @@ class EditProfileViewModel(private val editRepo: EditProfileRepo) : ViewModel() 
     val editResult:LiveData<Response<ResponseBody>>
         get() = EditResult
 
-    fun EditProfileSubmitData() = viewModelScope.launch {
-        EditResult =editRepo.EditProfile(Username.value, Bio.value, ProfilePhoto.value,private.value)
+    fun EditProfileSubmitData(context: Context) = viewModelScope.launch {
+        EditResult =EditProfileRepo().EditProfile(Username.value, Bio.value, ProfilePhoto.value,private.value,context)
 
     }
 }

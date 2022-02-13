@@ -1,18 +1,18 @@
 package com.example.connect
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Repository.CreateCommentRepo
-import com.example.connect.Repository.Response
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.ShowCommentRepo
 import com.example.connect.View_model.CreateCommentViewModel
 import com.example.connect.View_model.CreateCommentViewModelFactory
@@ -21,12 +21,11 @@ import com.example.connect.View_model.ShowCommentViewModelFactory
 import com.example.connect.databinding.ActivityCommentBinding
 import com.example.connect.model.CommentDataClass
 import com.example.connect.recylcer_view_adapter.CreateCommentAdapter
-import com.example.connect.recylcer_view_adapter.HomePageAdapter
 
 class Comment : AppCompatActivity() {
     private lateinit var binding: ActivityCommentBinding
-    private lateinit var createCommentViewModel: CreateCommentViewModel
-    private lateinit var showCommentViewModel: ShowCommentViewModel
+    private  val createCommentViewModel: CreateCommentViewModel by viewModels()
+    private  val showCommentViewModel: ShowCommentViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private var adapter= CreateCommentAdapter()
     var postid: Int?=null
@@ -39,18 +38,12 @@ class Comment : AppCompatActivity() {
         recyclerView= binding.recyclerView3
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter=adapter
-        val createCommentRepo = CreateCommentRepo(ServiceBuilder1.buildService(Dashboard.token))
-        val createCommentViewModelFactory = CreateCommentViewModelFactory(createCommentRepo)
-        createCommentViewModel = ViewModelProvider(this, createCommentViewModelFactory)[CreateCommentViewModel::class.java]
 
-        val showCommentRepo = ShowCommentRepo(ServiceBuilder1.buildService(Dashboard.token))
-        val showCommentViewModelFactory = ShowCommentViewModelFactory(showCommentRepo)
-        showCommentViewModel = ViewModelProvider(this, showCommentViewModelFactory)[ShowCommentViewModel::class.java]
 
         postid = intent.getStringExtra("USER")?.toInt()
 
         showCommentViewModel.PostId.setValue(postid)
-        showCommentViewModel.ShowCommentSubmitData()
+        showCommentViewModel.ShowCommentSubmitData(this)
         showCommentViewModel.showCommentResult.observe(this, {
             when (it) {
                 is Response.Success ->{
@@ -68,35 +61,55 @@ class Comment : AppCompatActivity() {
 
             }
         })
-        createCommentViewModel.createCommentResult.observe(this, {
-            when (it) {
-                is Response.Success ->{ Toast.makeText(this, "Your comment is sent", Toast.LENGTH_LONG)
-                    .show()
-
-                    //    adapter.setUpdatedData(it.data)
-                }
-                is Response.Error -> {
-                    Toast.makeText(
-                        this,
-                        it.errorMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-//                is Response.Loading -> {
-//                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
-//                        .show()
+//        createCommentViewModel.createCommentResult.observe(this, {
+//            when (it) {
+//                is Response.Success ->{ Toast.makeText(this, "Your comment is sent", Toast.LENGTH_LONG)
+//                    .show()
+//
+//                    //    adapter.setUpdatedData(it.data)
 //                }
-
-            }
-        })
+//                is Response.Error -> {
+//                    Toast.makeText(
+//                        this,
+//                        it.errorMessage,
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                }
+////                is Response.Loading -> {
+////                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
+////                        .show()
+////                }
+//
+//            }
+//        })
         binding.PostBtn.setOnClickListener {
             val comment=binding.CommentEdit.text.toString().trim()
             createCommentViewModel.Content.setValue(comment)
             createCommentViewModel.ParentId.setValue(null)
             createCommentViewModel.PostId.setValue(postid)
 
-            createCommentViewModel.CreateCommentSubmitData()
+            createCommentViewModel.CreateCommentSubmitData(this)
+            createCommentViewModel.createCommentResult.observe(this, {
+                when (it) {
+                    is Response.Success ->{ Toast.makeText(this, "Your comment is sent", Toast.LENGTH_LONG)
+                        .show()
 
+                        //    adapter.setUpdatedData(it.data)
+                    }
+                    is Response.Error -> {
+                        Toast.makeText(
+                            this,
+                            it.errorMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+//                is Response.Loading -> {
+//                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
+//                        .show()
+//                }
+
+                }
+            })
         }
         adapter.setOnItemClickListener(object : CreateCommentAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
@@ -114,7 +127,28 @@ class Comment : AppCompatActivity() {
                     createCommentViewModel.ParentId.setValue(parentId)
                     Log.i("ParentId", "Respone "+parentId)
                     createCommentViewModel.PostId.setValue(postid)
-                    createCommentViewModel.CreateCommentSubmitData()
+                    createCommentViewModel.CreateCommentSubmitData(this@Comment)
+                    createCommentViewModel.createCommentResult.observe(this@Comment, {
+                        when (it) {
+                            is Response.Success ->{ Toast.makeText(this@Comment, "Your comment is sent", Toast.LENGTH_LONG)
+                                .show()
+
+                                //    adapter.setUpdatedData(it.data)
+                            }
+                            is Response.Error -> {
+                                Toast.makeText(
+                                    this@Comment,
+                                    it.errorMessage,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+//                is Response.Loading -> {
+//                    Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
+//                        .show()
+//                }
+
+                        }
+                    })
                 }
 
             }

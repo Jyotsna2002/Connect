@@ -82,9 +82,13 @@ class SeeTagAdapter () : RecyclerView.Adapter<SeeTagAdapter.HomeViewHolder>() {
             crossfade(true)
             placeholder(R.drawable.ic_launcher_background)
         }
-        holder.userImage.load(post.profile_picture){
-            crossfade(true)
-            placeholder(R.drawable.ic_baseline_circle_24)
+        if (post.profile_picture==null){
+            holder.userImage.setImageResource(R.drawable.photo)
+        }else {
+            holder.userImage.load(post.profile_picture) {
+                crossfade(true)
+                placeholder(R.drawable.ic_baseline_circle_24)
+            }
         }
         val click =post.Like
         val book =post.bookmarked

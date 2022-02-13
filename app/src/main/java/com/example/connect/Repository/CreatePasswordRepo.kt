@@ -2,10 +2,9 @@ package com.example.connect.Repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Network.ServiceBuilder2
+import com.example.connect.Password_check.Response
 import com.example.connect.model.AuthDataClass
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 
@@ -67,11 +66,11 @@ class CreatePasswordRepo {
                     passwordLiveData.postValue(Response.Success(response.body()))
                     userData.value=response.body()
                 }
-                else if(response.code()==403)
+                else if(response.code()==400)
                 {
                     passwordLiveData.postValue(Response.Error("User is not registered"))
                 }
-                else if(response.code()==400)
+                else if(response.code()==406)
                 {
                     passwordLiveData.postValue(Response.Error("Password can not be same as old password"))
                 }

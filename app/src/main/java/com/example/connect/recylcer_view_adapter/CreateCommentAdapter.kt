@@ -43,11 +43,16 @@ class CreateCommentAdapter() : RecyclerView.Adapter<CreateCommentAdapter.HomeVie
         val post = Posts[position]
         holder.userName.text = post.author
         holder.content.text = post.content
-        holder.pic.load(post.profile_picture) {
-            ImageView.ScaleType.CENTER_CROP
-            crossfade(true)
-            placeholder(R.drawable.ic_baseline_circle_24)
 
+        if (post.profile_picture==null){
+            holder.pic.setImageResource(R.drawable.photo)
+        }else {
+            holder.pic.load(post.profile_picture) {
+                ImageView.ScaleType.CENTER_CROP
+                crossfade(true)
+                placeholder(R.drawable.ic_baseline_circle_24)
+
+            }
         }
         if(post.replies?.isNotEmpty() == true)
         {

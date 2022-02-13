@@ -5,25 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.*
 import com.example.connect.View_model.*
 import com.example.connect.databinding.ActivityPostBinding
-import com.example.connect.databinding.PostBinding
-import com.example.connect.databinding.ProfileFragmentBinding
 import com.example.connect.model.OthersPost
-import com.example.connect.recylcer_view_adapter.HomePageAdapter
-import com.example.connect.recylcer_view_adapter.OthersProfileAdapter
 import com.example.connect.recylcer_view_adapter.SeeTagAdapter
 
 class Post : AppCompatActivity() {
     private lateinit var binding: ActivityPostBinding
-    private lateinit var seeTagViewModel: SeeTagViewModel
-    private lateinit var likeStoryViewModel: LikeStoryViewModel
-    private lateinit var createBookmarkViewModel: CreateBookmarkViewModel
+    private  val seeTagViewModel: SeeTagViewModel by viewModels()
+    private  val likeStoryViewModel: LikeStoryViewModel by viewModels()
+    private  val createBookmarkViewModel: CreateBookmarkViewModel by viewModels()
     var Tag: String?=null
     private lateinit var recyclerView: RecyclerView
     private var adapter= SeeTagAdapter()
@@ -39,13 +37,7 @@ class Post : AppCompatActivity() {
         recyclerView= binding.seePost
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
-        val likestoryRepo = LikePostRepo(ServiceBuilder1.buildService(Dashboard.token))
-        val likeStoryViewModelFactory = LikeStoryViewModelFactory(likestoryRepo)
-        likeStoryViewModel = ViewModelProvider(this, likeStoryViewModelFactory)[LikeStoryViewModel::class.java]
 
-        val createBookmarkRepo = CreateBookmarkRepo(ServiceBuilder1.buildService(Dashboard.token))
-        val createBookmarkViewModelFactory = CreateBookmarkViewModelFactory(createBookmarkRepo)
-        createBookmarkViewModel = ViewModelProvider(this, createBookmarkViewModelFactory)[CreateBookmarkViewModel::class.java]
 
         adapter.setOnItemClickListener(object : SeeTagAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
@@ -59,14 +51,30 @@ class Post : AppCompatActivity() {
             override fun onItemClick2(position: Int) {
                 PostId=adapter.Posts[position].post_id
                 likeStoryViewModel.PostId.setValue(PostId)
-                likeStoryViewModel.LikeStorySubmitData()
+                likeStoryViewModel.LikeStorySubmitData(this@Post)
                 likeStoryViewModel.likePostStoryResult.observe(this@Post, {
                     when (it) {
                         is Response.Success -> {
 
+                            seeTagViewModel.submitTagPost(this@Post)
+                            seeTagViewModel.seePostResult.observe(this@Post, {
+                                when (it) {
+                                    is Response.Success ->{
+
+                                        adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
+                                    }
+                                    is Response.Error -> {
+                                        Toast.makeText(
+                                            this@Post,
+                                            it.errorMessage,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
 
 
-                            seeTagViewModel.submitTagPost()                        }
+                                }
+                            })
+                        }
                         is Response.Error -> {
                             Toast.makeText(
                                 this@Post,
@@ -104,11 +112,28 @@ class Post : AppCompatActivity() {
             override fun onItemClick5(position: Int) {
                 Post=adapter.Posts[position].post_id
                 createBookmarkViewModel.PostId.setValue(Post)
-                createBookmarkViewModel.CreateBookmarkSubmitData()
+                createBookmarkViewModel.CreateBookmarkSubmitData(this@Post)
                 createBookmarkViewModel.createBookmarkResult.observe(this@Post, {
                     when (it) {
                         is Response.Success -> {
-                            seeTagViewModel.submitTagPost()                        }
+                            seeTagViewModel.submitTagPost(this@Post)
+                            seeTagViewModel.seePostResult.observe(this@Post, {
+                                when (it) {
+                                    is Response.Success ->{
+
+                                        adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
+                                    }
+                                    is Response.Error -> {
+                                        Toast.makeText(
+                                            this@Post,
+                                            it.errorMessage,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+
+
+                                }
+                            })}
                         is Response.Error -> {
                             Toast.makeText(
                                 this@Post,
@@ -122,12 +147,9 @@ class Post : AppCompatActivity() {
             }
         })
 
-        val seeTagRepo = SeeTagPostRepo( ServiceBuilder1.buildService(Dashboard.token))
-        val seeTagViewModelFactory = SeeTagViewModelFactory(seeTagRepo)
-        seeTagViewModel = ViewModelProvider(this, seeTagViewModelFactory)[SeeTagViewModel::class.java]
 
         seeTagViewModel.Tag.setValue(Tag)
-        seeTagViewModel.submitTagPost()
+        seeTagViewModel.submitTagPost(this)
         seeTagViewModel.seePostResult.observe(this, {
             when (it) {
                 is Response.Success ->{

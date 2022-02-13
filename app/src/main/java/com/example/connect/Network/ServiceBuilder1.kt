@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ServiceBuilder1 {
     fun buildService(token: String?): ApiInterface {
         return Retrofit.Builder()
-            .baseUrl("http://65.1.114.5")
+            .baseUrl("http://3.110.55.73/")
             .client(OkHttpClient.Builder().addInterceptor { chain ->
                 val request =
                     chain.request().newBuilder().addHeader("Authorization", "Bearer $token").build()

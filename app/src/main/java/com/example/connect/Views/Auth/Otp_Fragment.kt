@@ -13,7 +13,7 @@ import com.example.connect.Views.Auth.SignUp_Fragment.Companion.Email
 import com.example.connect.R
 import com.example.connect.Repository.ForgetPasswordRepo
 import com.example.connect.Repository.OtpRepo
-import com.example.connect.Repository.Response
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.SignUpRepo
 import com.example.connect.Views.Auth.ForgetPassword_Fragment.Companion.email
 import com.example.connect.Views.Auth.SignUp_Fragment.Companion.Name

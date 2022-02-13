@@ -48,11 +48,15 @@ class CreateChildCommentAdapter() : RecyclerView.Adapter<CreateChildCommentAdapt
         holder.userName.text = post.author
         holder.content.text = post.content
 
-        holder.pic.load(post.profile_picture) {
-            ImageView.ScaleType.CENTER_CROP
-            crossfade(true)
-            placeholder(R.drawable.ic_baseline_circle_24)
+        if (post.profile_picture == null){
+            holder.pic.setImageResource(R.drawable.photo)
+        }else {
+            holder.pic.load(post.profile_picture) {
+                ImageView.ScaleType.CENTER_CROP
+                crossfade(true)
+                placeholder(R.drawable.ic_baseline_circle_24)
 
+            }
         }
 //        val gd = holder.HomeImage.background as GradientDrawable
 //        //gd.setCornerRadius(10)

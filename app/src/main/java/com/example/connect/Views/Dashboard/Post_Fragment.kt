@@ -1,11 +1,9 @@
 package com.example.connect.Views.Dashboard
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.LoginFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,32 +11,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.connect.Dashboard.Companion.token
 import com.example.connect.Network.ServiceBuilder1
-import com.example.connect.Repository.Datastore
-import com.example.connect.Repository.Response
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.UploadPostRepo
 import com.example.connect.View_model.PostViewModel
 import com.example.connect.View_model.PostViewModelFactory
 import com.example.connect.databinding.PostFragmentBinding
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.launch
 import java.util.*
-import android.content.Context
-import androidx.appcompat.app.AlertDialog
 
 
-import com.example.connect.MainActivity
-import com.example.connect.R
-import android.content.DialogInterface
-import android.view.KeyEvent
 import android.app.ProgressDialog
-import android.widget.ImageView
-import android.widget.ProgressBar
-import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation
-import kotlin.collections.ArrayList
+import com.example.connect.R
 
 
 class Post_Fragment : Fragment() {
@@ -99,7 +86,7 @@ class Post_Fragment : Fragment() {
 //            postViewModel.submitData(ImageUri)
 //            else if(choose==0) {
 
-                postViewModel.submitData()
+                postViewModel.submitData(requireContext())
 //            }
             postViewModel.Result.observe(viewLifecycleOwner, {
                 when (it) {
@@ -107,6 +94,8 @@ class Post_Fragment : Fragment() {
                         .show()
                         postViewModel.caption.setValue("")
                         postViewModel.imageUrl.setValue(null)
+                        Navigation.findNavController(view)
+                            .navigate(R.id.action_post_Fragment_to_profile_Fragment)
                       }
                     is Response.Error -> {Toast.makeText(
                         context,
@@ -126,10 +115,7 @@ class Post_Fragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val postRepo = UploadPostRepo(ServiceBuilder1.buildService(token))
-        Log.i("token", "access:$token")
-        val postViewModelFactory = PostViewModelFactory(postRepo)
-        postViewModel = ViewModelProvider(this, postViewModelFactory)[PostViewModel::class.java]
+        postViewModel = ViewModelProvider((context as FragmentActivity?)!!)[PostViewModel::class.java]
         selectImage()
 
 

@@ -11,27 +11,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Dashboard
 import com.example.connect.Network.ServiceBuilder1
-import com.example.connect.OthersProfile
 import com.example.connect.Post
-import com.example.connect.Repository.Response
-import com.example.connect.Repository.SearchProfileRepo
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.SearchTagRepo
-import com.example.connect.View_model.SearchProfileViewModel
-import com.example.connect.View_model.SearchProfileViewModelFactory
 import com.example.connect.View_model.SearchTagViewModel
 import com.example.connect.View_model.SearchTagViewModelFactory
-import com.example.connect.databinding.AccountsBinding
-import com.example.connect.databinding.SearchFragmentBinding
 import com.example.connect.databinding.TagsBinding
-import com.example.connect.model.SearchProfileDataClassItem
 import com.example.connect.model.SearchTagDataClass
-import com.example.connect.recylcer_view_adapter.HomePageAdapter
-import com.example.connect.recylcer_view_adapter.SearchProfileAdapter
 import com.example.connect.recylcer_view_adapter.SearchTagAdapter
 
 class TagsSearch_Fragment: Fragment() {
@@ -60,7 +52,7 @@ class TagsSearch_Fragment: Fragment() {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length!! > 0) {
-                    searchTagViewModel.submitotherprofile(s.toString())
+                    searchTagViewModel.submitotherprofile(s.toString(),requireContext())
                     Log.i("View", "ontext")
                     searchTagViewModel.searchTagResult.observe(viewLifecycleOwner, {
                         when (it) {
@@ -102,9 +94,7 @@ class TagsSearch_Fragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val searchTagRepo= SearchTagRepo(ServiceBuilder1.buildService(Dashboard.token))
-        Log.i("tokenmyaccount", "access:${Dashboard.token}")
-        val searchTagViewModelFactory= SearchTagViewModelFactory(searchTagRepo)
-        searchTagViewModel= ViewModelProvider(this,searchTagViewModelFactory)[SearchTagViewModel::class.java]
+
+        searchTagViewModel= ViewModelProvider((context as FragmentActivity?)!!)[SearchTagViewModel::class.java]
     }
 }

@@ -56,11 +56,14 @@ class ShowRequestPageAdapter () : RecyclerView.Adapter<ShowRequestPageAdapter.Ho
 
         val post = Posts[position]
         holder.userName.text= post.from_user_username
-        holder.profileImage.load(post.from_user_profile_photo){
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_background)
+        if (post.from_user_profile_photo==null){
+            holder.profileImage.setImageResource(R.drawable.photo)
+        }else {
+            holder.profileImage.load(post.from_user_profile_photo) {
+                crossfade(true)
+                placeholder(R.drawable.ic_launcher_background)
+            }
         }
-
     }
 
     override fun getItemCount(): Int {

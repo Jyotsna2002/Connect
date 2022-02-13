@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.*
 import com.example.connect.View_model.*
 import com.example.connect.databinding.ActivityPostBinding
@@ -17,9 +20,9 @@ import com.example.connect.recylcer_view_adapter.SeeTagAdapter
 
 class Bookmark : AppCompatActivity() {
     private lateinit var binding: ActivityPostBinding
-    private lateinit var likeStoryViewModel: LikeStoryViewModel
-    private lateinit var createBookmarkViewModel: CreateBookmarkViewModel
-    private lateinit var showBookmarkViewModel: ShowBookmarkViewModel
+    private val likeStoryViewModel: LikeStoryViewModel by viewModels()
+    private  val createBookmarkViewModel: CreateBookmarkViewModel by viewModels()
+    private  val showBookmarkViewModel: ShowBookmarkViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private var adapter= SeeTagAdapter()
     var PostId:Int?=null
@@ -32,13 +35,6 @@ class Bookmark : AppCompatActivity() {
             recyclerView= binding.seePost
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             recyclerView.adapter = adapter
-            val likestoryRepo = LikePostRepo(ServiceBuilder1.buildService(Dashboard.token))
-            val likeStoryViewModelFactory = LikeStoryViewModelFactory(likestoryRepo)
-            likeStoryViewModel = ViewModelProvider(this, likeStoryViewModelFactory)[LikeStoryViewModel::class.java]
-
-            val createBookmarkRepo = CreateBookmarkRepo(ServiceBuilder1.buildService(Dashboard.token))
-            val createBookmarkViewModelFactory = CreateBookmarkViewModelFactory(createBookmarkRepo)
-            createBookmarkViewModel = ViewModelProvider(this, createBookmarkViewModelFactory)[CreateBookmarkViewModel::class.java]
 
             adapter.setOnItemClickListener(object : SeeTagAdapter.onItemClickListener {
                 override fun onItemClick(position: Int) {
@@ -52,12 +48,29 @@ class Bookmark : AppCompatActivity() {
                 override fun onItemClick2(position: Int) {
                     PostId=adapter.Posts[position].post_id
                     likeStoryViewModel.PostId.setValue(PostId)
-                    likeStoryViewModel.LikeStorySubmitData()
+                    likeStoryViewModel.LikeStorySubmitData(this@Bookmark)
                     likeStoryViewModel.likePostStoryResult.observe(this@Bookmark, {
                         when (it) {
                             is Response.Success -> {
 
-                                showBookmarkViewModel.ShowBookmarkSubmitData()
+                                showBookmarkViewModel.ShowBookmarkSubmitData(this@Bookmark)
+                                showBookmarkViewModel.showBookmarkResult.observe(this@Bookmark, {
+                                    when (it) {
+                                        is Response.Success ->{
+
+                                            adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
+                                        }
+                                        is Response.Error -> {
+                                            Toast.makeText(
+                                                this@Bookmark,
+                                                it.errorMessage,
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+
+
+                                    }
+                                })
                             }
                             is Response.Error -> {
                                 Toast.makeText(
@@ -96,11 +109,28 @@ class Bookmark : AppCompatActivity() {
                 override fun onItemClick5(position: Int) {
                     Post=adapter.Posts[position].post_id
                     createBookmarkViewModel.PostId.setValue(Post)
-                    createBookmarkViewModel.CreateBookmarkSubmitData()
+                    createBookmarkViewModel.CreateBookmarkSubmitData(this@Bookmark)
                     createBookmarkViewModel.createBookmarkResult.observe(this@Bookmark, {
                         when (it) {
                             is Response.Success -> {
-                                showBookmarkViewModel.ShowBookmarkSubmitData()
+                                showBookmarkViewModel.ShowBookmarkSubmitData(this@Bookmark)
+                                showBookmarkViewModel.showBookmarkResult.observe(this@Bookmark, {
+                                    when (it) {
+                                        is Response.Success ->{
+
+                                            adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
+                                        }
+                                        is Response.Error -> {
+                                            Toast.makeText(
+                                                this@Bookmark,
+                                                it.errorMessage,
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+
+
+                                    }
+                                })
                                     }
                             is Response.Error -> {
                                 Toast.makeText(
@@ -115,12 +145,9 @@ class Bookmark : AppCompatActivity() {
                 }
             })
 
-            val showBookRepo = ShowBookmarkRepo( ServiceBuilder1.buildService(Dashboard.token))
-            val showBookViewModelFactory = ShowBookmarkViewModelFactory(showBookRepo)
-            showBookmarkViewModel = ViewModelProvider(this, showBookViewModelFactory)[ShowBookmarkViewModel::class.java]
 
 
-            showBookmarkViewModel.ShowBookmarkSubmitData()
+            showBookmarkViewModel.ShowBookmarkSubmitData(this)
             showBookmarkViewModel.showBookmarkResult.observe(this, {
                 when (it) {
                     is Response.Success ->{

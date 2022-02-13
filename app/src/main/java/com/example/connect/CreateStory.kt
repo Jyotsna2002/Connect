@@ -7,22 +7,22 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Repository.CreateStoryRepo
-import com.example.connect.Repository.Response
+import com.example.connect.Password_check.Response
 import com.example.connect.View_model.CreateStoryViewModel
 import com.example.connect.View_model.CreateStoryViewModelFactory
-import com.example.connect.Views.Dashboard.Home_Fragment
 import com.example.connect.databinding.ActivityCreateStoryBinding
-import com.example.connect.databinding.ProfileFragmentBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
 class CreateStory : AppCompatActivity() {
     private lateinit var binding: ActivityCreateStoryBinding
-    private lateinit var createStoryViewModel: CreateStoryViewModel
+    private  val createStoryViewModel: CreateStoryViewModel by viewModels()
     private var IMAGE_REQUEST_CODE = 100
     private lateinit var ImageUri: ArrayList<String>
     private lateinit var Imageuri: Uri
@@ -37,26 +37,27 @@ class CreateStory : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         ImageUri= ArrayList()
-        val createstoryRepo = CreateStoryRepo(ServiceBuilder1.buildService(Dashboard.token))
-        val createStoryViewModelFactory = CreateStoryViewModelFactory(createstoryRepo)
-        createStoryViewModel = ViewModelProvider(this, createStoryViewModelFactory)[CreateStoryViewModel::class.java]
-
+        val storyProgressBar=binding.storyProgressBar
         pickImages()
         binding.uploadstory.setOnClickListener {
             binding.uploadstory.isClickable=false
+            storyProgressBar.visibility= View.VISIBLE
             if(multiple ==1) {
 
-                createStoryViewModel.submitDataCreateStory(ImageUri)
+                createStoryViewModel.submitDataCreateStory(ImageUri,this)
             }
             else if(multiple ==0) {
 
-                createStoryViewModel.submitDataCreateStory(ImageUri)
+                createStoryViewModel.submitDataCreateStory(ImageUri,this)
             }
 
             createStoryViewModel.createStoryResult.observe(this, {
                 when (it) {
                     is Response.Success ->{ Toast.makeText(this, "Your story is uploaded", Toast.LENGTH_LONG)
                         .show()
+                        storyProgressBar.visibility= View.GONE
+                        val intent = Intent(this, Dashboard::class.java)
+                        startActivity(intent)
                     }
                     is Response.Error -> {
                         Toast.makeText(
@@ -64,10 +65,12 @@ class CreateStory : AppCompatActivity() {
                         it.errorMessage,
                         Toast.LENGTH_LONG
                     ).show()
+                        storyProgressBar.visibility= View.GONE
                     }
                     is Response.Loading -> {
                         Toast.makeText(this, "Loading", Toast.LENGTH_LONG)
                         .show()
+                        storyProgressBar.visibility= View.VISIBLE
                     }
 
                 }

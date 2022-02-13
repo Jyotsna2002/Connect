@@ -1,22 +1,31 @@
 package com.example.connect.Repository
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.connect.Network.ApiInterface
+import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Password_check.Datastore
+import com.example.connect.Password_check.Response
+import com.example.connect.Password_check.generateToken
 import com.example.connect.model.OthersPost
 import com.example.connect.model.Profile
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 
-class OthersProfilePostRepo(private val service: ApiInterface) {
+class OthersProfilePostRepo{
     private val OthersProfilePostLiveData= MutableLiveData<Response<List<OthersPost>>>()
-    fun OthersPostProfile(user_id:Int?): MutableLiveData<Response<List<OthersPost>>> {
+   suspend fun OthersPostProfile(user_id:Int?,context:Context): MutableLiveData<Response<List<OthersPost>>> {
         Log.i("user_id","$user_id")
-        val call=service.viewOtherPost(
+        val token = Datastore(context).getUserDetails(Datastore.ACCESS_TOKEN_KEY)
+        val call= ServiceBuilder1.buildService(token).viewOtherPost(
             Profile(
                 user_id=user_id
             )
         )
+
         OthersProfilePostLiveData.postValue(Response.Loading())
         call.enqueue(object : Callback<List<OthersPost>?> {
             override fun onResponse(
@@ -28,6 +37,16 @@ class OthersProfilePostRepo(private val service: ApiInterface) {
                     OthersProfilePostLiveData.postValue(Response.Success(responseBody))
 
                     Log.i("Helloprofilepost", "onActivityResult:"+responseBody)
+                } else if( response.code() == 406 ){
+                    GlobalScope.launch {
+                        generateToken(
+                            token!!,
+                            Datastore(context).getUserDetails(
+                                Datastore.REF_TOKEN_KEY
+                            )!!, context
+                        )
+                        OthersPostProfile(user_id,context)
+                    }
                 }
                 else {
                     OthersProfilePostLiveData.postValue(Response.Error(response.message()))

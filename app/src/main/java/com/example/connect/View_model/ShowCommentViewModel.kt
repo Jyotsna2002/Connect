@@ -1,18 +1,18 @@
 package com.example.connect.View_model
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.connect.Password_check.Response
 import com.example.connect.Repository.*
 import com.example.connect.model.CommentDataClass
-import com.example.connect.model.LikePostDataClass
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
 
 
-class ShowCommentViewModel(private val showCommentRepo: ShowCommentRepo) : ViewModel() {
+class ShowCommentViewModel : ViewModel() {
 
     var PostId = MutableLiveData<Int>()
 
@@ -20,8 +20,8 @@ class ShowCommentViewModel(private val showCommentRepo: ShowCommentRepo) : ViewM
     val showCommentResult:LiveData<Response<List<CommentDataClass>>>
         get() = ShowCommentResult
 
-    fun ShowCommentSubmitData() = viewModelScope.launch {
-        ShowCommentResult =showCommentRepo.ShowComment(PostId.value)
+    fun ShowCommentSubmitData(context: Context) = viewModelScope.launch {
+        ShowCommentResult =ShowCommentRepo().ShowComment(PostId.value,context)
         Log.i("user_id", "Respone "+PostId.value)
 
     }

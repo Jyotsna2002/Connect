@@ -13,7 +13,7 @@
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:scaleType="centerCrop"
-    android:src="@drawable/circle_image"
+    android:src="@drawable/ic_vector__32_"
     android:layout_marginTop="8dp"
     android:layout_marginStart="22dp"
     app:layout_constraintStart_toStartOf="parent"

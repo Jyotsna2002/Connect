@@ -1,4 +1,4 @@
-package com.example.connect.Repository
+package com.example.connect.Password_check
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.first
 val DATASTORE_NAME = "user_details"
 val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_NAME)
 
-    class Datastore(context: Context?) {
-        private val appContext = context?.applicationContext
+    class Datastore(context: Context) {
+        private val appContext = context.applicationContext
 
         companion object {
             const val LOGIN_KEY = "login_key"
@@ -25,20 +25,20 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
             const val REF_TOKEN_KEY = "ref_token_key"
             const val USER_NAME_KEY="username_key"
             const val USER_KEY="user_key"
-           // const val PROFILE_KEY="profile_key"
+            const val PROFILE_KEY="profile_key"
 
         }
 
-        suspend fun saveUserDetails(key: String, value: String) {
+        suspend fun saveUserDetails(key: String, value: String?) {
             val key1 = stringPreferencesKey(key)
             appContext!!.datastore.edit { user_details ->
-                user_details[key1] = value
+                user_details[key1] = value.toString()
             }
         }
 
         suspend fun changeLoginState(value: Boolean) {
             val key1 = booleanPreferencesKey(LOGIN_KEY)
-            appContext!!.datastore.edit {
+            appContext.datastore.edit {
                 it[key1] = value
             }
         }
@@ -48,9 +48,9 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
             return appContext!!.datastore.data.first()[key1]
         }
 
-        suspend fun isLogin(): Boolean? {
+        suspend fun isLogin(): Boolean {
             val key1 = booleanPreferencesKey(LOGIN_KEY)
-            return appContext!!.datastore.data.first()[key1]
+            return appContext.datastore.data.first()[key1] ?: false
         }
         suspend fun saveToDatastore(it: AuthDataClass, context: Context) {
             val datastore = Datastore(context)
@@ -61,8 +61,6 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(DATASTORE_
             datastore.saveUserDetails(REF_TOKEN_KEY, it.refresh!!)
             datastore.saveUserDetails(USER_NAME_KEY,it.username!!)
             datastore.saveUserDetails(USER_KEY, it.user.toString())
-//            datastore.saveUserDetails(PROFILE_KEY,it.profile_picture!!)
-
         }
         
     }

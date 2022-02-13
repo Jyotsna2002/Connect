@@ -1,5 +1,6 @@
 package com.example.connect.recylcer_view_adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,9 +44,15 @@ class SearchProfileAdapter () : RecyclerView.Adapter<SearchProfileAdapter.HomeVi
 
         val post = Posts[position]
         holder.user_name.text=post.username
-        holder.searchprofilepic.load(post.profile_photo){
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_background)
+        if (post.profile_photo==null){
+            holder.searchprofilepic.setImageResource(R.drawable.photo)
+        }else {
+            holder.searchprofilepic.load(post.profile_photo) {
+                crossfade(true)
+                placeholder(R.drawable.ic_launcher_background)
+                error(R.drawable.photo)
+                Log.i("error", "onBindViewHolder: " + post.profile_photo)
+            }
         }
     }
 

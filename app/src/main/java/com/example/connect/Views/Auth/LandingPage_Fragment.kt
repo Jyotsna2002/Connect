@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import com.example.connect.Dashboard
+import androidx.navigation.fragment.findNavController
+import com.example.connect.Password_check.Datastore
 import com.example.connect.R
-import com.example.connect.Repository.Datastore
 import com.example.connect.databinding.LandingPageFragmentBinding
 import kotlinx.coroutines.launch
 
@@ -31,11 +30,19 @@ class LandingPage_Fragment: Fragment() {
 
         forget="false"
 
+
+//        lifecycleScope.launch {
+//            datastore = Datastore(requireContext())
+//            if (datastore.isLogin()) {
+//                activity?.finish()
+//                findNavController().navigate(R.id.action_landingPage_Fragment_to_dashboard)
+//            }
+//        }
         binding.log.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_landingPage_Fragment_to_login_Fragment)
+            findNavController().navigate(R.id.action_landingPage_Fragment_to_login_Fragment)
         }
         binding.sign.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_landingPage_Fragment_to_username_Fragment)
+            findNavController().navigate(R.id.action_landingPage_Fragment_to_username_Fragment)
         }
 
         return view
@@ -43,9 +50,10 @@ class LandingPage_Fragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        datastore = this.let { Datastore(context) }
+        datastore = this.let { Datastore(requireContext()) }
         lifecycleScope.launch {
             access=  datastore.getUserDetails(Datastore.ACCESS_TOKEN_KEY).toString()
+           // datastore.changeLoginState(false)
         }
     }
     }

@@ -2,26 +2,27 @@ package com.example.connect.Repository
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Network.ApiInterface
-import com.example.connect.model.HomeDataClassItem
+import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Password_check.Datastore
+import com.example.connect.Password_check.Response
+import com.example.connect.Password_check.generateToken
 import com.example.connect.model.ShowFollowRequestDataClass
-import com.example.connect.recylcer_view_adapter.HomePageAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 
-class ShowRequestPageRepo(private val service: ApiInterface) {
+class ShowRequestPageRepo{
 
 
 
     private val ShowRequestLiveData= MutableLiveData<Response<List<ShowFollowRequestDataClass>>>()
 
-    fun ShowRequest(): MutableLiveData<Response<List<ShowFollowRequestDataClass>>> {
-        val call=service.showRequest()
+   suspend fun ShowRequest(context:Context): MutableLiveData<Response<List<ShowFollowRequestDataClass>>> {
+        val token = Datastore(context).getUserDetails(Datastore.ACCESS_TOKEN_KEY)
+        val call= ServiceBuilder1.buildService(token).showRequest()
         ShowRequestLiveData.postValue(Response.Loading())
                 call.enqueue(object : Callback<List<ShowFollowRequestDataClass>?> {
                     override fun onResponse(
@@ -33,6 +34,16 @@ class ShowRequestPageRepo(private val service: ApiInterface) {
                     ShowRequestLiveData.postValue(Response.Success(responseBody))
 
                     Log.i("Hellorequest", "onActivityResult:$responseBody")
+                }else if( response.code() == 406){
+                    GlobalScope.launch {
+                        generateToken(
+                            token!!,
+                            Datastore(context).getUserDetails(
+                                Datastore.REF_TOKEN_KEY
+                            )!!, context
+                        )
+                        ShowRequest(context)
+                    }
                 }
                 else {
                     ShowRequestLiveData.postValue(Response.Error(response.message()))

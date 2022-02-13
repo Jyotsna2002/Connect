@@ -7,25 +7,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Dashboard
 import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Repository.NotiRepo
-import com.example.connect.Repository.Response
-import com.example.connect.Repository.ShowRequestPageRepo
+import com.example.connect.Password_check.Response
 import com.example.connect.View_model.NotiViewModelFactory
 import com.example.connect.View_model.ShowNotiViewModel
-import com.example.connect.View_model.ShowRequestViewModel
-import com.example.connect.View_model.ShowRequestViewModelFactory
-import com.example.connect.databinding.AccountsBinding
 import com.example.connect.databinding.LikedByBinding
-import com.example.connect.databinding.SearchFragmentBinding
 import com.example.connect.model.Notificationpage
-import com.example.connect.model.ShowFollowRequestDataClass
 import com.example.connect.recylcer_view_adapter.NotiAdapter
-import com.example.connect.recylcer_view_adapter.ShowRequestPageAdapter
 
 class LikedBy_Fragment: Fragment() {
     private var _binding: LikedByBinding? = null
@@ -50,13 +44,13 @@ class LikedBy_Fragment: Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val showNotiRepo = NotiRepo(ServiceBuilder1.buildService(Dashboard.token))
-        val showNotiViewModelFactory = NotiViewModelFactory(showNotiRepo)
-        showNotiViewModel= ViewModelProvider(this, showNotiViewModelFactory)[ShowNotiViewModel::class.java]
-        showNotiViewModel.ShowNotiSubmitData()
+
+        showNotiViewModel= ViewModelProvider((context as FragmentActivity?)!!)[ShowNotiViewModel::class.java]
+
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showNotiViewModel.ShowNotiSubmitData(requireContext())
         showNotiViewModel.showNotiResult.observe(viewLifecycleOwner, {
             when (it) {
                 is Response.Success -> {

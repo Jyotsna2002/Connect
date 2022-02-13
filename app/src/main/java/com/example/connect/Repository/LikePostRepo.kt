@@ -1,30 +1,32 @@
 package com.example.connect.Repository
 
+import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.connect.Network.ApiInterface
-import com.example.connect.model.CreateStoryDataClass
+import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Password_check.Datastore
+import com.example.connect.Password_check.Response
+import com.example.connect.Password_check.generateToken
 import com.example.connect.model.LikePostDataClass
-import com.example.connect.model.PostDataClass
-import com.example.connect.model.ShowStoryDataClass
-import okhttp3.ResponseBody
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
-import kotlin.coroutines.coroutineContext
 
-class LikePostRepo(private val service:ApiInterface) {
+class LikePostRepo {
     private val LikeStoryLiveData= MutableLiveData<Response<LikePostDataClass>>()
 
-    fun  LikePost(PostId:Int?): MutableLiveData<Response<LikePostDataClass>> {
+  suspend  fun  LikePost(PostId:Int?,context: Context): MutableLiveData<Response<LikePostDataClass>> {
 
         Log.i("media", "media:$PostId")
-        val call = service.likePost(
+        val token = Datastore(context).getUserDetails(Datastore.ACCESS_TOKEN_KEY)
+        val call= ServiceBuilder1.buildService(token).likePost(
             LikePostDataClass(
                 post_id = PostId
             )
         )
+
         LikeStoryLiveData.postValue(Response.Loading())
         call.enqueue(object : Callback<LikePostDataClass?> {
             override fun onResponse(
@@ -35,7 +37,17 @@ class LikePostRepo(private val service:ApiInterface) {
                     LikeStoryLiveData.postValue(Response.Success(response.body()))
                     Log.i("HellosuccesStory", "onActivityResult: Success" )
                 }
-
+                else if( response.code() == 406 ){
+                    GlobalScope.launch {
+                        generateToken(
+                            token!!,
+                            Datastore(context).getUserDetails(
+                                Datastore.REF_TOKEN_KEY
+                            )!!, context
+                        )
+                        LikePost(PostId,context)
+                    }
+                }
                 else {
                     LikeStoryLiveData.postValue(Response.Error(response.message()))
                     Log.i("HellosuccesStory", "onActivityResult:"+response.code() )

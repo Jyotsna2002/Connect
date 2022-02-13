@@ -66,4 +66,8 @@ interface ApiInterface {
     fun noti():Call<List<Notificationpage>>
     @GET("api/user/home/profile-picture/")
     fun profile():Call<OthersPost>
+
+    @POST("/api/token/")
+    fun generateToken(@Body data:AccessTkn): Call<AccessTkn>
+
 }

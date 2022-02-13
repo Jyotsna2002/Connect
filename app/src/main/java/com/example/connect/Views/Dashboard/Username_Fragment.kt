@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.example.connect.Password_check.Datastore
+import com.example.connect.Password_check.Response
 import com.example.connect.R
 import com.example.connect.Repository.*
-import com.example.connect.Views.Auth.SignUp_Fragment
 import com.example.connect.databinding.UsernameFragmentBinding
-import com.example.connect.model.AuthDataClass
-import kotlinx.coroutines.launch
 
 class Username_Fragment :Fragment() {
     private var _binding: UsernameFragmentBinding? = null

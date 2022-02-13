@@ -11,11 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.connect.R
 import com.example.connect.Repository.ForgetPasswordRepo
-import com.example.connect.Repository.LoginRepo
-import com.example.connect.Repository.Response
+import com.example.connect.Password_check.Response
 import com.example.connect.Views.Auth.LandingPage_Fragment.Companion.forget
 import com.example.connect.databinding.ForgetPasswordFragmentBinding
-import com.example.connect.databinding.LoginFragmentBinding
 
 class ForgetPassword_Fragment:Fragment() {
     private var _binding: ForgetPasswordFragmentBinding?=null
