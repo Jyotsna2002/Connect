@@ -11,12 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.connect.Dashboard.Companion.token
-import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Password_check.Response
-import com.example.connect.Repository.UploadPostRepo
 import com.example.connect.View_model.PostViewModel
-import com.example.connect.View_model.PostViewModelFactory
 import com.example.connect.databinding.PostFragmentBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*

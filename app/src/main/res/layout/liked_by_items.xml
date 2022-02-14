@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="16dp"
-    android:layout_marginStart="16dp"
     android:fillViewport="true">
 
 <com.google.android.material.imageview.ShapeableImageView
@@ -21,34 +19,21 @@
     app:layout_constraintTop_toTopOf="parent"
     app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView" />
 
-    <TextView
-        android:id="@+id/user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="anil_y"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/open_sans"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginEnd="27dp"
-        app:layout_constraintStart_toEndOf="@+id/othersProfile"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/noti"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="17dp"
         android:layout_marginTop="30dp"
-        android:text="liked your post"
+        android:layout_marginEnd="5dp"
+        android:fontFamily="@font/open_sans"
+        android:text="@string/liked_your_post"
         android:textColor="@color/black"
         android:textSize="14sp"
-        android:fontFamily="@font/open_sans"
         app:layout_constraintEnd_toStartOf="@+id/likedPost"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/user"
+        app:layout_constraintStart_toEndOf="@+id/othersProfile"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

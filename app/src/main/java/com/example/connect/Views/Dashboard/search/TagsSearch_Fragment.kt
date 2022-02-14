@@ -15,13 +15,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.connect.Dashboard
-import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Post
 import com.example.connect.Password_check.Response
-import com.example.connect.Repository.SearchTagRepo
 import com.example.connect.View_model.SearchTagViewModel
-import com.example.connect.View_model.SearchTagViewModelFactory
 import com.example.connect.databinding.TagsBinding
 import com.example.connect.model.SearchTagDataClass
 import com.example.connect.recylcer_view_adapter.SearchTagAdapter

@@ -11,11 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.connect.Dashboard
-import com.example.connect.Network.ServiceBuilder1
-import com.example.connect.Repository.NotiRepo
 import com.example.connect.Password_check.Response
-import com.example.connect.View_model.NotiViewModelFactory
 import com.example.connect.View_model.ShowNotiViewModel
 import com.example.connect.databinding.LikedByBinding
 import com.example.connect.model.Notificationpage

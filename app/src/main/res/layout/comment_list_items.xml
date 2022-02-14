@@ -17,45 +17,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView" />
 
-    <TextView
-        android:id="@+id/Username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:fontFamily="@font/open_sans"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/pic"
-        app:layout_constraintStart_toEndOf="@+id/pic"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/comment"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="Content"
+        android:layout_marginStart="24dp"
         android:fontFamily="@font/open_sans"
+        android:text="Content"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/Username"
-        app:layout_constraintStart_toEndOf="@+id/Username"
-        app:layout_constraintTop_toTopOf="@+id/Username" />
+        app:layout_constraintBottom_toBottomOf="@+id/pic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pic"
+        app:layout_constraintTop_toTopOf="@+id/pic" />
 
     <TextView
         android:id="@+id/Reply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/open_sans"
         android:text="Reply"
+        android:layout_marginTop="8dp"
         android:textColor="@color/pink"
         android:textSize="12sp"
-        android:fontFamily="@font/open_sans"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/Username"
-        app:layout_constraintStart_toStartOf="@+id/Username"
+        app:layout_constraintBottom_toBottomOf="@+id/pic"
+        app:layout_constraintStart_toStartOf="@+id/comment"
         app:layout_constraintTop_toBottomOf="@+id/comment" />
 
     <androidx.recyclerview.widget.RecyclerView

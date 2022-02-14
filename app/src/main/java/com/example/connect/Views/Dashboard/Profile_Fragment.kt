@@ -20,19 +20,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.connect.Bookmark
+import com.example.connect.*
 import com.example.connect.Dashboard.Companion.name
 import com.example.connect.Dashboard.Companion.user
 import com.example.connect.Dashboard.Companion.username
-import com.example.connect.EditProfile
-import com.example.connect.MainActivity
 import com.example.connect.Password_check.Datastore
 import com.example.connect.Password_check.Response
-import com.example.connect.R
 import com.example.connect.View_model.OthersProfilePostViewModel
 import com.example.connect.View_model.OthersProfileViewModel
 import com.example.connect.databinding.ProfileFragmentBinding
 import com.example.connect.model.OthersPost
+import com.example.connect.recylcer_view_adapter.HomePageAdapter
 import com.example.connect.recylcer_view_adapter.OthersProfileAdapter
 import kotlinx.coroutines.launch
 
@@ -44,11 +42,9 @@ class Profile_Fragment : Fragment() {
     private lateinit var othersprofileViewModel: OthersProfileViewModel
     private var gridLayoutManager: GridLayoutManager?=null
     private lateinit var recyclerView: RecyclerView
-    private var IMAGE_REQUEST_CODE = 100
     private lateinit var photo:String
     private lateinit var check :String
     private var adapter= OthersProfileAdapter()
-    lateinit var toggle: ActionBarDrawerToggle
     lateinit var datastore: Datastore
     companion object{
         lateinit var Text:TextView
@@ -63,15 +59,21 @@ class Profile_Fragment : Fragment() {
         binding.userName.text=name
         val drawerLayout=binding.drawerLayout
         val navView = binding.navView
-        toggle = ActionBarDrawerToggle(activity, drawerLayout, R.string.open, R.string.close)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
         Text=binding.textView10
+        binding.editProfile.visibility=View.VISIBLE
         recyclerView= binding.recyclerView2
         gridLayoutManager= GridLayoutManager(context,3,
             LinearLayoutManager.VERTICAL,false)
         recyclerView.layoutManager=gridLayoutManager
         recyclerView.adapter=adapter
+        adapter.setOnItemClickListener(object : OthersProfileAdapter.onItemClickListener {
+            override fun onItemClick(position: Int) {
+                val intent = Intent(context, ShowPost::class.java)
+                intent.putExtra("USER", adapter.Posts[position].user.toString())
+                Log.i("userId", "onActivityResult:" +adapter.Posts[position].user.toString())
+                startActivity(intent)
+            }
+        })
         othersprofilepostViewModel.User_id.setValue(user.toInt())
         othersprofilepostViewModel.submitotherprofilepost(requireContext())
         binding.editProfile.setOnClickListener {
@@ -116,12 +118,7 @@ class Profile_Fragment : Fragment() {
         }
         return view
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            true
-        }
-        return super.onOptionsItemSelected(item)
-    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
