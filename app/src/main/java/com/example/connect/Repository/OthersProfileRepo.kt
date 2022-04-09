@@ -17,7 +17,7 @@ import retrofit2.Callback
 class OthersProfileRepo {
     private val OthersProfileLiveData= MutableLiveData<Response<Profile>>()
    suspend fun OthersProfile(user_id:Int?,context:Context): MutableLiveData<Response<Profile>> {
-        Log.i("user_id","$user_id")
+        Log.i("user_idprofile","$user_id")
         val token = Datastore(context).getUserDetails(Datastore.ACCESS_TOKEN_KEY)
         val call= ServiceBuilder1.buildService(token).viewProfile(
             Profile(
@@ -50,7 +50,7 @@ class OthersProfileRepo {
                 else {
                     OthersProfileLiveData.postValue(Response.Error(response.message()))
 
-                    Log.i("Helloprofile", "onActivityResult:"+response.code() )
+                    Log.i("Helloprofile", "onActivityResult:"+response.code())
                 }
             }
 

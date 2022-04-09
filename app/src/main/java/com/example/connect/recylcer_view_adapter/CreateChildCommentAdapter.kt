@@ -2,6 +2,7 @@ package com.example.connect.recylcer_view_adapter
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,9 +46,14 @@ class CreateChildCommentAdapter() : RecyclerView.Adapter<CreateChildCommentAdapt
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
 
         val post = Posts[position]
-        holder.userName.text = post.author
-        holder.content.text = post.content
-
+       // holder.userName.text = post.author
+//        holder.content.text = post.content
+        val mystring =  post.content?.trim()
+        val arr = mystring?.split(" ".toRegex(), 2)
+        val firstWord = arr?.get(0).toString()
+        val theRest = arr?.get(1)
+        val word = "<b>$firstWord</b>  $theRest"
+        holder.content.text= Html.fromHtml(word)
         if (post.profile_picture == null){
             holder.pic.setImageResource(R.drawable.photo)
         }else {
@@ -72,7 +78,7 @@ class CreateChildCommentAdapter() : RecyclerView.Adapter<CreateChildCommentAdapt
         RecyclerView.ViewHolder(itemView) {
 
         var pic = itemView.findViewById<ImageView>(R.id.pic2)
-        var userName = itemView.findViewById<TextView>(R.id.Username2)
+     //   var userName = itemView.findViewById<TextView>(R.id.Username2)
         var content = itemView.findViewById<TextView>(R.id.comment2)
         var child=itemView.findViewById<RecyclerView>(R.id.childComment)
 

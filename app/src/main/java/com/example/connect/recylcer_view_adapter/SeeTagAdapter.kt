@@ -9,8 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.connect.Bookmark.Companion.Text8
 import com.example.connect.Dashboard.Companion.name
 import com.example.connect.R
+import com.example.connect.Views.Dashboard.Profile_Fragment
 import com.example.connect.model.HomeDataClassItem
 import com.example.connect.model.OthersPost
 import com.example.connect.model.SearchProfileDataClassItem
@@ -61,6 +63,14 @@ class SeeTagAdapter () : RecyclerView.Adapter<SeeTagAdapter.HomeViewHolder>() {
     }
 
     fun setUpdatedData(Posts: ArrayList<OthersPost>) {
+        if(Posts.isEmpty())
+        {
+            Text8.visibility=View.VISIBLE
+        }
+        else
+        {
+            Text8.visibility=View.GONE
+        }
         this.Posts = Posts
         notifyDataSetChanged()
     }

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+
+    >
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/pic2"
         android:layout_width="35dp"
@@ -15,33 +17,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView" />
 
-    <TextView
-        android:id="@+id/Username2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:fontFamily="@font/open_sans"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/pic2"
-        app:layout_constraintStart_toEndOf="@+id/pic2"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/comment2"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="Content"
+        android:layout_marginStart="24dp"
         android:fontFamily="@font/open_sans"
-        android:layout_marginTop="7dp"
+        android:text="Content"
+        android:gravity="center_vertical"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:breakStrategy="simple"
-        app:layout_constraintStart_toEndOf="@+id/Username2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pic2"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

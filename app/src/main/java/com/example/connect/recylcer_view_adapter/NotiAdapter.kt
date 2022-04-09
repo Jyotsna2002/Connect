@@ -1,7 +1,9 @@
 package com.example.connect.recylcer_view_adapter
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,11 @@ import com.example.connect.Views.Dashboard.notification.LikedBy_Fragment.Compani
 import com.example.connect.Views.Dashboard.notification.Request_Fragment
 import com.example.connect.model.HomeStoryDataClass
 import com.example.connect.model.Notificationpage
+import android.text.style.StyleSpan
+
+import android.text.SpannableString
+import android.util.Log
+
 
 class NotiAdapter() : RecyclerView.Adapter<NotiAdapter.HomeViewHolder>() {
     var Posts = ArrayList<Notificationpage>()
@@ -52,13 +59,23 @@ class NotiAdapter() : RecyclerView.Adapter<NotiAdapter.HomeViewHolder>() {
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
 
         val post = Posts[position]
-        holder.Name.text = post.sender_username
+       // holder.Name.text = post.sender_username
         holder.Noti.text = post.text
-        holder.UserImage.load(post.profile_picture) {
-            ImageView.ScaleType.CENTER_CROP
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_background)
+        val mystring =  post.text?.trim()
+        val arr = mystring?.split(" ".toRegex(), 2)
+        val firstWord = arr?.get(0).toString()
+        val theRest = arr?.get(1)
+        val word = "<b>$firstWord</b>  $theRest"
+        holder.Noti.text=Html.fromHtml(word)
+        if(post.profile_picture==null){
+            holder.UserImage.setImageResource(R.drawable.photo)
+        }else {
+            holder.UserImage.load(post.profile_picture) {
+                ImageView.ScaleType.CENTER_CROP
+                crossfade(true)
+                placeholder(R.drawable.ic_launcher_background)
 
+            }
         }
         holder.LikedPost.load(post.post_preview_image) {
             ImageView.ScaleType.CENTER_CROP
@@ -80,7 +97,7 @@ class NotiAdapter() : RecyclerView.Adapter<NotiAdapter.HomeViewHolder>() {
         RecyclerView.ViewHolder(itemView) {
 
         var UserImage = itemView.findViewById<ImageView>(R.id.othersProfile)
-        var Name = itemView.findViewById<TextView>(R.id.user)
+       // var Name = itemView.findViewById<TextView>(R.id.user)
         var LikedPost = itemView.findViewById<ImageView>(R.id.likedPost)
         var Noti = itemView.findViewById<TextView>(R.id.noti)
 

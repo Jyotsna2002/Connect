@@ -12,4 +12,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="liked_your_post">liked your post</string>
 </resources>

@@ -1,49 +1,47 @@
 package com.example.connect
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.connect.Bookmark.Companion.Text8
-import com.example.connect.Network.ServiceBuilder1
+import com.example.connect.Dashboard.Companion.user
 import com.example.connect.Password_check.Response
-import com.example.connect.Repository.*
-import com.example.connect.View_model.*
+import com.example.connect.View_model.CreateBookmarkViewModel
+import com.example.connect.View_model.LikeStoryViewModel
+import com.example.connect.View_model.OthersProfilePostViewModel
 import com.example.connect.databinding.ActivityPostBinding
 import com.example.connect.model.OthersPost
 import com.example.connect.recylcer_view_adapter.SeeTagAdapter
 
-class Post : AppCompatActivity() {
+class ShowPost : AppCompatActivity() {
     private lateinit var binding: ActivityPostBinding
-    private  val seeTagViewModel: SeeTagViewModel by viewModels()
-    private  val likeStoryViewModel: LikeStoryViewModel by viewModels()
+    private val likeStoryViewModel: LikeStoryViewModel by viewModels()
     private  val createBookmarkViewModel: CreateBookmarkViewModel by viewModels()
-    var Tag: String?=null
+    private  val othersprofilepostViewModel: OthersProfilePostViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private var adapter= SeeTagAdapter()
     var PostId:Int?=null
     var Post:Int?=null
+    var userid:Int?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =ActivityPostBinding.inflate(layoutInflater)
+        binding = ActivityPostBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         Text8 =binding.book
-        Tag = intent.getStringExtra("USER")
-        Log.i("tag", "access:$Tag")
         recyclerView= binding.seePost
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
-
-
+        userid = intent.getStringExtra("USER")?.toInt()
         adapter.setOnItemClickListener(object : SeeTagAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                val intent = Intent(this@Post, OthersProfile::class.java)
+                val intent = Intent(this@ShowPost, OthersProfile::class.java)
                 intent.putExtra("USER", adapter.Posts[position].user.toString())
                 Log.i("userId", "onActivityResult:" +adapter.Posts[position].user.toString())
                 startActivity(intent)
@@ -53,21 +51,22 @@ class Post : AppCompatActivity() {
             override fun onItemClick2(position: Int) {
                 PostId=adapter.Posts[position].post_id
                 likeStoryViewModel.PostId.setValue(PostId)
-                likeStoryViewModel.LikeStorySubmitData(this@Post)
-                likeStoryViewModel.likePostStoryResult.observe(this@Post, {
+                likeStoryViewModel.LikeStorySubmitData(this@ShowPost)
+                likeStoryViewModel.likePostStoryResult.observe(this@ShowPost, {
                     when (it) {
                         is Response.Success -> {
 
-                            seeTagViewModel.submitTagPost(this@Post)
-                            seeTagViewModel.seePostResult.observe(this@Post, {
+                            othersprofilepostViewModel.submitotherprofilepost(this@ShowPost)
+                            othersprofilepostViewModel.showotherProfilPostResult.observe(this@ShowPost, {
                                 when (it) {
                                     is Response.Success ->{
 
                                         adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
+
                                     }
                                     is Response.Error -> {
                                         Toast.makeText(
-                                            this@Post,
+                                            this@ShowPost,
                                             it.errorMessage,
                                             Toast.LENGTH_LONG
                                         ).show()
@@ -79,7 +78,7 @@ class Post : AppCompatActivity() {
                         }
                         is Response.Error -> {
                             Toast.makeText(
-                                this@Post,
+                                this@ShowPost,
                                 it.errorMessage,
                                 Toast.LENGTH_LONG
                             ).show()
@@ -104,7 +103,7 @@ class Post : AppCompatActivity() {
 
         adapter.setOnItemClickListener4(object : SeeTagAdapter.onItemClickListener4 {
             override fun onItemClick4(position: Int) {
-                val intent = Intent(this@Post, Comment::class.java)
+                val intent = Intent(this@ShowPost, Comment::class.java)
                 intent.putExtra("USER", adapter.Posts[position].post_id.toString())
                 Log.i("userId", "onActivityResult:" +adapter.Posts[position].post_id.toString())
                 startActivity(intent)
@@ -114,20 +113,21 @@ class Post : AppCompatActivity() {
             override fun onItemClick5(position: Int) {
                 Post=adapter.Posts[position].post_id
                 createBookmarkViewModel.PostId.setValue(Post)
-                createBookmarkViewModel.CreateBookmarkSubmitData(this@Post)
-                createBookmarkViewModel.createBookmarkResult.observe(this@Post, {
+                createBookmarkViewModel.CreateBookmarkSubmitData(this@ShowPost)
+                createBookmarkViewModel.createBookmarkResult.observe(this@ShowPost, {
                     when (it) {
                         is Response.Success -> {
-                            seeTagViewModel.submitTagPost(this@Post)
-                            seeTagViewModel.seePostResult.observe(this@Post, {
+                            othersprofilepostViewModel.submitotherprofilepost(this@ShowPost)
+                            othersprofilepostViewModel.showotherProfilPostResult.observe(this@ShowPost, {
                                 when (it) {
                                     is Response.Success ->{
 
                                         adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
+
                                     }
                                     is Response.Error -> {
                                         Toast.makeText(
-                                            this@Post,
+                                            this@ShowPost,
                                             it.errorMessage,
                                             Toast.LENGTH_LONG
                                         ).show()
@@ -135,10 +135,11 @@ class Post : AppCompatActivity() {
 
 
                                 }
-                            })}
+                            })
+                        }
                         is Response.Error -> {
                             Toast.makeText(
-                                this@Post,
+                                this@ShowPost,
                                 it.errorMessage,
                                 Toast.LENGTH_LONG
                             ).show()
@@ -150,13 +151,21 @@ class Post : AppCompatActivity() {
         })
 
 
-        seeTagViewModel.Tag.setValue(Tag)
-        seeTagViewModel.submitTagPost(this)
-        seeTagViewModel.seePostResult.observe(this, {
+        if(userid==user.toInt())
+        {
+            othersprofilepostViewModel.User_id.setValue(user.toInt())
+        }
+        else{
+            othersprofilepostViewModel.User_id.setValue(userid)
+        }
+
+        othersprofilepostViewModel.submitotherprofilepost(this)
+        othersprofilepostViewModel.showotherProfilPostResult.observe(this, {
             when (it) {
                 is Response.Success ->{
 
                     adapter.setUpdatedData(it.data as ArrayList<OthersPost>)
+
                 }
                 is Response.Error -> {
                     Toast.makeText(

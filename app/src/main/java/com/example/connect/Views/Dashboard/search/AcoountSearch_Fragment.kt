@@ -16,15 +16,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.connect.Dashboard
 import com.example.connect.Dashboard.Companion.user
-import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.OthersProfile
 import com.example.connect.R
 import com.example.connect.Password_check.Response
-import com.example.connect.Repository.SearchProfileRepo
 import com.example.connect.View_model.SearchProfileViewModel
-import com.example.connect.View_model.SearchProfileViewModelFactory
 
 import com.example.connect.databinding.AccountsBinding
 import com.example.connect.model.SearchProfileDataClassItem

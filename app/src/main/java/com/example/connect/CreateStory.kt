@@ -10,12 +10,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.example.connect.Network.ServiceBuilder1
-import com.example.connect.Repository.CreateStoryRepo
 import com.example.connect.Password_check.Response
 import com.example.connect.View_model.CreateStoryViewModel
-import com.example.connect.View_model.CreateStoryViewModelFactory
 import com.example.connect.databinding.ActivityCreateStoryBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*

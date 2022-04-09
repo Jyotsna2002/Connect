@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
@@ -14,6 +15,7 @@ import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.Password_check.Response
 import com.example.connect.Repository.*
 import com.example.connect.View_model.*
+import com.example.connect.Views.Dashboard.Profile_Fragment
 import com.example.connect.databinding.ActivityPostBinding
 import com.example.connect.model.OthersPost
 import com.example.connect.recylcer_view_adapter.SeeTagAdapter
@@ -27,11 +29,15 @@ class Bookmark : AppCompatActivity() {
     private var adapter= SeeTagAdapter()
     var PostId:Int?=null
     var Post:Int?=null
+    companion object{
+        lateinit var Text8: TextView
+    }
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             binding = ActivityPostBinding.inflate(layoutInflater)
             val view = binding.root
             setContentView(view)
+            Text8 =binding.book
             recyclerView= binding.seePost
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             recyclerView.adapter = adapter

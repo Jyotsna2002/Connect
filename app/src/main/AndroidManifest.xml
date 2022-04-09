@@ -14,14 +14,17 @@
         android:theme="@style/Theme.Connect"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ShowPost"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreenActivity"
             android:exported="true"
             android:theme="@style/SplashScreen">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Bookmark"
@@ -51,9 +54,7 @@
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
-            android:windowSoftInputMode="stateVisible|adjustPan"/>
-
-
+            android:windowSoftInputMode="stateVisible|adjustPan" />
     </application>
 
 </manifest>

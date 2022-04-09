@@ -1,22 +1,16 @@
 package com.example.connect.recylcer_view_adapter
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.connect.Dashboard.Companion.name
-
 import com.example.connect.R
 import com.example.connect.Views.Dashboard.Profile_Fragment.Companion.Text
-import com.example.connect.model.HomeDataClassItem
 import com.example.connect.model.OthersPost
 
-class OthersProfileAdapter () : RecyclerView.Adapter<OthersProfileAdapter.HomeViewHolder>()  {
+class OthersProfileAdapter : RecyclerView.Adapter<OthersProfileAdapter.HomeViewHolder>()  {
     var Posts= ArrayList<OthersPost>()
     private var mlistner: onItemClickListener? = null
     interface onItemClickListener {

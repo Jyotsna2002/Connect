@@ -1,27 +1,15 @@
 package com.example.connect.Views.Dashboard.search
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import com.example.connect.Dashboard
-import com.example.connect.Network.ServiceBuilder1
 import com.example.connect.R
-import com.example.connect.Repository.SearchProfileRepo
-import com.example.connect.View_model.SearchProfileViewModel
-import com.example.connect.View_model.SearchProfileViewModelFactory
 import com.example.connect.databinding.SearchFragmentBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlin.concurrent.fixedRateTimer
 
 class Search_Fragment : Fragment() {
     private var _binding: SearchFragmentBinding? = null
