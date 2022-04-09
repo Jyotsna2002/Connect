@@ -37,6 +37,29 @@ class OthersProfilePostRepo{
                     OthersProfilePostLiveData.postValue(Response.Success(responseBody))
 
                     Log.i("Helloprofilepost", "onActivityResult:"+responseBody)
+                    if (responseBody.toString().length > 4000) {
+                        Log.v("Hellosucces", "sb.length = " + responseBody.toString().length)
+                        val chunkCount: Int = responseBody.toString().length / 4000 // integer division
+                        for (i in 0..chunkCount) {
+                            val max = 4000 * (i + 1)
+                            if (max >= responseBody.toString().length) {
+                                Log.v(
+                                    "Hellosucces",
+                                    "chunk " + i + " of " + chunkCount + ":" + responseBody.toString().substring(4000 * i)
+                                )
+                            } else {
+                                Log.v(
+                                    "Hellosucces",
+                                    "chunk " + i + " of " + chunkCount + ":" + responseBody.toString().substring(
+                                        4000 * i,
+                                        max
+                                    )
+                                )
+                            }
+                        }
+                    } else {
+                        Log.v("Hellosucces", responseBody.toString())
+                    }
                 } else if( response.code() == 406 ){
                     GlobalScope.launch {
                         generateToken(

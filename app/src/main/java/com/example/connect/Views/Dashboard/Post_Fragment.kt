@@ -193,7 +193,7 @@ class Post_Fragment : Fragment() {
                 storageReference.putFile(Imageuri)
                     .addOnSuccessListener {
                         it.storage.downloadUrl.addOnSuccessListener {
-                            binding.post.setImageURI(Imageuri)
+//                            binding.post.setImageURI(Imageuri)
                             Toast.makeText(context, "successfully Uploaded", Toast.LENGTH_SHORT)
                                 .show()
                            // if(imageSet==1) {
